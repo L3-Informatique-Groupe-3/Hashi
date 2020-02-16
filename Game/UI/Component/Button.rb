@@ -31,7 +31,7 @@ class Button < Text
     if image != nil
       @image = Asset.new(image)
       @image.resize(40,40)
-      @image.applyOn(@eventBox,removeAll: false)
+      @image.applyOn(@eventBox)
     end
     if imageFocus != nil
       @imageFocus = Asset.new(image)
