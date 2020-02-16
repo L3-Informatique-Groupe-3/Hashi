@@ -15,4 +15,5 @@ module Constants
 	BUTTON_SIZE=SCREEN.height*0.04
 	TITTLE_SIZE=SCREEN.height*0.08
 	MESSAGE_SIZE=SCREEN.height*0.02
+	TEXT_SIZE=SCREEN.height*0.03
 end
