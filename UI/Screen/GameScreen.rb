@@ -40,13 +40,13 @@ class GameScreen < Screen
 	# The class' constructor.
 	#
 	# ===== Attributes
-  # * +manager+ -
+  # * +win+ -
 	# * +game+ -
   # * +cellAssets+ -
   # * +victoryScreen+ -
   # -----------------------------------
-  def initialize(manager,game,cellAssets)
-    super(manager.win,"/../../../Assets/Backgrounds/fond-naturel.png")
+  def initialize(win,game,cellAssets)
+    super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
     @game=game
 
