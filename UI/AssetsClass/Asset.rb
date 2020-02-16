@@ -1,23 +1,24 @@
-# @Author: Despres Maxence
-# @Date:   07-Feb-2020
+# @Author: Despres Maxence <checkam>
+# @Date:   10-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: Asset.rb
 # @Last modified by:   checkam
 # @Last modified time: 16-Feb-2020
 
+
+
 ##
 # ===== Presentation
 # Asset is an abstract class needed to create and use all of the images from the game.
 #
-#	@buffer
-#	@width
-#	@height
+#	@buffer - image
+#	@width	- size in pixel
+#	@height	- size in pixel
 #
 # ===== Methods
 #
-# resize
-# applyOn
-
+# resize 		- 		modifies the buffer to make it fit a certain size.
+# applyOn		-			puts an image on a widget.
 class Asset
 	@buffer
 	@width
