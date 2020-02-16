@@ -2,8 +2,8 @@
 # @Date:  11-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: Constants.rb
-# @Last modified by:   Checkam
-# @Last modified time: 11-Feb-2020
+# @Last modified by:   checkam
+# @Last modified time: 16-Feb-2020
 
 
 
