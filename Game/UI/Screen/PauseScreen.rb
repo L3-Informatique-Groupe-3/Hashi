@@ -2,8 +2,8 @@
 # @Date:   19-Feb-2020
 # @Email:  clement_dubois.etu@univ-lemans.fr
 # @Filename: PauseScreen.rb
-# @Last modified by:   Clemdbs
-# @Last modified time: 19-Feb-2020
+# @Last modified by:   checkam
+# @Last modified time: 18-Mar-2020
 
 
 
@@ -18,26 +18,25 @@ require File.dirname(__FILE__) + "/../AssetsClass/Asset"
 #
 # ===== Variables
 #
-#   
+#
 #
 # ===== Methods
 #
 #   new initialization method
-#   update update the display screen
 #
 
 class PauseScreen < Screen
 
-  @pause
   @gtkObject
 
 
 
-  def initialize(pause,win,gameScreen)
+  def initialize(win,gameScreen)
     # TO DO
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
-    @pause = pause
-    
+
+    @menuScreen = MenuScreen.new(win)
+
     @gtkObject = Gtk::Table.new(4,4)
 
     screen=Gdk::Screen.default
@@ -61,7 +60,8 @@ class PauseScreen < Screen
     #Button to go back to main menu
     backToMenuButton = Button.new(label:"Main menu", width: screen.width*0.1,height: screen.height*0.08)
     backToMenuButton.onClick(){
-    #Do smth 
+    #Do smth
+    @menuScreen.applyOn(win)
     }
 
     validate=0
@@ -69,24 +69,24 @@ class PauseScreen < Screen
     tracingHelp = Button.new(image:pathAssets + "Button/validate.png", width: screen.width*0.1,height: screen.height*0.1)
     tracingHelp.onClick(){
       if validate == 0
-        tracingHelp.setPicture(pathAssets + "Button/undo.png")
+        tracingHelp.setPicture(pathAssets + "Button/cancel.png")
         validate = 1
-      elsif validate == 1 
+      elsif validate == 1
         tracingHelp.setPicture(pathAssets + "Button/validate.png")
         validate = 0
       end
     }
 
-    #Box horizontal pour le texte
-    #Aide au tracé activable/désactivable
+    #Box horizontal for the text
+    #Tracing help enable/disable
     textTrace = Text.new(label:"Aide au tracé activé/désactivé",width:screen.width*0.2, height:screen.height*0.05)
     textTrace.setBackground(1,1,1,1)
 
     boxTrace = Gtk::Box.new(:horizontal)
-    
+
     boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
 
-      
+    #Title of the window
     pause=Text.new(label:"Game paused",width:screen.width*0.5, height:screen.height*0.05)
     pause.setBackground(1,1,1,1)
 
@@ -105,12 +105,12 @@ class PauseScreen < Screen
     menuBox = Gtk::Box.new(:vertical)
     menuBox.add(backToMenuButton.gtkObject)
     menuBoxH = Gtk::Box.new(:horizontal).add(menuBox)
-    menuBoxH.add(boxTrace)#A mettre dans la même box que la boite aide au tracé
+    menuBoxH.add(boxTrace)
     menuAli  = Gtk::Alignment.new(0.05, 0.95, 0, 0).add(menuBoxH)
-    #
+
     @gtkObject.attach(menuAli,0,1,0,4)
     @gtkObject.attach(globalAli,0,4,0,4)
     @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
-      
+
   end
 end
