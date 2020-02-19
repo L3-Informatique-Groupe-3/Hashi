@@ -107,7 +107,7 @@ class PauseScreen < Screen
     menuBoxH = Gtk::Box.new(:horizontal).add(menuBox)
     menuBoxH.add(boxTrace)
     menuAli  = Gtk::Alignment.new(0.05, 0.95, 0, 0).add(menuBoxH)
-
+    #
     @gtkObject.attach(menuAli,0,1,0,4)
     @gtkObject.attach(globalAli,0,4,0,4)
     @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
