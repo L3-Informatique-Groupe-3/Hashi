@@ -9,7 +9,7 @@ class MenuScreen < Screen
 
         screen=Gdk::Screen.default
         
-        menuText=Text.new(label:"Menu Principal", width:screen.width*0.2, height:screen.height*0.05)
+        menuTitle=Titre.new(label:"Menu Principal", width:screen.width*0.2, height:screen.height*0.05)
 
         #creation du bouton aventure
         adventureButton=Button.new(label:"Aventure", width: screen.width*0.1,height: screen.height*0.08)
@@ -30,10 +30,10 @@ class MenuScreen < Screen
         }
 
         globalBox = Gtk::Box.new(:vertical)
-        globalBox.pack_start(menuText.gtkObject, expand: true, fill: false, padding: 0)
-        globalBox.pack_start(adventureButton.gtkObject, expand: true, fill: false, padding: 0)
-        globalBox.pack_start(freeButton.gtkObject, expand: true, fill: false, padding: 0)
-        globalBox.pack_start(rankedButton.gtkObject, expand: true, fill: false, padding: 0)
+        globalBox.pack_start(menuTitle.gtkObject, expand: false, fill: false, padding: 50)
+        globalBox.pack_start(adventureButton.gtkObject, expand: false, fill: false, padding: 50)
+        globalBox.pack_start(freeButton.gtkObject, expand: false, fill: false, padding: 50)
+        globalBox.pack_start(rankedButton.gtkObject, expand: false, fill: false, padding: 50)
 
 
         @gtkObject = Gtk::Table.new(4,4)
