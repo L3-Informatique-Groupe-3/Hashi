@@ -19,40 +19,57 @@ require 'gtk3'
 require File.dirname(__FILE__) + "/Screen"
 
 class VictoryScreen < Screen
+    @gtkObject
+    @chronoUi
     
-    def initialize(manager)
-        super(manager.win)
+    def initialize(win, gameScreen)
+        super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
+
+        screen=Gdk::Screen.default
+        pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
         
         #creation du texte avant la zone d'affichage du chrono
-        textChrono=Text.new("Votre temps :")
+        chronoText=Text.new(label:"Votre temps :", width:screen.width*0.2, height:screen.height*0.05)
 
         #creation de la zone d'affichage du chrono
-        
+        @chronoUi=ChronoUi.new(300)
+        # chronoZone=Text.new(width:screen.width*0.2, height:screen.height*0.05)
 
         #creation du bouton menuPrincipal
-        boutonMenu=Text.new("menu principal")
-        boutonMenu.onClick(){
+        menuButton=Button.new(image:pathAssets + "Button/menu.png", width: screen.width*0.1,height: screen.height*0.08)
+        menuButton.onClick(){
             #aller au menu principal
         }
 
         #creation du bouton recommencer
-        boutonRefaire=Text.new("recommencer")
-        boutonRefaire.onClick(){
+        replayButton=Button.new(image:pathAssets + "Button/replay.png", width: screen.width*0.1,height: screen.height*0.08)
+        replayButton.onClick(){
             #recharger le niveau sur lequel on etait
-            @niveau.courant
         }
 
         #creation du bouton suivant
-        boutonSuivant=Text.new("suivant")
-        boutonSuivant.onClick(){
+        nextButton=Button.new(image:pathAssets + "Button/next.png", width: screen.width*0.1,height: screen.height*0.08)
+        nextButton.onClick(){
             #aller au prochain niveau
-            @niveau.suivant
         }
-    end
 
-  def applyOn(widget,sScore,isWon, associatedTimer =0)
-      # TO DO
-    super(widget)
-  end
+        chronoBox = Gtk::Box.new(:horizontal)
+        chronoBox.pack_start(chronoText.gtkObject, expand: true, fill: false, padding: 50)
+        chronoBox.pack_start(@chronoUi.gtkObject, expand: true, fill: false, padding: 50)
+
+        buttonBox = Gtk::Box.new(:horizontal)
+        buttonBox.pack_start(menuButton.gtkObject, expand: true, fill: false, padding: 0)
+        buttonBox.pack_start(replayButton.gtkObject, expand: true, fill: false, padding: 0)
+        buttonBox.pack_start(nextButton.gtkObject, expand: true, fill: false, padding: 0)
+        
+        globalBox = Gtk::Box.new(:vertical)
+        globalBox.pack_start(chronoBox, expand: true, fill: false, padding: 10)
+        globalBox.pack_start(buttonBox, expand: true, fill: false, padding: 10)
+
+        @gtkObject = Gtk::Table.new(4,4)
+        @gtkObject.attach(globalBox,0,4,0,4)
+        @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
+        
+    end
 
 end
