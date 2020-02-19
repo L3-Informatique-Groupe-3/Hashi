@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: TestUi.rb
 # @Last modified by:   checkam
-# @Last modified time: 16-Feb-2020
+# @Last modified time: 19-Feb-2020
 
 def require_all(_dir)
 	Dir[File.expand_path(File.join(File.dirname(File.absolute_path(__FILE__)), _dir)) + "/**/*.rb"].each { |file|
@@ -27,13 +27,10 @@ class TestUi
 
   		@win.title = "Hashi"
 
-  		@win.signal_connect('delete_event') {
+  		@win.signal_connect('destroy') {
   			Gtk.main_quit
-  			false
+				exit
   		}
-
-  		@win.show_all
-
   		@win.override_background_color(:normal,Gdk::RGBA.new(0.1, 0.6, 1, 1))
   		@win.show_all
 
@@ -54,5 +51,4 @@ end
 
 test = TestUi.new
 test.run
-
 Gtk.main
