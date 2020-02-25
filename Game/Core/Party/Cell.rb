@@ -1,4 +1,12 @@
-# Create 19/02/2020
+################################################################################
+# File: Cell.rb                                                                #
+# Project: Hashi                                                               #
+# File Created: Monday, 19th February 2020 11:00:27 am                         #
+# Author: <jashbin>Galbrun J                                                   #
+# -----                                                                        #
+# Last Modified: Monday, 24th February 2020 2:40:03 pm                         #
+# Modified By: <jashbin>Galbrun J                                              #
+################################################################################
 
 ##
 # ===== Presentation
@@ -8,21 +16,18 @@
 # * +states+ - This class knows a list of all the possible states:
 #       @@states = [:bridge, :isle, :obstacle, :empty]
 # * +state+ - the cell's state. It must be one the values given in the +states+ list
-# * +alterable+ - true if the cell is an alterable cell
 #
 # ===== Methods
 # * +getState+ - return the current state of the cell (alias Cell#state)
-# * +isAlterable?+ - return if the cell is alterable (alias Cell#alterable)
+# * +isAlterable?+ - return true if the cell is alterable
 ##
 class Cell
     @@states = [:bridge, :isle, :obstacle]
     @state
-    @alterable
 
-    attr_reader :state, :alterable
+    attr_reader :state
     #:nodoc:
     alias getState state
-    alias isAlterable? alterable
     #:startdoc:
 
     ##
@@ -31,6 +36,15 @@ class Cell
     # ---
     def initialize
         @state = :obstacle
-        @alterable = false
+    end
+
+    ##
+    # Return true if the cell is alterable. It's false by default.
+    #
+    # ===== Return
+    # Return true if the cell is alterable.
+    # ---
+    def isAlterable?
+        return false
     end
 end
