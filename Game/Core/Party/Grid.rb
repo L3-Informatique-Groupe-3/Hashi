@@ -4,7 +4,7 @@
 # File Created: Monday, 24th February 2020 11:00:27 am                         #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Tuesday, 25th February 2020 3:03:08 pm                        #
+# Last Modified: Thursday, 27th February 2020 3:19:51 pm                       #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -25,7 +25,9 @@ require "yaml"
 # * +getCurrentGrid+ - Return a copy of +current+ grid
 # * +loadCurrentGrid+ - Load an existent +current+ grid
 # * +createBridge+ - Create a bridge if it's possible
-# * +changeBridge+ - Change the type of a bridge
+# * +removeBridge+ - Remove a bridge if it's possible
+# * +nextBridge+ - Change the type of a bridge to the next type
+# * +previousBridge+ - Change the type of a bridge to the previous type
 # * +reset+ - Reset +current+ grid
 # * +freeze+ - Freeze all bridges
 # * +unfreeze+ - Unfreeze all bridges
@@ -36,7 +38,7 @@ class Grid
 
     ##
     # The class' constructor.
-    # Format of of the string : example -> "10x10:1a 2ac8b"...
+    # Format of of the string : see Grid#strToGrid
     #
     # ===== Attributes
     # * +answerGrid+ - The string which represent the answer
@@ -149,6 +151,31 @@ class Grid
     end
 
     ##
+    # Remove a bridge between 2 isles if it exists
+    # note : Use this method only after the use of Grid#createBridge
+    #
+    # ===== Attributes
+    # * +x1+ - X coord of the first isle
+    # * +y1+ - Y coord of the first isle
+    # * +x2+ - X coord of the second isle
+    # * +y2+ - Y coord of the second isle
+    #
+    # ===== Return
+    # Return true if the destruction is successful 
+    # ---
+    def removeBridge(x1, y1, x2, y2)
+        bridge = getBridgeCellCoord(x1, y1, x2, y2)
+
+        if(nextBridge(bridge[0], bridge[1]).empty?() == false)
+            nextBridge(bridge[0], bridge[1])
+        else
+            return false
+        end
+
+        return true
+    end
+
+    ##
     # Change the type of the bridge to the next type if the bridge exists
     #
     # ===== Attributes
@@ -156,19 +183,21 @@ class Grid
     # * +y+ - Y coord of the bridge
     #
     # ===== Return
-    # Return true if the change is successful 
+    # Return an array of the form: [[x1,y1],[x2,y2]] where x and y are the coord of isles linked by the bridge if the change is successful.
+    # An empty array if not
     # ---
-    def changeBridge(x, y)
+    def nextBridge(x, y)
+        bridge = []
         # Check if the coord are valid
         if(x >= @current.size || x < 0 || y >= @current[0].size || y < 0)
-            return false
+            return bridge
         end
 
         if(@current[x][y].state != :bridge)
-            return false
+            return bridge
         end
         if(@current[x][y].type == :empty)
-            return false
+            return bridge
         end
         
         # Update bridge
@@ -179,11 +208,13 @@ class Grid
                 i -= 1
             end
 
+            bridge.push([i, y])
             i += 1
             while(@current[i][y].state == :bridge) do
                 @current[i][y].nextType()
                 i += 1
             end
+            bridge.push([i, y])
         else
             # get coord isle
             i = x
@@ -191,11 +222,50 @@ class Grid
                 i -= 1
             end
 
+            bridge.push([x, i])
             i += 1
             while(@current[x][i].state == :bridge) do
                 @current[x][i].nextType()
                 i += 1
             end
+            bridge.push([x, i])
+        end
+
+        return bridge
+    end
+
+    ##
+    # Change the type of the bridge to the previous type if the bridge exists
+    # note : Use this method only after the use of Grid#nextBridge
+    #
+    # ===== Attributes
+    # * +x1+ - X coord of the first isle
+    # * +y1+ - Y coord of the first isle
+    # * +x2+ - X coord of the second isle
+    # * +y2+ - Y coord of the second isle
+    #
+    # ===== Return
+    # Return true if the change is successful
+    # ---
+    def previousBridge(x1, y1, x2, y2)
+        bridge = getBridgeCellCoord(x1, y1, x2, y2)
+
+        if(@current[bridge[0]][bridge[1]].type == :empty)
+            # empty -> double
+            if(createBridge(x1,y1,x2,y2) == true)
+                nextBridge(bridge[0], bridge[1])
+            else
+                return false
+            end
+        elsif(@current[bridge[0]][bridge[1]].type == :double)
+            # double -> simple
+            if(nextBridge(bridge[0], bridge[1]).empty?() == false)
+                createBridge(x1,y1,x2,y2)
+            else
+                return false
+            end
+        else
+            return false
         end
 
         return true
@@ -286,11 +356,11 @@ class Grid
         #bridgeCh = /[a-d]/
         bridgeCh = ['a', 'b', 'c', 'd']
         # Format of isle
-        digit = /[[:digit:]]/
+        digit = /[1-8]/
         # Format of an obstacle
-        obstacleCh = /o/
+        obstacleCh = "o"
         # Format of empty cell
-        emptyCh = /-/
+        emptyCh = "-"
         # Format of size and grid separator
         separator = ":"
         # Format of strGrid
@@ -318,7 +388,7 @@ class Grid
                 end
             elsif(x =~ digit)
                 grid[i].push(IsleCell.new(x.to_i()))
-            elsif(x =~ obstacleCh)
+            elsif(x == obstacleCh)
                 grid[i].push(ObstacleCell.new())
             else #empty cell
                 grid[i].push(BridgeCell.new())
@@ -358,5 +428,38 @@ class Grid
         end
 
         return grid
+    end
+
+    ##
+    # Get the coord of one cell
+    #
+    # ===== Attributes
+    # * +x1+ - X coord of the first isle
+    # * +y1+ - Y coord of the first isle
+    # * +x2+ - X coord of the second isle
+    # * +y2+ - Y coord of the second isle
+    #
+    # ===== Return
+    # Return array with the coord
+    # --- 
+    def getBridgeCellCoord(x1, y1, x2, y2)
+        bridge = []
+        if(x1 == x2)
+            bridge.push(x1)
+            if(y1 < y2)
+                bridge.push(y1 + 1)
+            else
+                bridge.push(y1 - 1)
+            end
+        else
+            if(x1 < x2)
+                bridge.push(x1 + 1)
+            else
+                bridge.push(x1 - 1)
+            end
+            bridge.push(y1)
+        end
+
+        return bridge
     end
 end
