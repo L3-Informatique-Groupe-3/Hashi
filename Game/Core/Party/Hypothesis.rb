@@ -1,5 +1,5 @@
 ################################################################################
-# File: History.rb                                                                #
+# File: Hypothesis.rb                                                                #
 # Project: Hashi                                                               #
 # File Created: Tuesday, 20th February 2020 11:00:27 am                        #
 # Author: <Adrali>Lemaitre P                                                   #
@@ -8,26 +8,33 @@
 # Modified By: <Adrali>Lemaitre P                                               #
 ################################################################################
 
-require "./Hypothesis"
-require "./Grid"
+require "./ActionCreate"
+require "./ActionModify"
 
 ##
 # ===== Presentation
-# History manage an hypothesis list from a grid reference.
+# Hypothesis manage an action list from a grid reference.
 #
 # ===== Variables
-# * +grid+ - Store the Grid
-# * +hypotheses+ - Store the current hypotheses performed by the player.
-# * +index+ - Point on the current hypothesis of the player.
+# * +saveGrid+ - Store the grid at the moment where the hypothesis is create.
+# * +actions+ - Store the current actions performed by the player.
+# * +index+ - Point on the current action of the player.
+# * +types+ - This class knows a list of all possible types:
+#       @@types = [:validated, :created] 
+# * +type+ - the Hypothesis's type. It must be one the values given in the +types+ list
 # ===== Methods
-# * +applyAction+ - Apply an action
+# * +getSaveGrid+ - Apply an action
 # * +applyOpposite+ - Apply the opposite action
 ##
-class History
-    @hypotheses
+class Hypothesis
+    @saveGrid
+    @actions
     @index
-    @grid
+    @@types = [:validated, :created] 
+    @type
+
     
+    attr_reader :type, :saveGrid
     ##
     # The class' constructor.
     #
@@ -35,17 +42,12 @@ class History
     # * +saveGrid+ - the grid at the moment where the hypothesis is create.
     # * +type+ - Hypothesis's type
     # ---
-    def initialize(grid)
-        @grid = grid
-        @hypotheses = [Hypothesis.new(@grid.getCurrentGrid(), :created)]
+    def initialize(saveGrid, type)
+        @saveGrid = saveGrid
+        @type = type
         @index = 0
+        @actions = []
     end
 
     
-
-    def newHypothesis
-        @hypotheses -= @hypotheses.drop(index + 1)
-
-        @hypotheses.push(Hypothesis.new(@grid.getCurrentGrid(), :created))
-    end
 end
