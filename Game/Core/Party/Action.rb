@@ -10,22 +10,26 @@
 
 ##
 # ===== Presentation
-#   Cell is a class that define the cell's behaviors
+# Action is an abstract class
+# It represent an action from the player
 #
 # ===== Variables
-# * +x+ - x coordonate of the cell
-# * +y+ - y coordonate of the cell
 # * +grid+ - Store the grid where the action will be applied
 # ===== Methods
 # * +applyAction+ - Apply an action
 # * +applyOpposite+ - Apply the opposite action
 ##
-class ActionCreate
+class Action
+    @grid
+
+    attr_reader :grid #:nodoc:
     ##
     # The class' constructor.
-    def initialize(x,y,grid)
-        @x = x
-        @y = y
+    #
+    # ===== Attributes
+    # * +grid+ - The grid where the action will be applied 
+    # ---
+    def initialize(grid)
         @grid = grid
     end
 
@@ -33,19 +37,21 @@ class ActionCreate
     # Apply the action
     #
     # ===== Return
-    # return true
+    # return false
     # ---
     def applyAction
-        return true
+        return false
     end
 
     ##
     # Apply the opposite action
     #
     # ===== Return
-    # return true
+    # return false
     # ---
     def applyOpposite
-        return true
+        return false
     end
+
+    private_class_method :new
 end

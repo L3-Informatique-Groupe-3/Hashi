@@ -10,45 +10,60 @@
 
 ##
 # ===== Presentation
-#   Cell is a class that define the cell's behaviors
+# ActionModify is an Action.
+# Represents the action of the player when he change the state of a bridge on this order : Simple to Double and Double to none
 #
 # ===== Variables
-# * +x+ - x coordonate of the cell
-# * +y+ - y coordonate of the cell
-# * +grid+ - Store the grid where the action will be applied
+# * +x+ - x coordonate of a BridgeCell
+# * +y+ - y coordonate of a BridgeCell
+# * +bridge+ - An array with the coordonates of the island link to the (x,y) BridgeCell
 # ===== Methods
 # * +applyAction+ - Modify an existing bridge
 # * +applyOpposite+ - Modify a bridge as the opposite of the action
 ##
-class ActionCreate
-    attr_reader :x,:y,:grid
+class ActionModify < Action
+    @bridge = nil
+    @x
+    @y
+
+    attr_reader :x, :y, :grid #:nodoc:
+    
 
     ##
     # The class' constructor.
-    def initialize(x,y,grid)
+    #
+    # ===== Attributes
+    # * +grid+ - The grid where the action will be applied 
+    # * +x+ - x coordonate of a BridgeCell
+    # * +y+ - y coordonate of a BridgeCell
+    #---
+    def initialize(grid, x, y)
+        super(grid)
         @x = x
         @y = y
-        @grid = grid
     end
 
     ##
     # Create a bridge between two islands
     #
     # ===== Return
-    # return true
+    # return true if the action have been made, else false
     # ---
     def applyAction
-        grid.changeBridge(@x,@y)
-        return true
+        @bridge = grid.nextBridge(@x,@y)
+        return !(@bridge.empty?())
     end
 
     ##
     # Destroy a bridge between two islands
     #
     # ===== Return
-    # return true
+    # return true if the action have been made, else false
     # ---
     def applyOpposite
-        return true
+        if(@bridge != nil)
+            return grid.previousBridge(@bridge[0][0], @bridge[0][1], @bridge[1][0], @bridge[1][1])
+        end
+        return false
     end
 end
