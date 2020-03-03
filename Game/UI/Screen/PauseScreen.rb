@@ -31,7 +31,7 @@ class PauseScreen < Screen
 
 
 
-  def initialize(win,gameScreen)
+  def initialize(pause,win,gameScreen)
     # TO DO
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
@@ -64,12 +64,18 @@ class PauseScreen < Screen
     @menuScreen.applyOn(win)
     }
 
+    #Box horizontal pour le texte
+    #Aide au tracé activable/désactivable
+    #textTrace = Text.new(label:"Aide au tracé activé/désactivé",width:screen.width*0.2, height:screen.height*0.05)
+    #boxTrace = Gtk::Box.new(:horizontal)
+    #boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
+
     validate=0
     #Button to able/disable the tracing help
     tracingHelp = Button.new(image:pathAssets + "Button/validate.png", width: screen.width*0.1,height: screen.height*0.1)
     tracingHelp.onClick(){
       if validate == 0
-        tracingHelp.setPicture(pathAssets + "Button/cancel.png")
+        tracingHelp.setPicture(pathAssets + "Button/undo.png")
         validate = 1
       elsif validate == 1
         tracingHelp.setPicture(pathAssets + "Button/validate.png")
@@ -77,16 +83,6 @@ class PauseScreen < Screen
       end
     }
 
-    #Box horizontal for the text
-    #Tracing help enable/disable
-    textTrace = Text.new(label:"Aide au tracé activé/désactivé",width:screen.width*0.2, height:screen.height*0.05)
-    textTrace.setBackground(1,1,1,1)
-
-    boxTrace = Gtk::Box.new(:horizontal)
-
-    boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
-
-    #Title of the window
     pause=Text.new(label:"Game paused",width:screen.width*0.5, height:screen.height*0.05)
     pause.setBackground(1,1,1,1)
 
@@ -96,7 +92,6 @@ class PauseScreen < Screen
     globalBox.pack_start(unpauseButton.gtkObject,expand: false, fill: false, padding: 10)
     globalBox.pack_start(restartButton.gtkObject,expand: false, fill: false, padding: 10)
     globalBox.pack_start(tracingHelp.gtkObject,expand: false, fill: false, padding: 10)
-    globalBox.add(boxTrace)
 
     globalBoxH = Gtk::Box.new(:horizontal).add(globalBox)
     globalAli  = Gtk::Alignment.new(0.5, 0, 0, 0).add(globalBoxH)
