@@ -49,5 +49,17 @@ class Hypothesis
         @actions = []
     end
 
+    def addAction(action)
+        @actions -= @actions.drop(@index + 1)
+        @actions.push(action)
+        @index+=1
+    end
     
+    def isAtEnd
+        return @index == @actions.size
+    end
+
+    def isAtBeginning
+        return @index == 0
+    end
 end
