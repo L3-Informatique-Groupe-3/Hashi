@@ -31,6 +31,8 @@ class PauseScreen < Screen
   @pause
   @gtkObject
 
+
+
   def initialize(pause,win,gameScreen)
     # TO DO
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
@@ -43,38 +45,58 @@ class PauseScreen < Screen
     buttonWidth = screen.width*0.3
     pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 
-    #Bouton unpause en png à trouver
+    #Unpause button to find
     unpauseButton = Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
     unpauseButton.onClick(){
     #Do smth
     gameScreen.applyOn(win)
     }
 
-    #Bouton recommencer le niveau
-    restartButton = Button.new(label:"Recommencer", width: screen.width*0.1,height: screen.height*0.08)
+    #Restart button (level)
+    restartButton = Button.new(label:"Restart", width: screen.width*0.1,height: screen.height*0.08)
     restartButton.onClick(){
     #Do smth
     }
 
-    #Bouton pour retourner au menu principal
-    backToMenuButton = Button.new(label:"Menu principal", width: screen.width*0.1,height: screen.height*0.08)
+    #Button to go back to main menu
+    backToMenuButton = Button.new(label:"Main menu", width: screen.width*0.1,height: screen.height*0.08)
     backToMenuButton.onClick(){
     #Do smth 
     }
+
+    #Box horizontal pour le texte
+    #Aide au tracé activable/désactivable
+    #textTrace = Text.new(label:"Aide au tracé activé/désactivé",width:screen.width*0.2, height:screen.height*0.05)
+    #boxTrace = Gtk::Box.new(:horizontal)
+    #boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
+
+    validate=0
+    #Button to able/disable the tracing help
+    tracingHelp = Button.new(image:pathAssets + "Button/validate.png", width: screen.width*0.1,height: screen.height*0.1)
+    tracingHelp.onClick(){
+      if validate == 0
+        tracingHelp.setPicture(pathAssets + "Button/undo.png")
+        validate = 1
+      elsif validate == 1 
+        tracingHelp.setPicture(pathAssets + "Button/validate.png")
+        validate = 0
+      end
+    }
       
-    pause=Text.new(label:"Partie en pause",width:screen.width*0.5, height:screen.height*0.05)
+    pause=Text.new(label:"Game paused",width:screen.width*0.5, height:screen.height*0.05)
     pause.setBackground(1,1,1,1)
 
-    #Box concernant le label et les boutons unpause et restart
+    #Box concerning label and pause/unpause buttons
     globalBox = Gtk::Box.new(:vertical)
     globalBox.pack_start(pause.gtkObject,expand: true, fill: false, padding: 10)
     globalBox.pack_start(unpauseButton.gtkObject,expand: false, fill: false, padding: 10)
     globalBox.pack_start(restartButton.gtkObject,expand: false, fill: false, padding: 10)
+    globalBox.pack_start(tracingHelp.gtkObject,expand: false, fill: false, padding: 10)
 
     globalBoxH = Gtk::Box.new(:horizontal).add(globalBox)
     globalAli  = Gtk::Alignment.new(0.5, 0, 0, 0).add(globalBoxH)
 
-    #Box concernant le bouton menu principal
+    #Box concerning the main menu
     menuBox = Gtk::Box.new(:vertical)
     menuBox.add(backToMenuButton.gtkObject)
     menuBoxH = Gtk::Box.new(:horizontal).add(menuBox)
