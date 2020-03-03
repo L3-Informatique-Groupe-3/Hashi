@@ -8,6 +8,8 @@
 # Modified By: <Adrali>Lemaitre P                                               #
 ################################################################################
 
+require "./Action"
+
 ##
 # ===== Presentation
 # ActionModify is an Action.
@@ -50,7 +52,7 @@ class ActionModify < Action
     # return true if the action have been made, else false
     # ---
     def applyAction
-        @bridge = grid.nextBridge(@x,@y)
+        @bridge = @grid.nextBridge(@x,@y)
         return !(@bridge.empty?())
     end
 
@@ -62,7 +64,7 @@ class ActionModify < Action
     # ---
     def applyOpposite
         if(@bridge != nil)
-            return grid.previousBridge(@bridge[0][0], @bridge[0][1], @bridge[1][0], @bridge[1][1])
+            return @grid.previousBridge(@bridge[0][0], @bridge[0][1], @bridge[1][0], @bridge[1][1])
         end
         return false
     end
