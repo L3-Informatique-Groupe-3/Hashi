@@ -8,6 +8,8 @@
 # Modified By: <Adrali>Lemaitre P                                               #
 ################################################################################
 
+require "./Action"
+
 ##
 # ===== Presentation
 # ActionCreate is an Action.
@@ -55,7 +57,7 @@ class ActionCreate < Action
     # return true if the action have been made, else false
     # ---
     def applyAction
-        return grid.createBridge(@x1,@y1, @x2, @y2)
+        return @grid.createBridge(@x1,@y1, @x2, @y2)
     end
 
     ##
@@ -65,6 +67,6 @@ class ActionCreate < Action
     # return true if the action have been made, else false
     # ---
     def applyOpposite
-        return grid.removeBridge(@x1, @y1, @x2, @y2)
+        return @grid.removeBridge(@x1, @y1, @x2, @y2)
     end
 end
