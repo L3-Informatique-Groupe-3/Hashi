@@ -4,8 +4,8 @@
 # File Created: Tuesday, 20th February 2020 11:00:27 am                        #
 # Author: <Adrali>Lemaitre P                                                   #
 # -----                                                                        #
-# Last Modified: Tuesday, 20th February 2020 11:00:27 am                       #
-# Modified By: <Adrali>Lemaitre P                                               #
+# Last Modified: Thursday, 5th March 2020 12:50:49 pm                          #
+# Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
 require "./Hypothesis"
@@ -32,8 +32,7 @@ class History
     # The class' constructor.
     #
     # ===== Attributes
-    # * +saveGrid+ - the grid at the moment where the hypothesis is create.
-    # * +type+ - Hypothesis's type
+    # * +grid+ - The Grid
     # ---
     def initialize(grid)
         @grid = grid
@@ -45,20 +44,22 @@ class History
 
     def newHypothesis
         @hypotheses -= @hypotheses.drop(@index + 1)
-        @index+=1
+        @index += 1
         @hypotheses.push(Hypothesis.new(@grid.getCurrentGrid(), :created))
+        @grid.freeze
     end
 
     def validateHypothesis
         @hypotheses -= @hypotheses.drop(@index + 1)
-        @index+=1
+        @index += 1
         @hypotheses.push(Hypothesis.new(@grid.getCurrentGrid(), :validated))
+        @grid.unfreeze
     end
 
     def refuteHypothesis
         if(@hypotheses[@index].type != :validated)
             @grid.loadCurrentGrid(@hypotheses[@index].saveGrid)
-            @index -=1
+            @index -= 1
         end
     end
 
@@ -66,9 +67,18 @@ class History
         @hypotheses[index].addAction(action)
     end
 
-    # def undo()
-    #     @hypotheses[index].undo()
-    # end
+    def undo
+        if(@index > 0)
+            if !(@hypotheses[@index].isAtBeginning)
+                @hypotheses[@index].undo
+            elsif(@hypotheses[@index].type != :validated) 
+                refuteHypothesis
+            else
+                @grid.loadCurrentGrid(@hypotheses[@index].saveGrid)
+                @index -= 1
+            end
+        end
+    end
 
     # def redo()
     #     @hypotheses[index].redo()
