@@ -4,8 +4,8 @@
 # File Created: Tuesday, 20th February 2020 11:00:27 am                        #
 # Author: <Adrali>Lemaitre P                                                   #
 # -----                                                                        #
-# Last Modified: Tuesday, 20th February 2020 11:00:27 am                       #
-# Modified By: <Adrali>Lemaitre P                                               #
+# Last Modified: Thursday, 5th March 2020 12:39:56 pm                          #
+# Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
 require "./ActionCreate"
@@ -52,7 +52,7 @@ class Hypothesis
     def addAction(action)
         @actions -= @actions.drop(@index + 1)
         @actions.push(action)
-        @index+=1
+        @index += 1
     end
     
     def isAtEnd
@@ -61,5 +61,19 @@ class Hypothesis
 
     def isAtBeginning
         return @index == 0
+    end
+
+    def undo
+        if !(isAtBeginning)
+            @actions[@index].applyOpposite
+            @index -= 1
+        end
+    end
+
+    def redo
+        if !(isAtEnd)
+            @index += 1
+            @actions[@index].applyAction
+        end
     end
 end
