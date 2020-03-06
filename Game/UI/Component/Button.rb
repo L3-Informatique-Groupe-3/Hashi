@@ -2,8 +2,8 @@
 # @Date:   15-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: Button.rb
-# @Last modified by:   checkam
-# @Last modified time: 16-Feb-2020
+# @Last modified by:   clément
+# @Last modified time: 6-Mar-2020
 
 require File.dirname(__FILE__) + "/../Component/Text"
 
@@ -82,5 +82,11 @@ class Button < Text
     }
     self
   end
+
+  def setPicture(image2)
+    @image = Asset.new(image2)
+    @image.resize(40,40)
+    @image.applyOn(@eventBox)
+end
 
 end
