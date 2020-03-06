@@ -74,7 +74,7 @@ class Grid
     # * +currentGrid+ - New current grid
     # ---
     def loadCurrentGrid(currentGrid)
-        @current = currentGrid
+        @current = YAML.load(YAML.dump(currentGrid))
         self
     end
 
@@ -148,6 +148,9 @@ class Grid
 
         # Check if there is an isle or an obstacle or a bridge between them
         for i in 0..coordsX.size-1 do
+            if(@current[coordsX[i]][coordsY[i]].isAlterable? == false)
+                return false
+            end
             if(@current[coordsX[i]][coordsY[i]].state == :isle)
                 return false
             end
@@ -213,6 +216,9 @@ class Grid
             return bridge
         end
 
+        if(@current[x][y].isAlterable? == false)
+            return bridge
+        end
         if(@current[x][y].state != :bridge)
             return bridge
         end
@@ -297,7 +303,7 @@ class Grid
     def freeze
         @current.each do |x|
             x.each do |cell|
-                if(cell.state == :bridge)
+                if(cell.state == :bridge && cell.type != :empty)
                     cell.freeze()
                 end
             end
@@ -329,7 +335,18 @@ class Grid
         end
 
         puts("Taille : " + gridAff.size().to_s + "x" + gridAff[0].size().to_s)
+
+        i = 0
+        print(" |")
+        gridAff.size.times do
+            print("|" + i.to_s + "|")
+            i += 1
+        end
+        puts()
+        i = 0
         gridAff.each do |x|
+            print(i.to_s + "|")
+            i += 1
             x.each do |y|
                 case y.state
                     when :bridge

@@ -42,50 +42,92 @@ class History
 
     
 
+    ##
+    # Create a new hypothesis
+    #
+    # ---
     def newHypothesis
+        #puts("Index Hypothèse : " + @index.to_s)
         @hypotheses -= @hypotheses.drop(@index + 1)
         @index += 1
         @hypotheses.push(Hypothesis.new(@grid.getCurrentGrid(), :created))
         @grid.freeze
+        puts("New Nouvel Index : " + @index.to_s)
     end
 
+    ##
+    # Validate previous hypothesis
+    #
+    # ---
     def validateHypothesis
+        puts("Validate Ancien Index : " + @index.to_s)
         @hypotheses -= @hypotheses.drop(@index + 1)
         @index += 1
         @hypotheses.push(Hypothesis.new(@grid.getCurrentGrid(), :validated))
         @grid.unfreeze
+        puts("Validate Nouvel Index : " + @index.to_s)
     end
 
+
+    ##
+    # Refute current hypothesis if it's not a validate hypothesis
+    #
+    # ---
     def refuteHypothesis
+        #puts("Index Hypothèse : " + @index.to_s)
         if(@hypotheses[@index].type != :validated)
             @grid.loadCurrentGrid(@hypotheses[@index].saveGrid)
             @index -= 1
+            puts("Refute Nouvel Index : " + @index.to_s)
         end
     end
 
+    ##
+    # Add an action to the current hypothesis
+    #
+    # ===== Attributes    
+    # * +action+ An ActionCreate or an ActionModify
+    # ---
     def addAction(action)
-        @hypotheses[index].addAction(action)
+        @hypotheses -= @hypotheses.drop(@index + 1)
+        @hypotheses[@index].addAction(action)
     end
 
+    ##
+    # Undo the current action in the current hypothesis
+    #
+    # ---
     def undo
-        if(@index > 0)
+        if(@index >= 0)
             if !(@hypotheses[@index].isAtBeginning)
                 @hypotheses[@index].undo
             else
                 @grid.loadCurrentGrid(@hypotheses[@index].saveGrid)
-                @index -= 1
+                if(@index>0)
+                    @index -= 1
+                    puts("Undo Nouvel Index : " + @index.to_s)
+                end
             end
         end
     end
 
+    ##
+    # Redo the current action in the current hypothesis
+    #
+    # ---
     def redo
         if(@index < @hypotheses.size)
             if !(@hypotheses[@index].isAtEnd)
                 @hypotheses[@index].redo
-            else
-                @grid.freeze
+            elsif(@index < (@hypotheses.size-1))
+                if(@hypotheses[@index].type == :created)
+                    @grid.freeze
+                else
+                    @grid.unfreeze
+                end
                 @index += 1
-                @hypotheses[@index].redo
+                @hypotheses[@index].redoHypothesis
+                puts("Redo Nouvel Index : " + @index.to_s)
             end
         end
     end
