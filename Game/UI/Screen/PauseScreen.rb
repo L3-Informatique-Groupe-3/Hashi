@@ -64,12 +64,6 @@ class PauseScreen < Screen
     @menuScreen.applyOn(win)
     }
 
-    #Box horizontal pour le texte
-    #Aide au tracé activable/désactivable
-    #textTrace = Text.new(label:"Aide au tracé activé/désactivé",width:screen.width*0.2, height:screen.height*0.05)
-    #boxTrace = Gtk::Box.new(:horizontal)
-    #boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
-
     validate=0
     #Button to able/disable the tracing help
     tracingHelp = Button.new(image:pathAssets + "Button/validate.png", width: screen.width*0.1,height: screen.height*0.1)
@@ -83,6 +77,16 @@ class PauseScreen < Screen
       end
     }
 
+    #Box horizontal pour le texte
+    #Aide au tracé activable/désactivable
+    textTrace = Text.new(label:"Aide au tracé activé/désactivé",width:screen.width*0.2, height:screen.height*0.05)
+    textTrace.setBackground(1,1,1,1)
+
+    boxTrace = Gtk::Box.new(:horizontal)
+
+    boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
+
+
     pause=Text.new(label:"Game paused",width:screen.width*0.5, height:screen.height*0.05)
     pause.setBackground(1,1,1,1)
 
@@ -92,6 +96,7 @@ class PauseScreen < Screen
     globalBox.pack_start(unpauseButton.gtkObject,expand: false, fill: false, padding: 10)
     globalBox.pack_start(restartButton.gtkObject,expand: false, fill: false, padding: 10)
     globalBox.pack_start(tracingHelp.gtkObject,expand: false, fill: false, padding: 10)
+    globalBox.add(boxTrace)
 
     globalBoxH = Gtk::Box.new(:horizontal).add(globalBox)
     globalAli  = Gtk::Alignment.new(0.5, 0, 0, 0).add(globalBoxH)
@@ -100,7 +105,7 @@ class PauseScreen < Screen
     menuBox = Gtk::Box.new(:vertical)
     menuBox.add(backToMenuButton.gtkObject)
     menuBoxH = Gtk::Box.new(:horizontal).add(menuBox)
-    menuBoxH.add(boxTrace)
+    menuBoxH.add(boxTrace)#A mettre dans la même box que la boite aide au tracé
     menuAli  = Gtk::Alignment.new(0.05, 0.95, 0, 0).add(menuBoxH)
     #
     @gtkObject.attach(menuAli,0,1,0,4)
