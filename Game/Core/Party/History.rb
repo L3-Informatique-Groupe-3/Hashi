@@ -71,8 +71,6 @@ class History
         if(@index > 0)
             if !(@hypotheses[@index].isAtBeginning)
                 @hypotheses[@index].undo
-            elsif(@hypotheses[@index].type != :validated) 
-                refuteHypothesis
             else
                 @grid.loadCurrentGrid(@hypotheses[@index].saveGrid)
                 @index -= 1
@@ -80,9 +78,17 @@ class History
         end
     end
 
-    # def redo()
-    #     @hypotheses[index].redo()
-    # end
+    def redo
+        if(@index < @hypotheses.size)
+            if !(@hypotheses[@index].isAtEnd)
+                @hypotheses[@index].redo
+            else
+                @grid.freeze
+                @index += 1
+                @hypotheses[@index].redo
+            end
+        end
+    end
 end
 
 

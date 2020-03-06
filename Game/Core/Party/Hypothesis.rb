@@ -45,22 +45,22 @@ class Hypothesis
     def initialize(saveGrid, type)
         @saveGrid = saveGrid
         @type = type
-        @index = 0
+        @index = -1
         @actions = []
     end
 
     def addAction(action)
+        @index += 1
         @actions -= @actions.drop(@index + 1)
         @actions.push(action)
-        @index += 1
     end
     
     def isAtEnd
-        return @index == @actions.size
+        return @index >= @actions.size
     end
 
     def isAtBeginning
-        return @index == 0
+        return @index <= -1
     end
 
     def undo
