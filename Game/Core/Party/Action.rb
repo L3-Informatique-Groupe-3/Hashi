@@ -52,6 +52,4 @@ class Action
     def applyOpposite
         return false
     end
-
-    private_class_method :new
 end

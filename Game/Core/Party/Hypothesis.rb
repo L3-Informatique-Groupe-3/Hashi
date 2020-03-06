@@ -23,8 +23,11 @@ require "./ActionModify"
 #       @@types = [:validated, :created] 
 # * +type+ - the Hypothesis's type. It must be one the values given in the +types+ list
 # ===== Methods
-# * +getSaveGrid+ - Apply an action
-# * +applyOpposite+ - Apply the opposite action
+# * +addAction+ - Add an Action
+# * +isAtEnd+ - Return if the +index+ is in the end
+# * +isAtBeginning+ - Return if the +index+ is in the beginning
+# * +undo+ - Move the +index+ by -1 and apply the opposite action if it's possible
+# * +redo+ - Move the +index+ by +1 and apply the action if it's possible
 ##
 class Hypothesis
     @saveGrid
@@ -49,20 +52,40 @@ class Hypothesis
         @actions = []
     end
 
+    ##
+    # Add an action to the hypothesis
+    #
+    # ===== Attributes
+    # * +action+ - The action to add to history
+    # ---
     def addAction(action)
         @index += 1
         @actions -= @actions.drop(@index + 1)
         @actions.push(action)
     end
+ 
     
+    ##
+    # Return true if the index of the hypothesis correspond to the last
+    #
+    # ---
     def isAtEnd
-        return @index >= @actions.size
+        return @index >= (@actions.size - 1)
     end
 
+
+    ##
+    # Return true if the index of the hypothesis correspond to the last
+    #
+    # ---
     def isAtBeginning
         return @index <= -1
     end
 
+    ##
+    # Undo the action corresponding to the current index
+    #
+    # ---
     def undo
         if !(isAtBeginning)
             @actions[@index].applyOpposite
@@ -70,10 +93,21 @@ class Hypothesis
         end
     end
 
+    ##
+    # Redo the action corresponding to the current index
+    #
+    # ---
     def redo
         if !(isAtEnd)
             @index += 1
             @actions[@index].applyAction
         end
     end
+
+    def redoHypothesis
+        (-1..@index).each do |i|
+            @actions[i].applyAction
+        end
+    end
+        
 end

@@ -1,3 +1,6 @@
+require "./Grid"
+require "./History"
+
 ##
 # ===== Presentation
 #   Party is the public interface of the game. It contains all method you need to play the game
@@ -14,7 +17,7 @@
 # * +redo+ - Cancel the last undo made by the player
 # * +newHypothesis+ - Create a new hypothesis (no effect if there is no move on the actual hypothesis)
 # * +validateHypothesis+ - Validate all pending Hypothesis ( no effect if there is no pending hypothesis) 
-# * +cancelHypothesis+ - Cancel the last pending hypothesis ( no effect if there is no pending hypothesis) 
+# * +refuteHypothesis+ - Cancel the last pending hypothesis ( no effect if there is no pending hypothesis) 
 # * +createBridge+ - Create a bridge if it's possible between to islands
 # * +modifyBridge+ - Modify the state of a bridge (if there is one at the specified coordonates) in this order : Simple -> Double -> None
 # * +getState+ - Get the actual state of the specified cell
@@ -24,10 +27,21 @@
 # * +isAlterable+ - True if the specified cell can be modify
 ##
 class Party
+    @grid
+    @history
 
-    @grid = nil
-    @history = nil
+    attr_reader :grid
 
+    ##
+    # The class' constructor.
+    #
+    # ===== Attributes
+    # * +answerGrid+ - The string which represent the answer
+    # ---
+    def initialize(answerGrid)
+        @grid = Grid.new(answerGrid)
+        @history = History.new(@grid)
+    end
 
     ##
     # Return the value of the timer of the actual party
@@ -94,9 +108,9 @@ class Party
     # ===== Return
     # True if an hypothesis have been canceled, else false
     # ---
-    def cancelHypothesis
+    def refuteHypothesis
         if(@history != nil)
-            @history.cancelHypothesis
+            @history.refuteHypothesis
         end
     end
 
@@ -113,7 +127,7 @@ class Party
     # ===== Return
     # True if the bridge have been created, else return false
     # ---
-    def createBridge(int x1,int y1, int x2, int y2)
+    def createBridge(x1, y1, x2, y2)
         if(@grid != nil && @history != nil)
             action = ActionCreate.new(@grid,x1,y1,x2,y2)
             if (action.applyAction)
@@ -133,7 +147,7 @@ class Party
     # ===== Return
     # True if the bridge have been modify, else return false
     # ---
-    def modifyBridge(int x, int y)
+    def modifyBridge(x, y)
         if(@grid != nil && @history != nil)
             action = ActionModify.new(@grid,x,y)
             if (action.applyAction)
@@ -150,7 +164,7 @@ class Party
     # A value from states(bridge,isle,obstacle)
     # nil if there is an issue
     # ---
-    def getState(int x, int y)
+    def getState(x, y)
         if(@grid != nil)
             return @grid.getCell(x,y).getState
         end
@@ -164,7 +178,7 @@ class Party
     # A value from types(empty, simple, double)
     # nil if there is an issue
     # ---
-    def getType(int x, int y)
+    def getType(x, y)
         if(@grid != nil && @grid.getCell(x,y).getState == :bridge)
             return @grid.getCell(x,y).getType
         end
@@ -179,7 +193,7 @@ class Party
     # The value of the cell
     # nil if there is an issue
     # ---
-    def getValue(int x, int y)
+    def getValue(x, y)
         if(@grid != nil && @grid.getCell(x,y).getState == :isle)
             return @grid.getCell(x,y).getBridgeNumber
         end
@@ -193,7 +207,7 @@ class Party
     # A direction from directions (vertical, horizontal)
     # nil if there is an issue
     # ---
-    def getDirection(int x, int y)
+    def getDirection(x, y)
         if(@grid != nil && @grid.getCell(x,y).getState == :bridge)
             return @grid.getCell(x,y).getDirection
         end
@@ -207,7 +221,7 @@ class Party
     # True if the cell is alterable, else false
     # nil if there is an issue
     # ---
-    def isAlterable(int x, int y)
+    def isAlterable(x, y)
         if(@grid != nil)
             return @grid.getCell(x,y).isAlterable?
         end
