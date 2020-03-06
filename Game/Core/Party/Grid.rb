@@ -31,6 +31,7 @@ require "yaml"
 # * +reset+ - Reset +current+ grid
 # * +freeze+ - Freeze all bridges
 # * +unfreeze+ - Unfreeze all bridges
+# * +getCell+ - Return a cell for an X and Y coordonate
 ##
 class Grid
     @current
@@ -75,6 +76,25 @@ class Grid
     def loadCurrentGrid(currentGrid)
         @current = currentGrid
         self
+    end
+
+    ##
+    # Return a cell for an X and Y coordonate
+    #
+    # ===== Attributes
+    # * +x+ - X coordonate
+    # * +y+ - Y coordonate
+    #
+    # ===== Return
+    # Return a Cell if the Cell exists, nil if not
+    # ---
+    def getCell(x, y)
+        # Check if the coord are valid
+        if(x >= @current.size || x < 0 || y >= @current[0].size || y < 0)
+            return nil
+        end
+
+        return @current[x][y]
     end
 
     ##

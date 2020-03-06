@@ -55,21 +55,27 @@ class Party
     # Undo the last action of the player
     # --- 
     def undo
-        
+        if(@history != nil)
+            @history.undo
+        end
     end
 
     ## 
     # Cancel the most recent undo made by the player
     # ---
     def redo
-        
+        if(@history != nil)
+            @history.redo
+        end
     end
 
     ##
     # Create a new hypothesis, no effect if the actual hypothesis have no moves.
     # ---
     def newHypothesis
-        
+        if(@history != nil)
+            @history.newHypothesis
+        end
     end
 
     ##
@@ -78,7 +84,9 @@ class Party
     # True if pending hypothesis have been validated, else false
     # ---
     def validateHypothesis
-        
+        if(@history != nil)
+            @history.validateHypothesis
+        end
     end
 
     ##
@@ -87,7 +95,9 @@ class Party
     # True if an hypothesis have been canceled, else false
     # ---
     def cancelHypothesis
-        
+        if(@history != nil)
+            @history.cancelHypothesis
+        end
     end
 
     ##
@@ -104,7 +114,14 @@ class Party
     # True if the bridge have been created, else return false
     # ---
     def createBridge(int x1,int y1, int x2, int y2)
-        
+        if(@grid != nil && @history != nil)
+            action = ActionCreate.new(@grid,x1,y1,x2,y2)
+            if (action.applyAction)
+                @history.addAction(action)
+                return true
+            end
+        end
+        return false
     end
     ##
     # Modify if it's possible a bridge in this order : simple bridge become double bridge and double bridge become and empty cell
@@ -117,25 +134,41 @@ class Party
     # True if the bridge have been modify, else return false
     # ---
     def modifyBridge(int x, int y)
-    
+        if(@grid != nil && @history != nil)
+            action = ActionModify.new(@grid,x,y)
+            if (action.applyAction)
+                @history.addAction(action)
+                return true
+            end
+        end
+        return false
     end
 
     ##
-    # Return the state of the cell to know if the cell if a bridgecell, a island cell or a obstacle cell 
+    # Return the state of the cell to know if the cell if a bridgeCell, a island cell or a obstacle cell 
     # ===== Return
-    # A value from states
+    # A value from states(bridge,isle,obstacle)
+    # nil if there is an issue
     # ---
     def getState(int x, int y)
-  
+        if(@grid != nil)
+            return @grid.getCell(x,y).getState
+        end
+        return nil
     end
 
 
     ##
     # Return the type of a bridgecell (simple, double or empty)
     # ===== Return
-    # A value from types
+    # A value from types(empty, simple, double)
+    # nil if there is an issue
     # ---
     def getType(int x, int y)
+        if(@grid != nil && @grid.getCell(x,y).getState == :bridge)
+            return @grid.getCell(x,y).getType
+        end
+        return nil
     
     end
 
@@ -144,19 +177,27 @@ class Party
     # Return the value of a islandcell 
     # ===== Return
     # The value of the cell
+    # nil if there is an issue
     # ---
     def getValue(int x, int y)
-    
+        if(@grid != nil && @grid.getCell(x,y).getState == :isle)
+            return @grid.getCell(x,y).getBridgeNumber
+        end
+        return nil
     end
 
 
     ##
     # Return the direction of the bridgecell
     # ===== Return
-    # A direction from directions
+    # A direction from directions (vertical, horizontal)
+    # nil if there is an issue
     # ---
     def getDirection(int x, int y)
-    
+        if(@grid != nil && @grid.getCell(x,y).getState == :bridge)
+            return @grid.getCell(x,y).getDirection
+        end
+        return nil
     end
 
 
@@ -164,9 +205,13 @@ class Party
     # Indicate if the cell can be modify
     # ===== Return
     # True if the cell is alterable, else false
+    # nil if there is an issue
     # ---
     def isAlterable(int x, int y)
-    
+        if(@grid != nil)
+            return @grid.getCell(x,y).isAlterable?
+        end
+        return nil
     end
     
 
