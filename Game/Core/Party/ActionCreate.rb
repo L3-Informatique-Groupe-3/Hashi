@@ -57,6 +57,7 @@ class ActionCreate < Action
     # return true if the action have been made, else false
     # ---
     def applyAction
+        puts("Creer pont " + @x1.to_s + @y1.to_s + " " + @x2.to_s + @y2.to_s)
         return @grid.createBridge(@x1,@y1, @x2, @y2)
     end
 
@@ -67,6 +68,7 @@ class ActionCreate < Action
     # return true if the action have been made, else false
     # ---
     def applyOpposite
+        puts("Opposite creer pont " + @x1.to_s + @y1.to_s + " " + @x2.to_s + @y2.to_s)
         return @grid.removeBridge(@x1, @y1, @x2, @y2)
     end
 end

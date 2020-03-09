@@ -350,21 +350,27 @@ class Grid
             x.each do |y|
                 case y.state
                     when :bridge
+                        toDisplay = ""
                         case y.type
                             when :empty
-                                print("   ")
+                                toDisplay = "   "
                             when :simple
                                 if(y.direction == :vertical)
-                                    print(" | ")
+                                    toDisplay = " | "
                                 else
-                                    print("---")
+                                    toDisplay = "---"
                                 end
                             when :double
                                 if(y.direction == :vertical)
-                                    print("| |")
+                                    toDisplay = "| |"
                                 else
-                                    print("===")
+                                    toDisplay = "==="
                                 end
+                        end
+                        if(y.isAlterable?)
+                            print(toDisplay)
+                        else
+                            print("\e[31m" + toDisplay + "\e[0m")
                         end
                     when :isle
                         print(" " + y.getBridgeNumber().to_s() + " ")
@@ -374,6 +380,7 @@ class Grid
             end
             puts()
         end
+        puts()
         self
     end
 

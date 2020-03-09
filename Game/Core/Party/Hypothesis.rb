@@ -105,9 +105,12 @@ class Hypothesis
     end
 
     def redoHypothesis
-        (-1..@index).each do |i|
+        (0..@index).each do |i|
             @actions[i].applyAction
         end
     end
-        
+       
+    def setAtEnd
+        @index = @actions.size - 1
+    end
 end
