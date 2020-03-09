@@ -25,6 +25,8 @@ class VictoryScreen < Screen
     def initialize(win, gameScreen)
         super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
+        @menuScreen = MenuScreen.new(win)
+
         screen=Gdk::Screen.default
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
         
@@ -39,6 +41,7 @@ class VictoryScreen < Screen
         menuButton=Button.new(image:pathAssets + "Button/menu.png", width: screen.width*0.1,height: screen.height*0.08)
         menuButton.onClick(){
             #aller au menu principal
+            @menuScreen.applyOn(win)
         }
 
         #creation du bouton recommencer

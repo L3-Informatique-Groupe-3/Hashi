@@ -17,19 +17,19 @@ class Titre < Text
       @size = Constants::TITTLE_SIZE
       apply
 
-      underText = Text.new(label:label, size: Constants::TITTLE_SIZE+2)
-      underText.font="arial"
-      underText.color="black"
-      underText.weight="bold"
-      underText.style="normal"
-      underText.apply
+      #underText = Text.new(label:label, size: Constants::TITTLE_SIZE+2)
+      #underText.font="arial"
+      #underText.color="black"
+      #underText.weight="bold"
+      #underText.style="normal"
+      #underText.apply
 
       @gtkObject.each { |child|
         @gtkObject.remove(child)
       }
       table=Gtk::Table.new(3,3)
       table.attach(@eventBox, 1, 2, 1, 2)
-      table.attach(underText.gtkObject, 0, 3, 0, 3)
+      #table.attach(underText.gtkObject, 0, 3, 0, 3)
       @gtkObject.add(table)
     end
 
