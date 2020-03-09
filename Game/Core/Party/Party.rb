@@ -1,3 +1,11 @@
+# @Author: Despres Maxence <makc>
+# @Date:   09-Mar-2020
+# @Email:  maxence.despres.etu@univ-lemans.fr
+# @Last modified by:   makc
+# @Last modified time: 09-Mar-2020
+
+
+
 require "./Grid"
 require "./History"
 
@@ -16,12 +24,12 @@ require "./History"
 # * +undo+ - Cancel the last action of the player
 # * +redo+ - Cancel the last undo made by the player
 # * +newHypothesis+ - Create a new hypothesis (no effect if there is no move on the actual hypothesis)
-# * +validateHypothesis+ - Validate all pending Hypothesis ( no effect if there is no pending hypothesis) 
-# * +refuteHypothesis+ - Cancel the last pending hypothesis ( no effect if there is no pending hypothesis) 
+# * +validateHypothesis+ - Validate all pending Hypothesis ( no effect if there is no pending hypothesis)
+# * +refuteHypothesis+ - Cancel the last pending hypothesis ( no effect if there is no pending hypothesis)
 # * +createBridge+ - Create a bridge if it's possible between to islands
 # * +modifyBridge+ - Modify the state of a bridge (if there is one at the specified coordonates) in this order : Simple -> Double -> None
 # * +getState+ - Get the actual state of the specified cell
-# * +getType+ - Get the type of the specified bridge cell 
+# * +getType+ - Get the type of the specified bridge cell
 # * +getValue+ - Get the value of the specified island cell
 # * +getDirection+ - Get the direction of the specified bridge cell
 # * +isAlterable+ - True if the specified cell can be modify
@@ -49,32 +57,32 @@ class Party
     # Returns an int with the value of the timer in second
     # ---
     def getTimer
-        
+
     end
 
     ##
     # Set the game in pause
     # ---
     def pause
-        
+
     end
     ##
     # Resume the game
-    # --- 
+    # ---
     def resume
-        
+
     end
 
     ##
     # Undo the last action of the player
-    # --- 
+    # ---
     def undo
         if(@history != nil)
             @history.undo
         end
     end
 
-    ## 
+    ##
     # Cancel the most recent undo made by the player
     # ---
     def redo
@@ -104,7 +112,7 @@ class Party
     end
 
     ##
-    # Cancel the last pending hypothesis (no effect if there is no pending hypothesis) 
+    # Cancel the last pending hypothesis (no effect if there is no pending hypothesis)
     # ===== Return
     # True if an hypothesis have been canceled, else false
     # ---
@@ -116,8 +124,8 @@ class Party
 
     ##
     # Create if it's possible a bridge between two cells.
-    # Creation condition : 
-    # * The two cells must be island cells 
+    # Creation condition :
+    # * The two cells must be island cells
     # * All cells between the two islands must be free.
     # ===== Attributes
     # * +x1+ - the absciss of the first cell
@@ -139,7 +147,7 @@ class Party
     end
     ##
     # Modify if it's possible a bridge in this order : simple bridge become double bridge and double bridge become and empty cell
-    # Creation condition : 
+    # Creation condition :
     # * The bridge cell must be a simple or double cell.
     # ===== Attributes
     # * +x1+ - the absciss of the cell
@@ -158,8 +166,12 @@ class Party
         return false
     end
 
+    def getCell(x, y)
+      return @grid.getCell(x,y)
+    end
+
     ##
-    # Return the state of the cell to know if the cell if a bridgeCell, a island cell or a obstacle cell 
+    # Return the state of the cell to know if the cell if a bridgeCell, a island cell or a obstacle cell
     # ===== Return
     # A value from states(bridge,isle,obstacle)
     # nil if there is an issue
@@ -183,12 +195,12 @@ class Party
             return @grid.getCell(x,y).getType
         end
         return nil
-    
+
     end
 
 
     ##
-    # Return the value of a islandcell 
+    # Return the value of a islandcell
     # ===== Return
     # The value of the cell
     # nil if there is an issue
@@ -227,6 +239,6 @@ class Party
         end
         return nil
     end
-    
+
 
 end
