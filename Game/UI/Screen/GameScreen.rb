@@ -50,6 +50,8 @@ class GameScreen < Screen
 
     @game=game
 
+
+
     @gridUi=GridUi.new(11,11, cellAssets,self)
     @gtkObject = Gtk::Table.new(4,4)
 
@@ -85,12 +87,14 @@ class GameScreen < Screen
 
     @time = 0
     @chronoUi=ChronoUi.new(@time)
+    @pauseScreen = PauseScreen.new(win, self)
     #  ======== Pause
     pause=Button.new(image:pathAssets + "Button/pause.png", width: screen.width*0.1,height: screen.height*0.07)
     pause.setMarginBottom(10)
     pause.onClick(){
         # Call game stop timer
         # TO DO
+        @pauseScreen.applyOn(win)
     }
 
     undoButton=Button.new(image:pathAssets + "Button/undo.png", width: screen.width*0.1,height: screen.height*0.07)
