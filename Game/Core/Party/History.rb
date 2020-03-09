@@ -99,12 +99,14 @@ class History
     # ---
     def undo
         if(@index >= 0)
+            puts("Undo Index : " + @index.to_s)
             if !(@hypotheses[@index].isAtBeginning)
                 @hypotheses[@index].undo
             else
                 @grid.loadCurrentGrid(@hypotheses[@index].saveGrid)
                 if(@index>0)
                     @index -= 1
+                    @hypotheses[@index].setAtEnd
                     puts("Undo Nouvel Index : " + @index.to_s)
                 end
             end
@@ -117,15 +119,17 @@ class History
     # ---
     def redo
         if(@index < @hypotheses.size)
+            puts("Redo Index : " + @index.to_s)
             if !(@hypotheses[@index].isAtEnd)
                 @hypotheses[@index].redo
             elsif(@index < (@hypotheses.size-1))
+                @index += 1
+                
                 if(@hypotheses[@index].type == :created)
                     @grid.freeze
                 else
                     @grid.unfreeze
                 end
-                @index += 1
                 @hypotheses[@index].redoHypothesis
                 puts("Redo Nouvel Index : " + @index.to_s)
             end

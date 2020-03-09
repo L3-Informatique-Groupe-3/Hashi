@@ -53,6 +53,7 @@ class ActionModify < Action
     # ---
     def applyAction
         @bridge = @grid.nextBridge(@x,@y)
+        puts("Modifier pont " + @x.to_s + @y.to_s)
         return !(@bridge.empty?())
     end
 
@@ -64,6 +65,7 @@ class ActionModify < Action
     # ---
     def applyOpposite
         if(@bridge != nil)
+            puts("Opposite modifier pont " + @x.to_s + @y.to_s)
             return @grid.previousBridge(@bridge[0][0], @bridge[0][1], @bridge[1][0], @bridge[1][1])
         end
         return false
