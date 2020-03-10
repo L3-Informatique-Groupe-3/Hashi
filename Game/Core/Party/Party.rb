@@ -34,7 +34,8 @@ require_relative "./History"
 # * +getValue+ - Get the value of the specified island cell
 # * +getDirection+ - Get the direction of the specified bridge cell
 # * +isAlterable+ - True if the specified cell can be modify
-# 
+# * +getRows+ - Return the number of rows
+# * +getCols+ - Return the number of cols
 ##
 class Party
     @grid

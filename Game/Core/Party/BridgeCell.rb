@@ -32,6 +32,7 @@ require_relative "./Cell"
 # * +unfreeze+ - Set frozen variable to false
 # * +isAlterable?+ - Return true if the frozen variable is false.
 # * +nextType+ - Change the +type+ to the next type (simple->double->empty)
+# * +getBridgeNumber+ - Return the number of bridge (0,1,2) @type->int
 ##
 class BridgeCell < Cell
     @@directions = [:vertical, :horizontal]
@@ -100,6 +101,23 @@ class BridgeCell < Cell
                 @type = :double
             when :double
                 @type = :empty
+        end
+    end
+
+    ##
+    # Return the number of bridge (0,1,2) @type->int
+    #
+    # ===== Return
+    # Return the number of bridge (0,1,2) @type->int
+    # ---
+    def getBridgeNumber
+        case @type
+            when :empty
+                return 0
+            when :simple
+                return 1
+            when :double
+                return 2
         end
     end
 end
