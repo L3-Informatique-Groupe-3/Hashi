@@ -6,8 +6,8 @@
 
 
 
-require "./Grid"
-require "./History"
+require_relative "./Grid"
+require_relative "./History"
 
 ##
 # ===== Presentation
@@ -28,6 +28,7 @@ require "./History"
 # * +refuteHypothesis+ - Cancel the last pending hypothesis ( no effect if there is no pending hypothesis)
 # * +createBridge+ - Create a bridge if it's possible between to islands
 # * +modifyBridge+ - Modify the state of a bridge (if there is one at the specified coordonates) in this order : Simple -> Double -> None
+# * +getCell+ - Return the cell at the specified coordinates
 # * +getState+ - Get the actual state of the specified cell
 # * +getType+ - Get the type of the specified bridge cell
 # * +getValue+ - Get the value of the specified island cell
@@ -166,6 +167,15 @@ class Party
         return false
     end
 
+    ##
+    # Return the cell at the specified coordinates
+    #
+    # ===== Attributes
+    # * +x+ - the absciss of the cell
+    # * +y+ - the ordonate of the cell
+    # ===== Return
+    # Return the cell at the specified coordinates
+    # ---
     def getCell(x, y)
       return @grid.getCell(x,y)
     end

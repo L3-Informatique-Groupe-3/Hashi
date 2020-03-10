@@ -8,8 +8,8 @@
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
-require "./Hypothesis"
-require "./Grid"
+require_relative "./Hypothesis"
+require_relative "./Grid"
 
 ##
 # ===== Presentation

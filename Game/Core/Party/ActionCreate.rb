@@ -8,7 +8,7 @@
 # Modified By: <Adrali>Lemaitre P                                               #
 ################################################################################
 
-require "./Action"
+require_relative "./Action"
 
 ##
 # ===== Presentation

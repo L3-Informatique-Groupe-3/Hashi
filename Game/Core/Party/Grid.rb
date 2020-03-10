@@ -8,9 +8,9 @@
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
-require "./ObstacleCell"
-require "./IsleCell"
-require "./BridgeCell"
+require_relative "./ObstacleCell"
+require_relative "./IsleCell"
+require_relative "./BridgeCell"
 require "yaml"
 
 ##

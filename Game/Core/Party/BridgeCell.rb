@@ -8,7 +8,7 @@
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
-require "./Cell"
+require_relative "./Cell"
 
 ##
 # ===== Presentation

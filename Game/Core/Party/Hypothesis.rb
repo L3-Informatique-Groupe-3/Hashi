@@ -8,8 +8,8 @@
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
-require "./ActionCreate"
-require "./ActionModify"
+require_relative "./ActionCreate"
+require_relative "./ActionModify"
 
 ##
 # ===== Presentation
