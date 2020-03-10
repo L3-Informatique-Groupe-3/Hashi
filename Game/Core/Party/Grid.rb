@@ -32,6 +32,8 @@ require "yaml"
 # * +freeze+ - Freeze all bridges
 # * +unfreeze+ - Unfreeze all bridges
 # * +getCell+ - Return a cell for an X and Y coordonate
+# * +getRows+ - Return the number of rows
+# * +getCols+ - Return the number of cols
 ##
 class Grid
     @current
@@ -95,6 +97,26 @@ class Grid
         end
 
         return @current[x][y]
+    end
+
+    ##
+    # Return the number of rows
+    #
+    # ===== Return
+    # Return the number of rows
+    # ---
+    def getRows
+        return @answer.size
+    end
+
+    ##
+    # Return the number of cols
+    #
+    # ===== Return
+    # Return the number of cols
+    # ---
+    def getCols
+        return @answer[0].size
     end
 
     ##

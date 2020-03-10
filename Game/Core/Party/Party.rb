@@ -34,12 +34,13 @@ require_relative "./History"
 # * +getValue+ - Get the value of the specified island cell
 # * +getDirection+ - Get the direction of the specified bridge cell
 # * +isAlterable+ - True if the specified cell can be modify
+# 
 ##
 class Party
     @grid
     @history
 
-    attr_reader :grid
+    attr_reader :grid, :history
 
     ##
     # The class' constructor.
@@ -50,6 +51,26 @@ class Party
     def initialize(answerGrid)
         @grid = Grid.new(answerGrid)
         @history = History.new(@grid)
+    end
+
+    ##
+    # Return the number of rows
+    #
+    # ===== Return
+    # Return the number of rows
+    # ---
+    def getRows
+        return @grid.getRows
+    end
+
+    ##
+    # Return the number of cols
+    #
+    # ===== Return
+    # Return the number of cols
+    # ---
+    def getCols
+        return @grid.getCols
     end
 
     ##
