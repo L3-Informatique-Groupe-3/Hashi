@@ -8,6 +8,7 @@
 
 require_relative "./Grid"
 require_relative "./History"
+require_relative "./Chrono"
 
 ##
 # ===== Presentation
@@ -16,9 +17,10 @@ require_relative "./History"
 # ===== Variables
 # * +grid+ - It contains the grid of the actual party
 # * +history+ - It contains the history of the actual party
+# * +chrono+ - It contains the chronometer of the actual party
 #
 # ===== Methods
-# * +getTimer+ - Return the timer in second since the begining of the game
+# * +getTimer+ - Return the elapsed time since the begining of the game
 # * +pause+ - Set the game in pause mode (pause the timer)
 # * +resume+ - Resume a game in pause
 # * +undo+ - Cancel the last action of the player
@@ -40,6 +42,7 @@ require_relative "./History"
 class Party
     @grid
     @history
+    @chrono
 
     attr_reader :grid, :history
 
@@ -52,6 +55,8 @@ class Party
     def initialize(answerGrid)
         @grid = Grid.new(answerGrid)
         @history = History.new(@grid)
+        @chrono = Chrono.new()
+        @chrono.start()
     end
 
     ##
@@ -75,25 +80,28 @@ class Party
     end
 
     ##
-    # Return the value of the timer of the actual party
+    # Return the elapsed time since the begining of the game
     # ===== Returns
-    # Returns an int with the value of the timer in second
+    # Return a Time instance
     # ---
     def getTimer
-
+        return @chrono.getTime()
+        #return @chrono.to_s()
     end
 
     ##
     # Set the game in pause
     # ---
     def pause
-
+        @chrono.pause()
+        self
     end
     ##
     # Resume the game
     # ---
     def resume
-
+        @chrono.continue()
+        self
     end
 
     ##
