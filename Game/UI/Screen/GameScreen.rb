@@ -2,8 +2,8 @@
 # @Date:   15-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
-# @Last modified by:   makc
-# @Last modified time: 10-Mar-2020
+# @Last modified by:   checkam
+# @Last modified time: 18-Mar-2020
 
 
 
@@ -48,8 +48,7 @@ class GameScreen < Screen
   def initialize(win,game,cellAssets)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
-    puts "A:" + @game.to_s
-    @game=game
+    @game = game
 
     @gridUi=GridUi.new(9,9, cellAssets,@game)
     @gtkObject = Gtk::Table.new(4,4)
@@ -84,30 +83,28 @@ class GameScreen < Screen
       @gridUi.refresh
     }
 
-    @time = 0
-    @chronoUi=ChronoUi.new(@time)
+    @chronoUi=ChronoUi.new(@game.getTimer)
     @pauseScreen = PauseScreen.new(win, self)
     #  ======== Pause
     pause=Button.new(image:pathAssets + "Button/pause.png", width: screen.width*0.1,height: screen.height*0.07)
     pause.setMarginBottom(10)
     pause.onClick(){
-        # Call game stop timer
-        # TO DO
+        @game.pause
         @pauseScreen.applyOn(win)
     }
 
     undoButton=Button.new(image:pathAssets + "Button/undo.png", width: screen.width*0.1,height: screen.height*0.07)
     undoButton.setMarginBottom(10)
     undoButton.onClick(){
-      # Call game undo
-      # TO DO
+      @game.undo
+      @gridUi.refresh
     }
 
     redoButton=Button.new(image:pathAssets + "Button/redo.png", width: screen.width*0.1,height: screen.height*0.07)
     redoButton.setMarginBottom(10)
     redoButton.onClick(){
-      # Call game redo
-      # TO DO
+      @game.redo
+      @gridUi.refresh
     }
 
 
@@ -196,10 +193,10 @@ class GameScreen < Screen
   #
   def run
     Thread.new {
-      while @time < 1000
-        @chronoUi.updateLabel(@time+=1)
-        sleep(1)
-      end
+        while 1
+          @chronoUi.updateLabel(@game.getTimer)
+          sleep 1
+        end
     }
   end
 
