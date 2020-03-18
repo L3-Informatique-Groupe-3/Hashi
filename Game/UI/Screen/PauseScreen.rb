@@ -36,11 +36,10 @@ class PauseScreen < Screen
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
     @menuScreen = MenuScreen.new(win)
-<<<<<<< HEAD
 
 =======
 
->>>>>>> Boutons -> Change de fenetre + Correction titre
+>>>>>>> 11733c97dbd76caf578bccf07b93336c0d78101a
     @gtkObject = Gtk::Table.new(4,4)
 
     screen=Gdk::Screen.default
