@@ -2,8 +2,8 @@
 # @Date:   14-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
-# @Last modified by:   makc
-# @Last modified time: 12-Mar-2020
+# @Last modified by:   checkam
+# @Last modified time: 18-Mar-2020
 
 
 
@@ -20,8 +20,8 @@ require File.dirname(__FILE__) + "/Click"
 #
 # 	@x 						X Coordinate
 # 	@y 						Y Coordinate
-# 	@parent				parent widget
-# 	@gtkObject 		gtk object used to display on parent widget
+# 	@gridUI				gridUI widget
+# 	@gtkObject 		gtk object used to display on gridUI widget
 # 	@cellAssets 	instance of CellAssets
 #
 # ===== Methods
@@ -43,10 +43,9 @@ require File.dirname(__FILE__) + "/Click"
 class CellUi
 	@x
 	@y
-	@parent
+	@gridUI
 	@gtkObject
 	@cellAssets
-	@coreCell
 	@textUi
 	@imageBuf
 
@@ -57,23 +56,22 @@ class CellUi
 	# The class' constructor.
 	#
 	# ===== Attributes
-  # * +parent+ -
+  # * +gridUI+ -
 	# * +x+ - X Coordinate
   # * +y+ - Y Coordinate
   # * +cellAssets+ - instance of CellAssets
 	#
   # -----------------------------------
-	def initialize(parent, x, y, cellAssets, cell)
+	def initialize(gridUI, x, y, cellAssets)
 		@x = x
 		@y = y
-		@parent = parent
+		@gridUI = gridUI
 		@cellAssets = cellAssets
 		@gtkObject = Gtk::EventBox.new
 		@gtkTable = Gtk::Table.new(1,1)
 		@gtkObject.add(@gtkTable)
-		@coreCell = cell
-		if cell.state == :isle
-			applyText(cell.bridgeNumber.to_s)
+		if getCoreCell.state == :isle
+			applyText(getCoreCell.bridgeNumber.to_s)
 		end
 		@imageBox = Gtk::Box.new(:vertical)
 		@gtkTable.attach(@imageBox,0,1,0,1)
@@ -82,19 +80,19 @@ class CellUi
 		@gtkObject.signal_connect("button_press_event") { |_, event|
 			if event.button==Click::LEFT
 				if Gdk::EventType::BUTTON2_PRESS==event.event_type
-					@parent.beginDrag(self, event.button)
+					@gridUI.beginDrag(self, event.button)
 				end
-				@parent.beginDrag(self, event.button)
+				@gridUI.beginDrag(self, event.button)
 				Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
 			end
 		}
 
 		@gtkObject.signal_connect("enter_notify_event") { |_, event|
 			@gtkObject.window.set_cursor(Click::CURSORIN) unless @gtkObject.window == nil
-			if @parent.draged?
-				@parent.selection(self)
+			if @gridUI.draged?
+				@gridUI.selection(self)
 			else
-				@parent.hover(self)
+				@gridUI.hover(self)
 			end
 		}
 	  @gtkObject.signal_connect("leave_notify_event") { |widget, event|
@@ -106,7 +104,7 @@ class CellUi
 	# called when the cell is left clicked
 	# -------------------------
 	def leftClicked
-		# TO DO
+
 	end
 
 	##
@@ -127,26 +125,26 @@ class CellUi
 	# 	change asset to selected cell
 	# -------------------------
 	def select
-		case @coreCell.state
+		case getCoreCell.state
 				when :bridge
 					normalAsset = @cellAssets.cellAssetSelected(:empty)
-					case @coreCell.type
+					case getCoreCell.type
 							when :empty
 									normalAsset = @cellAssets.cellAssetSelected(:empty)
 							when :simple
-									if(@coreCell.direction == :vertical)
+									if(getCoreCell.direction == :vertical)
 											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:simple]
 									else
 											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:simple]
 									end
 							when :double
-									if(@coreCell.direction == :vertical)
+									if(getCoreCell.direction == :vertical)
 											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:double]
 									else
 											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:double]
 									end
 						end
-						if(@coreCell.isAlterable?)
+						if(getCoreCell.isAlterable?)
 							applyAsset(normalAsset)
 						else
 							applyAsset(normalAsset)
@@ -163,26 +161,26 @@ class CellUi
 	# set cellUi asset to empty cell
 	# -------------------------
 	def normal
-			case @coreCell.state
+			case getCoreCell.state
 					when :bridge
 						normalAsset = @cellAssets.cellAsset(:empty)
-						case @coreCell.type
+						case getCoreCell.type
 								when :empty
 										normalAsset = @cellAssets.cellAsset(:empty)
 								when :simple
-										if(@coreCell.direction == :vertical)
+										if(getCoreCell.direction == :vertical)
 												normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:simple]
 										else
 												normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:simple]
 										end
 								when :double
-										if(@coreCell.direction == :vertical)
+										if(getCoreCell.direction == :vertical)
 												normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:double]
 										else
 												normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:double]
 										end
 							end
-							if(@coreCell.isAlterable?)
+							if(getCoreCell.isAlterable?)
 								applyAsset(normalAsset)
 							else
 								applyAsset(normalAsset)
@@ -193,7 +191,6 @@ class CellUi
 							normalAsset = @cellAssets.cellAsset(:empty)
 				end
 				applyAsset(normalAsset)
-				self.show
 	end
 
 	alias :unselect :normal # unselect is same as normal function
@@ -235,7 +232,7 @@ class CellUi
 	end
 
 	def getCoreCell
-		@coreCell
+		@gridUI.getCoreCellAt(@x,@y)
 	end
 
 end
