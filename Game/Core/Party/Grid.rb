@@ -4,7 +4,7 @@
 # File Created: Monday, 24th February 2020 11:00:27 am                         #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Wednesday, 18th March 2020 2:40:37 pm                         #
+# Last Modified: Wednesday, 18th March 2020 4:23:37 pm                         #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -314,7 +314,7 @@ class Grid
             bridge.push([i, y])
         else
             # get coord isle
-            i = x
+            i = y
             while(@current[x][i].state == :bridge) do
                 i -= 1
             end
