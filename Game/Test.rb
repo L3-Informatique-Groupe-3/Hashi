@@ -1,3 +1,8 @@
+# @Author: Despres Maxence <makc>
+# @Date:   09-Mar-2020
+# @Email:  maxence.despres.etu@univ-lemans.fr
+# @Last modified by:   makc
+# @Last modified time: 10-Mar-2020
 # @Author: Despres Maxence <checkam>
 # @Date:   16-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
@@ -14,10 +19,11 @@ end
 
 
 require "gtk3"
-require_all(".")
+require_all("Core")
+require_all("UI")
 
 
-class TestUi
+class Test
   	##
   	# The class' constructor.
   	#
@@ -28,7 +34,7 @@ class TestUi
   		@win.title = "Hashi"
 
   		@win.signal_connect('destroy') {
-  			Gtk.main_quit
+  			Gtk.main_quitopp
 				exit
   		}
   		@win.override_background_color(:normal,Gdk::RGBA.new(0.1, 0.6, 1, 1))
@@ -39,16 +45,18 @@ class TestUi
     def run
       Thread.new {
         # Generation des textures
-        cellAssets=CellAssets.new(9,9)
+        cellAssets=CellAssets.new(9, 9)
+
+        @game = Party.new("9x9:2c3-1-1c3a-b-a3d3b4d4-aa-a3a3dd5a-2a3a--b1-a3b3cc6dd4b3a--a-1a3a2c1a-a1a2c2c3c3c2")
 
         # Generation des ecrans de jeu
-        @gameScreen=GameScreen.new(self,nil,cellAssets)
+        @gameScreen=GameScreen.new(@win,@game,cellAssets)
         @gameScreen.applyOn(@win)
         @gameScreen.run
       }
     end
 end
 
-test = TestUi.new
+test = Test.new
 test.run
 Gtk.main

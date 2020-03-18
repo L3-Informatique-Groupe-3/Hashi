@@ -2,8 +2,8 @@
 # @Date:   15-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
-# @Last modified by:   checkam
-# @Last modified time: 17-Feb-2020
+# @Last modified by:   makc
+# @Last modified time: 10-Mar-2020
 
 
 
@@ -48,11 +48,10 @@ class GameScreen < Screen
   def initialize(win,game,cellAssets)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
+    puts "A:" + @game.to_s
     @game=game
 
-
-
-    @gridUi=GridUi.new(11,11, cellAssets,self)
+    @gridUi=GridUi.new(9,9, cellAssets,@game)
     @gtkObject = Gtk::Table.new(4,4)
 
     screen=Gdk::Screen.default
@@ -170,7 +169,7 @@ class GameScreen < Screen
     globalBox.pack_start(@chronoUi.gtkObject, expand: true, fill: false, padding: 10)
     globalBox.pack_start(guess.gtkObject, expand: true, fill: false, padding: 50)
     globalBox.pack_start(guessBox,expand: true, fill: false, padding: 10)
-    
+
     globalBox.pack_start(helpCheckBox, expand: true, fill: false, padding: 10)
 
 

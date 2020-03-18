@@ -2,8 +2,8 @@
 # @Date:   14-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
-# @Last modified by:   checkam
-# @Last modified time: 16-Feb-2020
+# @Last modified by:   makc
+# @Last modified time: 12-Mar-2020
 
 
 
@@ -46,8 +46,12 @@ class CellUi
 	@parent
 	@gtkObject
 	@cellAssets
+	@coreCell
+	@textUi
+	@imageBuf
 
-	attr_reader :gtkObject, :x, :y, :variation
+	attr_reader :gtkObject, :x, :y
+	attr_reader :coreCell
 
 	##
 	# The class' constructor.
@@ -59,12 +63,20 @@ class CellUi
   # * +cellAssets+ - instance of CellAssets
 	#
   # -----------------------------------
-	def initialize(parent, x, y, cellAssets)
+	def initialize(parent, x, y, cellAssets, cell)
 		@x = x
 		@y = y
 		@parent = parent
 		@cellAssets = cellAssets
 		@gtkObject = Gtk::EventBox.new
+		@gtkTable = Gtk::Table.new(1,1)
+		@gtkObject.add(@gtkTable)
+		@coreCell = cell
+		if cell.state == :isle
+			applyText(cell.bridgeNumber.to_s)
+		end
+		@imageBox = Gtk::Box.new(:vertical)
+		@gtkTable.attach(@imageBox,0,1,0,1)
 		normal()
 
 		@gtkObject.signal_connect("button_press_event") { |_, event|
@@ -112,26 +124,76 @@ class CellUi
 	end
 
 	##
-	# get core cell at @x @y in grid
-	# -------------------------
-	def coreCell
-		# TO DO
-	end
-
-	##
 	# 	change asset to selected cell
 	# -------------------------
 	def select
-		selectedAsset = @cellAssets.cellAssetSelected(:empty)
-		applyAsset(selectedAsset)
+		case @coreCell.state
+				when :bridge
+					normalAsset = @cellAssets.cellAssetSelected(:empty)
+					case @coreCell.type
+							when :empty
+									normalAsset = @cellAssets.cellAssetSelected(:empty)
+							when :simple
+									if(@coreCell.direction == :vertical)
+											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:simple]
+									else
+											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:simple]
+									end
+							when :double
+									if(@coreCell.direction == :vertical)
+											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:double]
+									else
+											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:double]
+									end
+						end
+						if(@coreCell.isAlterable?)
+							applyAsset(normalAsset)
+						else
+							applyAsset(normalAsset)
+						end
+						when :isle
+								normalAsset = @cellAssets.cellAssetSelected(:isle)
+						when :obstacle
+								normalAsset = @cellAssets.cellAssetSelected(:empty)
+			end
+			applyAsset(normalAsset)
 	end
 
 	##
 	# set cellUi asset to empty cell
 	# -------------------------
 	def normal
-		normalAsset = @cellAssets.cellAsset(:empty)
-		applyAsset(normalAsset)
+			case @coreCell.state
+					when :bridge
+						normalAsset = @cellAssets.cellAsset(:empty)
+						case @coreCell.type
+								when :empty
+										normalAsset = @cellAssets.cellAsset(:empty)
+								when :simple
+										if(@coreCell.direction == :vertical)
+												normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:simple]
+										else
+												normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:simple]
+										end
+								when :double
+										if(@coreCell.direction == :vertical)
+												normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:double]
+										else
+												normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:double]
+										end
+							end
+							if(@coreCell.isAlterable?)
+								applyAsset(normalAsset)
+							else
+								applyAsset(normalAsset)
+							end
+					when :isle
+							normalAsset = @cellAssets.cellAsset(:isle)
+					when :obstacle
+							normalAsset = @cellAssets.cellAsset(:empty)
+				end
+				applyAsset(normalAsset)
+				self.show
 	end
 
 	alias :unselect :normal # unselect is same as normal function
@@ -150,8 +212,14 @@ class CellUi
 	# apply asset select on this cellUi
 	# -----------------------
 	def applyAsset(asset)
-		asset.applyOn(@gtkObject)
+		asset.applyOn(@imageBox)
 	end
+
+	def applyText(text)
+		@textUi = Text.new(label:text)
+		@gtkTable.attach(@textUi.gtkObject,0,1,0,1)
+	end
+
 	##
 	# 	Display this cell
 	#-----------------------
@@ -164,6 +232,10 @@ class CellUi
 	#-----------------------
 	def coords
 		[@x,@y]
+	end
+
+	def getCoreCell
+		@coreCell
 	end
 
 end
