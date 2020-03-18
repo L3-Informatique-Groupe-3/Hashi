@@ -4,7 +4,7 @@
 # File Created: Tuesday, 20th February 2020 11:00:27 am                        #
 # Author: <Adrali>Lemaitre P                                                   #
 # -----                                                                        #
-# Last Modified: Thursday, 5th March 2020 12:39:56 pm                          #
+# Last Modified: Wednesday, 18th March 2020 5:55:22 pm                         #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -60,7 +60,7 @@ class Hypothesis
     # ---
     def addAction(action)
         @index += 1
-        @actions -= @actions.drop(@index + 1)
+        @actions -= @actions.drop(@index)
         @actions.push(action)
     end
  

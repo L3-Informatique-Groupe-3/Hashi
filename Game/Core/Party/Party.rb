@@ -38,6 +38,8 @@ require_relative "./Chrono"
 # * +isAlterable+ - True if the specified cell can be modify
 # * +getRows+ - Return the number of rows
 # * +getCols+ - Return the number of cols
+# * +finished?+ - Return true if the party is finished
+# * +check+ - Return the number of error
 ##
 class Party
     @grid
@@ -102,6 +104,26 @@ class Party
     def resume
         @chrono.continue()
         self
+    end
+
+    ##
+    # Return true if the grid is finished.
+    #
+    # ===== Return
+    # Return true if the grid is finished. 
+    # ---
+    def finished?
+        return @grid.finished?
+    end
+
+    ##
+    # Return the number of error.
+    #
+    # ===== Return
+    # Return the number of error. 
+    # ---
+    def check
+        return @grid.check
     end
 
     ##
