@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: ChronoUi.rb
 # @Last modified by:   checkam
-# @Last modified time: 16-Feb-2020
+# @Last modified time: 18-Mar-2020
 
 
 
@@ -28,7 +28,7 @@ class ChronoUi < Text
   #
   #-------------------------------------------------
 	def initialize(time)
-    super(label:"%02dh %02dm %02ds" % parce(time))
+    super(label:"%02dh %02dm %02ds" % [time.hour, time.min, time.sec])
     @font="Arial"
     @color="black"
     @weight="normal"
@@ -44,20 +44,7 @@ class ChronoUi < Text
 	# * +time+ - an integer in second to display with this format : %02dh %02dm %02ds
 	# ------------------
   def updateLabel(time)
-	  super("%02dh %02dm %02ds" % parce(time))
+	  super("%02dh %02dm %02ds"  % [time.hour, time.min, time.sec]	)
   end
-
-	##
-	# 	Transform a time in second in an array with hours, minutes, seconds
-	#
-	# ===== Attributes
-	# 	* +time+ - time represents time in seconds of this ChronoUi
-	# ------------------
-	def parce(time)
-	  s, m = time % 60, time / 60
-	  h = m / 60
-	  m = m % 60
-		[h, m, s]
-	end
 
 end
