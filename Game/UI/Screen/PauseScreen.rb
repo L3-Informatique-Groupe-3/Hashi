@@ -37,9 +37,6 @@ class PauseScreen < Screen
 
     @menuScreen = MenuScreen.new(win)
 
-=======
-
->>>>>>> 11733c97dbd76caf578bccf07b93336c0d78101a
     @gtkObject = Gtk::Table.new(4,4)
 
     screen=Gdk::Screen.default
