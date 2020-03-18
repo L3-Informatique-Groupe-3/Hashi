@@ -61,7 +61,6 @@ class GridUi
 	@assets
 	@click
 	@tracer
-	@lastCellSelected
 
 	attr_reader :gtkObject
 	attr_reader :first, :last
@@ -80,13 +79,13 @@ class GridUi
 	def initialize(cols, rows, assets, game)
 		nRow = rows
 		nCol = cols
-		@game = Party.new("9x9:2c3-1-1c3a-b-a3d3b4d4-aa-a3a3dd5a-2a3a--b1-a3b3cc6dd4b3a--a-1a3a2c1a-a1a2c2c3c3c2")
 		@assets = assets
+		@game = game
 		@countIndicators = @tracer = true
 		# creation of the UI version of the cell
-		@cellsUi = (0...nRow).map { |r|
-			(0...nCol).map { |c|
-				CellUi.new(self, r, c, @assets, @game.getCell(r,c))
+		@cellsUi = (0...nRow).map { |x|
+			(0...nCol).map { |y|
+				CellUi.new(self, x, y, @assets)
 			}
 		}
 		@cellsUiTrans=@cellsUi.transpose
@@ -117,7 +116,7 @@ class GridUi
 		realGrid = Gtk::Grid.new
 		realGrid.set_column_spacing(Constants::SPACING)
 		realGrid.set_row_spacing(Constants::SPACING)
-		@cellsUi.each_with_index {|row,i|
+		@cellsUiTrans.each_with_index {|row,i|
 			row.each_with_index {|cell,j|
 				realGrid.attach(cell.gtkObject, i+1, j+1, 1, 1)
 			}
@@ -155,47 +154,55 @@ class GridUi
 		selectTab = []
 				#Localisation ile haut
 		i=1
-		while((x-i)>=0 && @game.getCell(x-i,y).getState != :isle)
+		while((x-i)>=0 && @game.getState(x-i,y) != :isle) && (@game.getState(x-i,y) == :bridge && @game.getType(x-i,y) == :empty)
+				tempTab << @cellsUi[x-i][y]
 				i+=1
-				tempTab << @game.getCell(x-i,y)
+			#	p tempTab
 		end
-		if ((x-i)>=0) && @game.getCell(x-i,y) == :bridge
-				tempTab << @game.getCell(x-i,y)
+		if ((x-i)>=0) && @game.getState(x-i,y) == :isle
+				tempTab << @cellsUi[x-i][y]
 				selectTab += tempTab
 		end
 
+		tempTab = []
 		#Localisation ile bas
 		i=1
-		while((x+i)<@game.getRows && @game.getCell(x+i,y).getState != :isle)
+		while((x+i)<@game.getRows && @game.getState(x+i,y) != :isle) && (@game.getState(x+i,y) == :bridge && @game.getType(x+i,y) == :empty)
+				tempTab << @cellsUi[x+i][y]
 				i+=1
-				tempTab << @game.getCell(x+i,y)
+			#	p tempTab
 		end
-		if((x+i)<@game.getRows) && @game.getCell(x+i,y) == :bridge
-				tempTab << @game.getCell(x-i,y)
+		if((x+i)<@game.getRows) && @game.getState(x+i,y) == :isle
+				tempTab << @cellsUi[x-i][y]
 				selectTab += tempTab
 		end
 
+		tempTab = []
 		#Localisation ile gauche
 		i=1
-		while((y-i)>=0 && @game.getCell(x,y-i).getState != :isle)
+		while((y-i)>=0 && @game.getState(x,y-i) != :isle) && (@game.getState(x,y-i) == :bridge && @game.getType(x,y-i) == :empty)
+				tempTab <<  @cellsUi[x][y-i]
 				i+=1
-				tempTab <<  @game.getCell(x,y-i)
+			#	p tempTab
 		end
-		if((y-i)>=0) && @game.getCell(x,y-i) == :bridge
-				tempTab << @game.getCell(x-i,y)
+		if((y-i)>=0) && @game.getState(x,y-i) == :isle
+				tempTab << @cellsUi[x][y-i]
 				selectTab += tempTab
 		end
 
+		tempTab = []
 		#Localisation ile droite
 		i=1
-		while((y+i)<@game.getCols && @game.getCell(x,y+i).getState != :isle)
+		while((y+i)<@game.getCols && @game.getState(x,y+i) != :isle) && (@game.getState(x,y+i) == :bridge && @game.getType(x,y+i) == :empty)
+				tempTab << @cellsUi[x][y+i]
 				i+=1
-				tempTab << game.getCell(x,y+i)
+			#	p tempTab
 		end
-		if((y+i)<@game.getCols) && @game.getCell(x,y+i)  == :bridge
-				tempTab << @game.getCell(x-i,y)
+		if((y+i)<@game.getCols) && @game.getState(x,y+i) == :isle
+				tempTab << @cellsUi[x][y+i]
 				selectTab += tempTab
 		end
+
 		return selectTab
 	end
 
@@ -205,30 +212,10 @@ class GridUi
 	def hover(cell)
 		return unless tracerActive?
 		if cell.getCoreCell.state == :isle
-			mode=0	# => 0 or -1
-			selectTab = []
-			row = @cellsUi[cell.x]
-			col = @cellsUiTrans[cell.y]
-			for i in (0)...(row.size)
-				if row[i].getCoreCell.state == :isle
-
-				elsif row[i] != nil
-					selectTab << row[i]
-				end
-			end
-			for i in (0)...(col.size)
-				if col[i].getCoreCell.state == :isle
-
-				elsif col[i] != nil
-					selectTab << col[i]
-				end
-			end
-			
-			selectTab << getNextCell(cell)
-			# p selectTab
+			selectTab = getNextCell(cell)
+			selectTab << cell
 			@currentSelection.select(selectTab)
 			@currentSelection.show
-			@lastCellSelected = cell
 		else
 			@cellsUi.each(){ |tab|
 				@currentSelection.unselect(tab)
@@ -241,7 +228,7 @@ class GridUi
 	##
 	# Get game cell at row, col
 	# -----------------------------------
-	def coreCellAt(row, col)
+	def getCoreCellAt(row, col)
 		@game.getCell(row,col)
 	end
 
@@ -266,13 +253,11 @@ class GridUi
 			when 1
 				@first.leftClicked
 				cell=@first
-				#
 			else
 				sameState.each { |cell|
 					cell.dragLeftClicked
 					sameStateCoords << cell.coords
 				}
-				# @game.addmove([sameStateCoords,"dragLeftClicked"])
 		end
 	end
 
@@ -298,9 +283,17 @@ class GridUi
 	# Reset all drag variables
 	# -----------------------------------
 	def endDrag
+		if clickdefined? && @first.x == @last.x && @first.y == @last.y
+			@game.modifyBridge(@first.x,@first.y)
+		elsif clickdefined?
+			@game.createBridge(@first.x,@first.y, @last.x, @last.y)
+		end
+		@game.grid.affGrid(1)
+
 		@first = @last = nil
 		@currentSelection.update([])
 		@currentSelection.show()
+		refresh
 	end
 
 	##
