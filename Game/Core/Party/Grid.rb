@@ -4,7 +4,7 @@
 # File Created: Monday, 24th February 2020 11:00:27 am                         #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Thursday, 27th February 2020 3:19:51 pm                       #
+# Last Modified: Wednesday, 18th March 2020 2:40:37 pm                         #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -34,6 +34,8 @@ require "yaml"
 # * +getCell+ - Return a cell for an X and Y coordonate
 # * +getRows+ - Return the number of rows
 # * +getCols+ - Return the number of cols
+# * +finished?+ - Return true if the grid is finished
+# * +check+ - Return the number of error
 ##
 class Grid
     @current
@@ -57,6 +59,53 @@ class Grid
     def reset
         @current = answerToCurrent(@answer)
         self
+    end
+
+    ##
+    # Return true if the grid is finished.
+    #
+    # ===== Return
+    # Return true if the grid is finished. 
+    # ---
+    def finished?
+        for i in 0..@current.size-1 do
+            for j in 0..@current[0].size-1 do
+                if(@current[i][j].state != @answer[i][j].state)
+                    return false
+                end
+                if(@current[i][j].state == :bridge)
+                    if(@current[i][j].type != @answer[i][j].type)
+                        return false
+                    end
+                    if(@current[i][j].direction != @answer[i][j].direction)
+                        return false
+                    end
+                end
+            end
+        end
+        return true
+    end
+
+    ##
+    # Return the number of error.
+    #
+    # ===== Return
+    # Return the number of error. 
+    # ---
+    def check
+        nbError = 0
+
+        for i in 0..@current.size-1 do
+            for j in 0..@current[0].size-1 do
+                if(@current[i][j].state == :bridge)
+                    if(@answer[i][j].type == :empty && @current[i][j].type != @answer[i][j].type)
+                        nbError += 1
+                    end
+                end
+            end
+        end
+
+        return nbError
     end
 
     ##
