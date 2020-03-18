@@ -2,8 +2,8 @@
 # @Date:   11-Feb-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: CellAssets.rb
-# @Last modified by:   checkam
-# @Last modified time: 16-Feb-2020
+# @Last modified by:   makc
+# @Last modified time: 10-Mar-2020
 
 
 
@@ -38,10 +38,32 @@ class CellAssets
 
 		@cellAssets = {
 			empty:  	CellAsset.new(pathToAssets+"empty.png",nRows, nCols),
+			bridge: 	{
+				vertical:	{
+					simple: CellAsset.new(pathToAssets+"a.gif",nRows,nCols),
+					double: CellAsset.new(pathToAssets+"b.gif",nRows,nCols),
+				},
+				horizontal: {
+					simple: CellAsset.new(pathToAssets+"c.gif",nRows,nCols),
+					double: CellAsset.new(pathToAssets+"d.gif",nRows,nCols),
+				},
+			},
+			isle: CellAsset.new(pathToAssets+"ring.gif",nRows,nCols),
 		}
 
 		@cellAssetsSelected = {
 			empty:  	CellAsset.new(pathToAssets+"emptySelected.png",nRows, nCols),
+			bridge: 	{
+				vertical:	{
+					simple: CellAsset.new(pathToAssets+"a.gif",nRows,nCols),
+					double: CellAsset.new(pathToAssets+"b.gif",nRows,nCols),
+				},
+				horizontal: {
+					simple: CellAsset.new(pathToAssets+"c.gif",nRows,nCols),
+					double: CellAsset.new(pathToAssets+"d.gif",nRows,nCols),
+				},
+			},
+			isle: CellAsset.new(pathToAssets+"ringSelected.gif",nRows,nCols),
 		}
 	end
 
