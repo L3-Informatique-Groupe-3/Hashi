@@ -173,7 +173,7 @@ class GridUi
 			#	p tempTab
 		end
 		if((x+i)<@game.getRows) && @game.getState(x+i,y) == :isle
-				tempTab << @cellsUi[x-i][y]
+				tempTab << @cellsUi[x+i][y]
 				selectTab += tempTab
 		end
 
