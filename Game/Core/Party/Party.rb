@@ -40,6 +40,7 @@ require_relative "./Chrono"
 # * +getCols+ - Return the number of cols
 # * +finished?+ - Return true if the party is finished
 # * +check+ - Return the number of error
+# * +restart+ - Restart the party
 ##
 class Party
     @grid
@@ -58,6 +59,16 @@ class Party
         @grid = Grid.new(answerGrid)
         @history = History.new(@grid)
         @chrono = Chrono.new()
+        @chrono.start()
+    end
+
+    ##
+    # Restart the party
+    # ---
+    def restart
+        @grid.reset()
+        @history = History.new(@grid)
+        @chrono.reset()
         @chrono.start()
     end
 
