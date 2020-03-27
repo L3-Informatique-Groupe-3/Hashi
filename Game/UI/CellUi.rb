@@ -126,35 +126,46 @@ class CellUi
 	# -------------------------
 	def select
 		case getCoreCell.state
-				when :bridge
-					normalAsset = @cellAssets.cellAssetSelected(:empty)
-					case getCoreCell.type
-							when :empty
-									normalAsset = @cellAssets.cellAssetSelected(:empty)
-							when :simple
-									if(getCoreCell.direction == :vertical)
-											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:simple]
-									else
-											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:simple]
-									end
-							when :double
-									if(getCoreCell.direction == :vertical)
-											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:double]
-									else
-											normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:double]
-									end
-						end
-						if(getCoreCell.isAlterable?)
-							applyAsset(normalAsset)
+			when :bridge
+				normalAsset = @cellAssets.cellAssetSelected(:empty)
+				case getCoreCell.type
+					when :empty
+						normalAsset = @cellAssets.cellAssetSelected(:empty)
+					when :simple
+						if(getCoreCell.direction == :vertical)
+							if(getCoreCell.isAlterable?)
+								normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:simple]
+							else
+								normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:simple_freeze]
+							end
 						else
-							applyAsset(normalAsset)
+							if(getCoreCell.isAlterable?)
+								normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:simple]
+							else
+								normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:simple_freeze]
+							end
 						end
-						when :isle
-								normalAsset = @cellAssets.cellAssetSelected(:isle)
-						when :obstacle
-								normalAsset = @cellAssets.cellAssetSelected(:empty)
-			end
-			applyAsset(normalAsset)
+					when :double
+						if(getCoreCell.direction == :vertical)
+							if(getCoreCell.isAlterable?)
+								normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:double]
+							else
+								normalAsset = @cellAssets.cellAssetSelected(:bridge)[:vertical][:double_freeze]
+							end
+						else
+							if(getCoreCell.isAlterable?)
+								normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:double]
+							else
+								normalAsset = @cellAssets.cellAssetSelected(:bridge)[:horizontal][:double_freeze]
+							end
+						end
+					end
+			when :isle
+				normalAsset = @cellAssets.cellAssetSelected(:isle)
+			when :obstacle
+				normalAsset = @cellAssets.cellAssetSelected(:empty)
+		end
+		applyAsset(normalAsset)
 	end
 
 	##
@@ -165,25 +176,36 @@ class CellUi
 					when :bridge
 						normalAsset = @cellAssets.cellAsset(:empty)
 						case getCoreCell.type
-								when :empty
-										normalAsset = @cellAssets.cellAsset(:empty)
-								when :simple
-										if(getCoreCell.direction == :vertical)
-												normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:simple]
-										else
-												normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:simple]
-										end
-								when :double
-										if(getCoreCell.direction == :vertical)
-												normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:double]
-										else
-												normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:double]
-										end
-							end
-							if(getCoreCell.isAlterable?)
-								applyAsset(normalAsset)
-							else
-								applyAsset(normalAsset)
+							when :empty
+								normalAsset = @cellAssets.cellAsset(:empty)
+							when :simple
+								if(getCoreCell.direction == :vertical)
+									if(getCoreCell.isAlterable?)
+										normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:simple]
+									else
+										normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:simple_freeze]
+									end
+								else
+									if(getCoreCell.isAlterable?)
+										normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:simple]
+									else
+										normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:simple_freeze]
+									end
+								end
+							when :double
+								if(getCoreCell.direction == :vertical)
+									if(getCoreCell.isAlterable?)
+										normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:double]
+									else
+										normalAsset = @cellAssets.cellAsset(:bridge)[:vertical][:double_freeze]
+									end
+								else
+									if(getCoreCell.isAlterable?)
+										normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:double]
+									else
+										normalAsset = @cellAssets.cellAsset(:bridge)[:horizontal][:double_freeze]
+									end
+								end
 							end
 					when :isle
 							normalAsset = @cellAssets.cellAsset(:isle)

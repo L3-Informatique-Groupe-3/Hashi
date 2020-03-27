@@ -41,11 +41,15 @@ class CellAssets
 			bridge: 	{
 				horizontal:	{
 					simple: CellAsset.new(pathToAssets+"a.png",nRows,nCols),
+					simple_freeze: CellAsset.new(pathToAssets+"a_freeze.png",nRows,nCols),
 					double: CellAsset.new(pathToAssets+"b.png",nRows,nCols),
+					double_freeze: CellAsset.new(pathToAssets+"b_freeze.png",nRows,nCols),
 				},
 				vertical: {
 					simple: CellAsset.new(pathToAssets+"c.png",nRows,nCols),
+					simple_freeze: CellAsset.new(pathToAssets+"c_freeze.png",nRows,nCols),
 					double: CellAsset.new(pathToAssets+"d.png",nRows,nCols),
+					double_freeze: CellAsset.new(pathToAssets+"d_freeze.png",nRows,nCols),
 				},
 			},
 			isle: CellAsset.new(pathToAssets+"ring.png",nRows,nCols),
@@ -56,11 +60,15 @@ class CellAssets
 			bridge: 	{
 				horizontal:	{
 					simple: CellAsset.new(pathToAssets+"a.png",nRows,nCols),
+					simple_freeze: CellAsset.new(pathToAssets+"a_freeze.png",nRows,nCols),
 					double: CellAsset.new(pathToAssets+"b.png",nRows,nCols),
+					double_freeze: CellAsset.new(pathToAssets+"b_freeze.png",nRows,nCols),
 				},
 				vertical: {
 					simple: CellAsset.new(pathToAssets+"c.png",nRows,nCols),
+					simple_freeze: CellAsset.new(pathToAssets+"c_freeze.png",nRows,nCols),
 					double: CellAsset.new(pathToAssets+"d.png",nRows,nCols),
+					double_freeze: CellAsset.new(pathToAssets+"d_freeze.png",nRows,nCols),
 				},
 			},
 			isle: CellAsset.new(pathToAssets+"ringSelected.png",nRows,nCols),

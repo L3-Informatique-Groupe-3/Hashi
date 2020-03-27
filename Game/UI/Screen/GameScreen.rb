@@ -65,21 +65,21 @@ class GameScreen < Screen
     newGuess=Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
     newGuess.onClick(){
       # Create new game guess
-      # TO DO
+      @game.newHypothesis
       @gridUi.refresh
     }
 
     validateGuess=Button.new(image:pathAssets + "Button/validate.png", width: screen.width*0.1,height: screen.height*0.08)
     validateGuess.onClick(){
-      # Create new game guess
-      # TO DO
+      # Validate game guess
+      @game.validateHypothesis
       @gridUi.refresh
     }
 
     removeGuess=Button.new(image:pathAssets + "Button/cancel.png", width: screen.width*0.1,height: screen.height*0.08)
     removeGuess.onClick(){
       # Remove game guess
-      # TO DO
+      @game.refuteHypothesis
       @gridUi.refresh
     }
 
@@ -200,4 +200,12 @@ class GameScreen < Screen
     }
   end
 
+  def resume
+    @game.resume
+  end
+
+  def restart
+    @game.restart
+    @gridUi.refresh
+  end
 end

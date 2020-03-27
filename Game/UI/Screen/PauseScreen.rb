@@ -47,14 +47,17 @@ class PauseScreen < Screen
     #Unpause button to find
     unpauseButton = Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
     unpauseButton.onClick(){
-    #Do smth
-    gameScreen.applyOn(win)
+
+      gameScreen.resume()
+      gameScreen.applyOn(win)
     }
 
     #Restart button (level)
     restartButton = Button.new(label:"Restart", width: screen.width*0.1,height: screen.height*0.08)
     restartButton.onClick(){
-    #Do smth
+    
+      gameScreen.restart()
+      gameScreen.applyOn(win)
     }
 
     #Button to go back to main menu
