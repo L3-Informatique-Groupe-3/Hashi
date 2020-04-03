@@ -236,7 +236,7 @@ class CellUi
 
 	def applyText(text)
 		@textUi = Text.new(label:text)
-		@gtkTable.attach(@textUi.gtkObject,0,1,0,1)
+		@gtkTable.attach(@textUi.gtkObject,0,1,0,1, nil,nil,0,17)
 	end
 
 	##
