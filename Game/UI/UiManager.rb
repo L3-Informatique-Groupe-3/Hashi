@@ -25,7 +25,7 @@ class UiManager
         button2: "Moyen",
         button3: "Difficile",
         buttonAction1: lambda {
-            game = Party.new("9x9:2c3-1-1c3a-b-a3d3b4d4-aa-a3a3dd5a-2a3a--b1-a3b3cc6dd4b3a--a-1a3a2c1a-a1a2c2c3c3c2")
+            game = Party.new("7x7:-3a3aa31d2c-2dcddc-d3c2d3a3c3a3c--cc--c1a22aa3a1-")
             gameScreen = GameScreen.new(@win,game,self)
             gameScreen.applyOn(@win)
             gameScreen.run
@@ -46,9 +46,9 @@ class UiManager
         haveBackButton: true,
       )
 
-    @mainmenu = MenuScreen.new(
+    @gamemode = MenuScreen.new(
       window: @win,
-      title: "Menu Principal",
+      title: "Modes de Jeu",
       button1: "Aventure",
       button2: "Libre",
       button3: "Classé",
@@ -56,7 +56,23 @@ class UiManager
       buttonAction2: lambda {	@libreScreen.applyOn(@win) },
       buttonAction3: lambda { @rankScreen.applyOn(@win) },
       uiManager: self,
+      haveBackButton: true,
     )
+
+    @mainmenu = MenuScreen.new(
+      window: @win,
+      title: "Menu Principal",
+      button1: "Modes de jeu",
+      button2: "Didacticiel",
+      button3: "Quitter",
+      buttonAction1: lambda { @gamemode.applyOn(@win) },
+      buttonAction2: lambda {	puts "Didacticiel" },
+      buttonAction3: lambda {
+        Gtk.main_quitopp
+        exit
+      },
+    )
+
 
     @mainmenu.applyOn(@win)
 
