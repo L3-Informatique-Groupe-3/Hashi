@@ -45,7 +45,7 @@ class GameScreen < Screen
   # * +cellAssets+ -
   # * +victoryScreen+ -
   # -----------------------------------
-  def initialize(win,game)
+  def initialize(win,game,uiManager)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
     @game = game
@@ -84,7 +84,7 @@ class GameScreen < Screen
     }
 
     @chronoUi=ChronoUi.new(@game.getTimer)
-    @pauseScreen = PauseScreen.new(win, self)
+    @pauseScreen = PauseScreen.new(win, self, uiManager)
     #  ======== Pause
     pause=Button.new(image:pathAssets + "Button/pause.png", width: screen.width*0.1,height: screen.height*0.07)
     pause.setMarginBottom(10)
