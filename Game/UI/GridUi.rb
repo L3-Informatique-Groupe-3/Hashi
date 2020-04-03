@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
 # @Last modified by:   checkam
-# @Last modified time: 18-Mar-2020
+# @Last modified time: 03-Apr-2020
 
 
 require "gtk3"
@@ -76,9 +76,9 @@ class GridUi
 	# * +parent+ -
 	#
 	# -----------------------------------
-	def initialize(cols, rows, assets, game)
-		nRow = rows
-		nCol = cols
+	def initialize(assets, game)
+		nRow = game.getRows
+		nCol = game.getCols
 		@assets = assets
 		@game = game
 		@countIndicators = @tracer = true
