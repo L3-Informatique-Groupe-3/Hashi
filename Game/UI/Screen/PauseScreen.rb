@@ -3,7 +3,7 @@
 # @Email:  clement_dubois.etu@univ-lemans.fr
 # @Filename: PauseScreen.rb
 # @Last modified by:   checkam
-# @Last modified time: 18-Mar-2020
+# @Last modified time: 03-Apr-2020
 
 
 
@@ -31,11 +31,9 @@ class PauseScreen < Screen
 
 
 
-  def initialize(win,gameScreen)
+  def initialize(win,gameScreen,uiManager)
     # TO DO
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
-
-    @menuScreen = MenuScreen.new(win)
 
     @gtkObject = Gtk::Table.new(4,4)
 
@@ -55,7 +53,7 @@ class PauseScreen < Screen
     #Restart button (level)
     restartButton = Button.new(label:"Restart", width: screen.width*0.1,height: screen.height*0.08)
     restartButton.onClick(){
-    
+
       gameScreen.restart()
       gameScreen.applyOn(win)
     }
@@ -63,8 +61,7 @@ class PauseScreen < Screen
     #Button to go back to main menu
     backToMenuButton = Button.new(label:"Main menu", width: screen.width*0.1,height: screen.height*0.08)
     backToMenuButton.onClick(){
-    #Do smth
-    @menuScreen.applyOn(win)
+      uiManager.mainmenu.applyOn(win)
     }
 
     validate=0
