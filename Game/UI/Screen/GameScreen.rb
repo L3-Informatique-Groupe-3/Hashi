@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
 # @Last modified by:   checkam
-# @Last modified time: 18-Mar-2020
+# @Last modified time: 03-Apr-2020
 
 
 
@@ -45,12 +45,12 @@ class GameScreen < Screen
   # * +cellAssets+ -
   # * +victoryScreen+ -
   # -----------------------------------
-  def initialize(win,game,cellAssets)
+  def initialize(win,game)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
     @game = game
-
-    @gridUi=GridUi.new(9,9, cellAssets,@game)
+    cellAssets=CellAssets.new(@game.getRows, @game.getCols)
+    @gridUi=GridUi.new(cellAssets,@game)
     @gtkObject = Gtk::Table.new(4,4)
 
     screen=Gdk::Screen.default
