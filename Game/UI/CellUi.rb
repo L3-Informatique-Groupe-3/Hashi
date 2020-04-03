@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
 # @Last modified by:   checkam
-# @Last modified time: 18-Mar-2020
+# @Last modified time: 03-Apr-2020
 
 
 
@@ -235,8 +235,8 @@ class CellUi
 	end
 
 	def applyText(text)
-		@textUi = Text.new(label:text)
-		@gtkTable.attach(@textUi.gtkObject,0,1,0,1, nil,nil,0,17)
+		@textUi = Text.new(label:text,padding:0)
+		@gtkTable.attach(Gtk::Alignment.new(0.5, 0.5, 0, 0).add(@textUi.gtkObject),0,1,0,1)
 	end
 
 	##
