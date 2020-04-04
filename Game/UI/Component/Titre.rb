@@ -5,6 +5,8 @@
 # @Last modified by:   checkam
 # @Last modified time: 16-Feb-2020
 
+require_relative "./Text"
+
 class Titre < Text
     ##
     # The class' constructor.

@@ -6,6 +6,7 @@
 # @Last modified time: 6-Mar-2020
 
 require File.dirname(__FILE__) + "/../Component/Text"
+require_relative "../Click"
 
 
 ##
