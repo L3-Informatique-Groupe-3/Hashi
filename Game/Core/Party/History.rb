@@ -4,7 +4,7 @@
 # File Created: Tuesday, 20th February 2020 11:00:27 am                        #
 # Author: <Adrali>Lemaitre P                                                   #
 # -----                                                                        #
-# Last Modified: Thursday, 5th March 2020 12:50:49 pm                          #
+# Last Modified: Sunday, 5th April 2020 3:52:48 pm                             #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -77,7 +77,7 @@ class History
         #puts("Index Hypothèse : " + @index.to_s)
         if(@hypotheses[@index].type != :validated)
             @grid.loadCurrentGrid(@hypotheses[@index].saveGrid)
-            @index -= 1
+            @index -= 1 if @index > 0
             puts("Refute Nouvel Index : " + @index.to_s)
         end
     end
