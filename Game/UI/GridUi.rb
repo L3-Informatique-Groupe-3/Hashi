@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
 # @Last modified by:   checkam
-# @Last modified time: 03-Apr-2020
+# @Last modified time: 05-Apr-2020
 
 
 require "gtk3"
@@ -76,10 +76,11 @@ class GridUi
 	# * +parent+ -
 	#
 	# -----------------------------------
-	def initialize(assets, game)
+	def initialize(assets, game, gameScreen)
 		nRow = game.getRows
 		nCol = game.getCols
 		@assets = assets
+		@gameScreen = gameScreen
 		@game = game
 		@countIndicators = @tracer = true
 		# creation of the UI version of the cell
@@ -261,14 +262,6 @@ class GridUi
 		end
 	end
 
-	def undo
-		# TO DO
-	end
-
-	def redo
-		# TO DO
-	end
-
 	##
 	# start of the selection of drag the cells
 	# -----------------------------------
@@ -288,7 +281,10 @@ class GridUi
 		elsif clickdefined?
 			@game.createBridge(@first.x,@first.y, @last.x, @last.y)
 		end
-		@game.grid.affGrid(1)
+
+		if @game.finished? == true
+			@gameScreen.showVictoryScreen
+		end
 
 		@first = @last = nil
 		@currentSelection.update([])
