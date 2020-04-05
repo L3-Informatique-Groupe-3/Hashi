@@ -9,6 +9,7 @@
 require_relative "./Grid"
 require_relative "./History"
 require_relative "./Chrono"
+require_relative "aides/ManagerHelp"
 
 ##
 # ===== Presentation
@@ -18,6 +19,7 @@ require_relative "./Chrono"
 # * +grid+ - It contains the grid of the actual party
 # * +history+ - It contains the history of the actual party
 # * +chrono+ - It contains the chronometer of the actual party
+# * +currentHelp+ - The current help
 #
 # ===== Methods
 # * +getTimer+ - Return the elapsed time since the begining of the game
@@ -42,11 +44,14 @@ require_relative "./Chrono"
 # * +finished?+ - Return true if the party is finished
 # * +check+ - Return the number of error
 # * +restart+ - Restart the party
+# * +getHelp+ - Get a help
+# * +getHelpPlus+ - Get details about the current help
 ##
 class Party
     @grid
     @history
     @chrono
+    @currentHelp
 
     attr_reader :grid, :history
 
@@ -61,6 +66,38 @@ class Party
         @history = History.new(@grid)
         @chrono = Chrono.new()
         @chrono.start()
+        @currentHelp = nil
+    end
+
+    ##
+    # Get a help
+    #
+    # ===== Return
+    # Return an array of cell's coordinates where the help is applicable 
+    # ---
+    def getHelp
+        @currentHelp = ManagerHelp.askHelp(@grid)
+        if(! (@currentHelp[0].empty?))
+            @chrono.addTime(25)
+        end
+        return @currentHelp[0]
+    end
+
+    ##
+    # Get details about the current help
+    #
+    # ===== Return
+    # Return a String with the details of the current help 
+    # ---
+    def getHelpPlus
+        if(@currentHelp != nil)
+            if(! (@currentHelp[0].empty?))
+                @chrono.addTime(45)
+            end
+            return @currentHelp[1]
+        else
+            return ""
+        end
     end
 
     ##
@@ -148,7 +185,11 @@ class Party
     # Return the number of error. 
     # ---
     def check
-        return @grid.check
+        nbErreur = @grid.check
+        if(nbErreur > 0)
+            @chrono.addTime(10)
+        end
+        return nbErreur
     end
 
     ##
