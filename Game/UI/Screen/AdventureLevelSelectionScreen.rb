@@ -1,3 +1,12 @@
+# @Author: Despres Maxence <checkam>
+# @Date:   05-Apr-2020
+# @Email:  maxence.despres.etu@univ-lemans.fr
+# @Filename: AdventureLevelSelectionScreen.rb
+# @Last modified by:   checkam
+# @Last modified time: 05-Apr-2020
+
+
+
 ################################################################################
 # File: AdventureLevelSelectionScreen.rb                                       #
 # Project: Hashi                                                              #
@@ -16,7 +25,7 @@ require_relative "../AssetsClass/Asset"
 
 ##
 # ===== Presentation
-# 
+#
 # ===== Variables
 # * +variableName+ - description
 # ===== Methods
@@ -43,18 +52,18 @@ class AdventureLevelSelectionScreen < Screen
         list = Gtk::Box.new(:vertical)
         (1..30).each { |levelNumber|
             levelBox = Gtk::Box.new(:horizontal)
-            levelButton = Button.new(label:"Niveau " + levelNumber.to_s, width:screen.width*0.2, height:screen.height*0.05)
+            levelButton = Button.new(label:"Niveau " + levelNumber.to_s, width:screen.width*0.7, height:screen.height*0.05)
             levelButton.onClick(){
                 #TODO
                 #uiManager.game.applyOn(window)
             }
-            
+
             levelCheckBox = Gtk::Box.new(:horizontal)
             levelCheck = Asset.new(pathAssets + "Button/validate.png")
             levelCheck.resize(screen.height * 0.05, screen.height * 0.05)
             levelCheck.applyOn(levelCheckBox)
 
-            
+
             levelBox.pack_start(levelButton.gtkObject, expand: false, fill: false, padding: 10)
             levelBox.pack_start(levelCheckBox, expand: false, fill: false, padding: 10)
 
@@ -69,12 +78,13 @@ class AdventureLevelSelectionScreen < Screen
         vp.add(list)
         scroll.add_with_viewport(vp)
         scroll.height_request=(screen.height * 0.6)
+				scroll.override_background_color(:normal,Gdk::RGBA.new(0.22, 0.45, 0.50, 1))
         # scroll.width_request=(screen.width)
 
         #Button to go back to main menu
-        backToButton = Button.new(label:"Menu Principal", width: screen.width*0.1,height: screen.height*0.08, size: 20)
+        backToButton = Button.new(label:"Retour à la carte", width: screen.width*0.1,height: screen.height*0.08, size: 20)
         backToButton.onClick(){
-            uiManager.mainmenu.applyOn(window)
+            uiManager.aventureScreen.applyOn(window)
         }
 
         # Layout
@@ -84,6 +94,7 @@ class AdventureLevelSelectionScreen < Screen
 
         @gtkObject.attach( Gtk::Alignment.new(0.05, 0.95, 0, 0).add(backToButton.gtkObject),0,4,0,4)
         @gtkObject.attach(globalBox,0,4,0,4)
+				@gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
     end
 end
 
