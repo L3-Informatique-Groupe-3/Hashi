@@ -217,6 +217,8 @@ class Party
         if(@grid != nil && @history != nil)
             action = ActionCreate.new(@grid,x1,y1,x2,y2)
             if (action.applyAction)
+                pause if @grid.finished?
+
                 @history.addAction(action)
                 return true
             end
@@ -237,6 +239,8 @@ class Party
         if(@grid != nil && @history != nil)
             action = ActionModify.new(@grid,x,y)
             if (action.applyAction)
+                pause if @grid.finished?
+
                 @history.addAction(action)
                 return true
             end
