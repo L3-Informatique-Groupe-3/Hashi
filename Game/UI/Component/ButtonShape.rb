@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: ButtonShape.rb
 # @Last modified by:   checkam
-# @Last modified time: 03-Apr-2020
+# @Last modified time: 05-Apr-2020
 
 
 
@@ -21,6 +21,9 @@ class ButtonShape
     @shape.applyOn(@gtkEvent)
     @action = nil
     @gtkObject.attach(@gtkEvent,0,4,0,4)
+    @n_channel = @shape.buffer.n_channels
+    @rowstride = @shape.buffer.rowstride
+    @tabPixel = @shape.buffer.pixels
   end
 
   def onClick(block=nil)
@@ -30,14 +33,11 @@ class ButtonShape
   end
 
   def isClick(x,y)
-    n_channel = @shape.buffer.n_channels
-    rowstride = @shape.buffer.rowstride
-    tabPixel = @shape.buffer.pixels
-    pixel = y * rowstride + x * n_channel
-    if tabPixel[pixel+3] == 255
+    @pixel = y * @rowstride + x * @n_channel
+    if @tabPixel[@pixel+3] == 255
       @action.call
     end
-     return tabPixel[pixel+3] == 255
+     return @tabPixel[@pixel+3] == 255
   end
 
   def setAction(action)
