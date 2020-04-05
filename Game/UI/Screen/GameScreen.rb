@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: GameScreen.rb
 # @Last modified by:   checkam
-# @Last modified time: 03-Apr-2020
+# @Last modified time: 05-Apr-2020
 
 
 
@@ -48,16 +48,19 @@ class GameScreen < Screen
   def initialize(win,game,uiManager)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
+    @win = win
     @game = game
+    @uiManager = uiManager
     cellAssets=CellAssets.new(@game.getRows, @game.getCols)
-    @gridUi=GridUi.new(cellAssets,@game)
+    @gridUi=GridUi.new(cellAssets,@game, self)
     @gtkObject = Gtk::Table.new(4,4)
+
+
 
     screen=Gdk::Screen.default
     buttonHeight = screen.height*0.04
     buttonWidth = screen.width*0.3
     pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
-
 
     guess=Text.new(label:"Guess",width:screen.width*0.2, height:screen.height*0.05)
     guess.setBackground(1,1,1,1)
@@ -122,13 +125,12 @@ class GameScreen < Screen
     help=Button.new(label:"help", width: screen.width*0.1,height: screen.height*0.08)
     help.onClick(){
       # Display the help message
-      # TO DO
-      @helpDisplayed = true
+
     }
 
     helpMore=Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
     helpMore.onClick(){
-      @helpDisplayed = true
+
     }
 
 
@@ -136,8 +138,7 @@ class GameScreen < Screen
     check=Button.new(label:"check", width: screen.width*0.1,height: screen.height*0.08)
     check.onClick(){
       # Display the help message
-      # TO DO
-      @helpDisplayed = true
+      @helpResponseUi.updateLabel("Il y a "  + @game.check.to_s + " erreur(s).")
     }
     # Display layout
 
@@ -169,7 +170,6 @@ class GameScreen < Screen
 
     globalBox.pack_start(helpCheckBox, expand: true, fill: false, padding: 10)
 
-
     globalBoxH = Gtk::Box.new(:horizontal).add(globalBox)
 
     globalAli  = Gtk::Alignment.new(0.5, 0, 0, 0).add(globalBoxH)
@@ -198,6 +198,11 @@ class GameScreen < Screen
           sleep 1
         end
     }
+  end
+
+  def showVictoryScreen
+    @victoryScreen = VictoryScreen.new(@win, @game, @uiManager)
+    @victoryScreen.applyOn(@win)
   end
 
   def resume
