@@ -3,7 +3,7 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: AventureScreen.rb
 # @Last modified by:   checkam
-# @Last modified time: 03-Apr-2020
+# @Last modified time: 05-Apr-2020
 
 require 'gtk3'
 require_relative File.dirname(__FILE__) + "/Screen"
@@ -36,7 +36,7 @@ class AdventureScreen < Screen
 
     countryButton.each_key { |key|
           @gtkObject.attach(countryButton[key].gtkObject,0,4,0,4)
-          countryButton[key].setAction(lambda { puts key })
+          countryButton[key].setAction(lambda { AdventureLevelSelectionScreen.new(window:win,uiManager:uiManager).applyOn(win) })
           manager.addButton(countryButton[key])
     }
 
