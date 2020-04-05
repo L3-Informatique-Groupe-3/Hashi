@@ -1,3 +1,12 @@
+# @Author: Despres Maxence <checkam>
+# @Date:   18-Mar-2020
+# @Email:  maxence.despres.etu@univ-lemans.fr
+# @Filename: Grid.rb
+# @Last modified by:   checkam
+# @Last modified time: 05-Apr-2020
+
+
+
 ################################################################################
 # File: Grid.rb                                                                #
 # Project: Hashi                                                               #
@@ -16,7 +25,7 @@ require "yaml"
 ##
 # ===== Presentation
 # This class represents a hashi grid.
-# 
+#
 # ===== Variables
 # * +current+ - the grid that the user modifies
 # * +answer+ - the answer grid
@@ -65,7 +74,7 @@ class Grid
     # Return true if the grid is finished.
     #
     # ===== Return
-    # Return true if the grid is finished. 
+    # Return true if the grid is finished.
     # ---
     def finished?
         for i in 0..@current.size-1 do
@@ -90,7 +99,7 @@ class Grid
     # Return the number of error.
     #
     # ===== Return
-    # Return the number of error. 
+    # Return the number of error.
     # ---
     def check
         nbError = 0
@@ -112,7 +121,7 @@ class Grid
     # Return a copy of +current+ grid.
     #
     # ===== Return
-    # Return a copy of +current+ grid. 
+    # Return a copy of +current+ grid.
     # ---
     def getCurrentGrid
         return YAML.load(YAML.dump(@current))
@@ -178,7 +187,7 @@ class Grid
     # * +y2+ - Y coord of the second isle
     #
     # ===== Return
-    # Return true if the creation is successful 
+    # Return true if the creation is successful
     # ---
     def createBridge(x1, y1, x2, y2)
         # Check if the coord are valid
@@ -240,7 +249,7 @@ class Grid
             @current[coordsX[i]][coordsY[i]].setType(:simple)
             @current[coordsX[i]][coordsY[i]].setDirection(direction)
         end
-        
+
         return true
     end
 
@@ -255,7 +264,7 @@ class Grid
     # * +y2+ - Y coord of the second isle
     #
     # ===== Return
-    # Return true if the destruction is successful 
+    # Return true if the destruction is successful
     # ---
     def removeBridge(x1, y1, x2, y2)
         bridge = getBridgeCellCoord(x1, y1, x2, y2)
@@ -296,7 +305,7 @@ class Grid
         if(@current[x][y].type == :empty)
             return bridge
         end
-        
+
         # Update bridge
         if(@current[x][y].direction == :vertical)
             # get coord isle
@@ -465,7 +474,7 @@ class Grid
     #
     # ===== Return
     # Return an array grid
-    # --- 
+    # ---
     def strToGrid(strGrid)
         # Format of bridge
         #bridgeCh = /[a-d]/
@@ -485,21 +494,21 @@ class Grid
         size = args[0].split("x")
         row = size[0].to_i()
         col = size[1].to_i()
-        
+
         grid = Array.new(row){Array.new()}
-        
+
         i = 0
         j = 0
         args[1].split(//).each do |x|
             if(bridgeCh.include?(x))
                 if(x == bridgeCh[0])
-                    grid[i].push(BridgeCell.new(:vertical, :simple))
-                elsif(x == bridgeCh[1])
-                    grid[i].push(BridgeCell.new(:vertical, :double))
-                elsif(x == bridgeCh[2])
                     grid[i].push(BridgeCell.new(:horizontal, :simple))
-                else
+                elsif(x == bridgeCh[1])
                     grid[i].push(BridgeCell.new(:horizontal, :double))
+                elsif(x == bridgeCh[2])
+                    grid[i].push(BridgeCell.new(:vertical, :simple))
+                else
+                    grid[i].push(BridgeCell.new(:vertical, :double))
                 end
             elsif(x =~ digit)
                 grid[i].push(IsleCell.new(x.to_i()))
@@ -508,7 +517,7 @@ class Grid
             else #empty cell
                 grid[i].push(BridgeCell.new())
             end
-            
+
             j += 1
             if(j >= col)
                 j = 0
@@ -518,7 +527,7 @@ class Grid
                 end
             end
         end
-        
+
         return grid
     end
 
@@ -530,10 +539,10 @@ class Grid
     #
     # ===== Return
     # Return a current array grid
-    # --- 
+    # ---
     def answerToCurrent(answerGrid)
         grid = YAML.load(YAML.dump(answerGrid))
-        
+
         grid.each do |x|
             x.each do |y|
                 if(y.state == :bridge)
@@ -556,7 +565,7 @@ class Grid
     #
     # ===== Return
     # Return array with the coord
-    # --- 
+    # ---
     def getBridgeCellCoord(x1, y1, x2, y2)
         bridge = []
         if(x1 == x2)
