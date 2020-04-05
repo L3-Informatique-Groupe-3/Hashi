@@ -21,6 +21,7 @@ require_relative "./Chrono"
 #
 # ===== Methods
 # * +getTimer+ - Return the elapsed time since the begining of the game
+# * +addTime+ - Add time to the Timer
 # * +pause+ - Set the game in pause mode (pause the timer)
 # * +resume+ - Resume a game in pause
 # * +undo+ - Cancel the last action of the player
@@ -100,6 +101,19 @@ class Party
     def getTimer
         return @chrono.getTime()
         #return @chrono.to_s()
+    end
+
+    ##
+    # Add time to the Timer
+    #
+    # ===== Attributes
+    # * +secondNb+ - The time to add in second
+    # ===== Return
+    # return self
+    # ---
+    def addTime(secondNb)
+        @chrono.addTime(secondNb)
+        return self
     end
 
     ##

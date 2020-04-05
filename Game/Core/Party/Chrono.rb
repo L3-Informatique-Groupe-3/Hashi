@@ -4,7 +4,7 @@
 # File Created: Monday, 24th February 2020 11:00:27 am                         #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Monday, 16th March 2020 3:56:18 pm                            #
+# Last Modified: Sunday, 5th April 2020 3:33:17 pm                             #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -21,6 +21,7 @@
 # * +stop+ - Stop the chrono. (alias Chrono#pause)
 # * +reset+ - Reset the chrono
 # * +getTime+ - Return the total time which have been passing since the first chrono start
+# * +addTime+ - Add time to the total time
 ##
 class Chrono
     @totalDuration
@@ -88,6 +89,20 @@ class Chrono
         else
             return @totalDuration
         end
+    end
+
+    ##
+    # Add time to the total time
+    #
+    # ===== Attributes
+    # * +secondNb+ - The time to add in second
+    #
+    # ===== Return
+    # Return self
+    # ---
+    def addTime(secondNb)
+        @totalDuration += secondNb
+        return self
     end
 
     def to_s
