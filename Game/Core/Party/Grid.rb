@@ -107,7 +107,11 @@ class Grid
         for i in 0..@current.size-1 do
             for j in 0..@current[0].size-1 do
                 if(@current[i][j].state == :bridge)
-                    if(@answer[i][j].type == :empty && @current[i][j].type != @answer[i][j].type)
+                    if(@answer[i][j].type == :empty)
+                        if  @current[i][j].type != @answer[i][j].type
+                          nbError += 1
+                        end
+                    elsif @current[i][j].direction != @answer[i][j].direction
                         nbError += 1
                     end
                 end
