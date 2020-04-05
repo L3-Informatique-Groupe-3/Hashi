@@ -125,12 +125,17 @@ class GameScreen < Screen
     help=Button.new(label:"help", width: screen.width*0.1,height: screen.height*0.08)
     help.onClick(){
       # Display the help message
-
+      coordHelp = @game.getHelp
+      if coordHelp.empty? == false
+        @gridUi.getCellUi(coordHelp[0],coordHelp[1]).select
+      else
+        @helpResponseUi.updateLabel(@game.getHelpPlus)
+      end
     }
 
     helpMore=Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
     helpMore.onClick(){
-
+      @helpResponseUi.updateLabel(@game.getHelpPlus)
     }
 
 
@@ -158,8 +163,8 @@ class GameScreen < Screen
     helpBox.pack_start(helpMore.gtkObject, expand: true, fill: false, padding: 0)
 
     helpCheckBox=Gtk::Box.new(:horizontal)
-    helpCheckBox.pack_start(check.gtkObject, expand: true, fill: false, padding: 0)
-    helpCheckBox.pack_start(helpBox, expand: true, fill: false, padding: 0)
+    helpCheckBox.pack_start(check.gtkObject, expand: false, fill: false, padding: 20)
+    helpCheckBox.pack_start(helpBox, expand: false, fill: false, padding: 0)
 
 
     globalBox = Gtk::Box.new(:vertical)
@@ -168,17 +173,18 @@ class GameScreen < Screen
     globalBox.pack_start(guess.gtkObject, expand: true, fill: false, padding: 50)
     globalBox.pack_start(guessBox,expand: true, fill: false, padding: 10)
 
-    globalBox.pack_start(helpCheckBox, expand: true, fill: false, padding: 10)
-
     globalBoxH = Gtk::Box.new(:horizontal).add(globalBox)
-
     globalAli  = Gtk::Alignment.new(0.5, 0, 0, 0).add(globalBoxH)
-    helpCRAli  = Gtk::Alignment.new(0.5, 0, 0, 1 ).add(@helpResponseUi.gtkObject)
+
+
+    helpBoxGlobal = Gtk::Box.new(:vertical).add(helpCheckBox)
+    helpBoxGlobal.pack_start(@helpResponseUi.gtkObject, expand: true, fill: false, padding: 10)
+    helpCRAli = Gtk::Alignment.new(0.5, 0, 0, 1 ).add(helpBoxGlobal)
 
     leftBox = Gtk::Box.new(:vertical).add(undoRedoBox)
     leftBox.width_request=(screen.width*0.5)
     leftBox.height_request=(screen.height)
-    leftBox.add(@gridUi.gtkObject.set_margin_left(40))
+    leftBox.pack_start(@gridUi.gtkObject.set_margin_left(40), expand: true, fill: false, padding: 0)
     leftBoxA  = Gtk::Alignment.new(0.5, 0, 0, 0).add(leftBox)
 
     @gtkObject.attach(globalAli,3,4,1,2)
