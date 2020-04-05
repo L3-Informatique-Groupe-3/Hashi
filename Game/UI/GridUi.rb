@@ -225,6 +225,9 @@ class GridUi
 		end
 	end
 
+	def getCellUi(x,y)
+		return @cellsUi[x][y]
+	end
 
 	##
 	# Get game cell at row, col
