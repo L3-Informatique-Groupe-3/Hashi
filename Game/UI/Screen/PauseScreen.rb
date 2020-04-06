@@ -31,7 +31,7 @@ class PauseScreen < Screen
 
 
 
-  def initialize(win,gameScreen,uiManager)
+  def initialize(win,gameScreen,uiManager, saveAction: nil)
     # TO DO
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
@@ -61,6 +61,7 @@ class PauseScreen < Screen
     #Button to go back to main menu
     backToMenuButton = Button.new(label:"Main menu", width: screen.width*0.1,height: screen.height*0.08)
     backToMenuButton.onClick(){
+      saveAction.call if saveAction != nil
       uiManager.mainmenu.applyOn(win)
     }
 
