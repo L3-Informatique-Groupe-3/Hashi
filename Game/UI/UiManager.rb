@@ -37,7 +37,7 @@ class UiManager
           if(FreeMode.hasSave(:medium))
             getScreenFreeMode(:medium).applyOn(@win)
           else
-            game = Party.new("9x9:2c3-1-1c3a-b-a3d3b4d4-aa-a3a3dd5a-2a3a--b1-a3b3cc6dd4b3a--a-1a3a2c1a-a1a2c2c3c3c2")
+            game = Party.new("9x9:-1a3aa3a22a3c-1c-cc-d1-c1-c4b6bb4aa4c1aa2aa3d3aa2aa2d3c-2aa1c3cc-c1aa2c12a3a2aa2-")
             gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:medium, game)})
             gameScreen.applyOn(@win)
             gameScreen.run
