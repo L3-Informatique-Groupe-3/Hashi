@@ -27,14 +27,14 @@ class TutorialScreen < Screen
 
     @gtkObject
 
-    def initialize(win)
+    def initialize(win, uiManager)
 
         super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 
         screen=Gdk::Screen.default
 
-        mainMenu = MenuScreen.new(win)
+        mainMenuScreen = MenuScreen.new(win)
 
         @gtkObject = Gtk::Table.new(4,4)
 
@@ -125,7 +125,7 @@ class TutorialScreen < Screen
         backToMenuButton = Button.new(label:"Main menu", width: screen.width*0.1,height: screen.height*0.08)
         backToMenuButton.onClick(){
         #Do smth 
-            mainMenu.applyOn(win)
+            #A DECOMMENTER !!!!!!!!!!!! uiManager.mainMenuScreen.applyOn(win)
         }
 
         alignBoxPicture = Gtk::Alignment.new(0.5,0.3,0,0).add(boxPictureGlobal)
@@ -134,15 +134,19 @@ class TutorialScreen < Screen
         globalBox.pack_start(textTuto.gtkObject,expand: true, fill: false, padding: 10)
         globalBox.pack_start(alignBoxPicture,expand: true, fill: false, padding: 10)
 
+        mainMenu = Gtk::Box.new(:vertical)
+        mainMenu.add(backToMenuButton.gtkObject)
+
         boxLeft = Gtk::Alignment.new(0,0.5,0,0).add(previousButton.gtkObject)
         boxRight = Gtk::Alignment.new(1,0.5,0,0).add(nextButton.gtkObject)
 
         menuAli  = Gtk::Alignment.new(0.5, 0.3, 0, 0).add(globalBox)
-        #menuAli2  = Gtk::Alignment.new(0.95, 0.5, 0, 0).add(nextButton.gtkObject)
+        menuAli2  = Gtk::Alignment.new(0.05, 0.95, 0, 0).add(mainMenu)
 
         @gtkObject.attach(menuAli,0,1,0,4)
+        @gtkObject.attach(menuAli2,0,1,0,4)
         @gtkObject.attach(boxLeft,0,1,0,4)
         @gtkObject.attach(boxRight,0,1,0,4)
-    
+        @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
     end
 end
