@@ -1,20 +1,21 @@
+
 require_relative "../Grid.rb"
+################################################################################
+# File: IsleCellInfo.rb                                                         #
+# Project: Hashi                                                                #
+# File Created: Friday, 27th march 2020 11:00:27 am                             #
+# Author: Lemaitre Pierre                                                       #
+# -----                                                                         #
+# Last Modified: Friday, 27th march 2020 11:00:27 am                            #
+# Modified By: Lemaitre Pierre                                                  #
+################################################################################
 
 
-################################################################################
-# File: IsleCellInfo.rb                                                                #
-# Project: Hashi                                                               #
-# File Created: Friday, 27th march 2020 11:00:27 am                         #
-# Author: Lemaitre Pierre                                                   #
-# -----                                                                        #
-# Last Modified: Sunday, 5th April 2020 3:45:41 pm                             #
-# Modified By: <jashbin>Galbrun J                                              #
-################################################################################
 
 ##
 # ===== Presentation
 #   This class give more info about an island, these info can be used by other class
-# 
+#
 # ===== Variables
 # * +x+ - x coordonate of the cell
 # * +y+ - y coordonate of the cell
@@ -32,7 +33,7 @@ require_relative "../Grid.rb"
 # * +nbPontDroite+ - The number of bridge linked to the island at the right (0,1 or 2)
 # * +nbPontCumul+ - The total number of bridge that is linked to the island
 # * +valIle+ - The value of the island
-# 
+#
 #  ===== Methods
 # * +to_s+ - Return the display of the info form the island
 # * +nombreDeVoisinUn+ - Return the number of neighboor with a value of 1
@@ -76,17 +77,17 @@ class IsleCellInfo
         @ileBas = nil
         @ileGauche = nil
         @ileDroite = nil
-        
+
         @estCoin = false
         @estBord = false
-        
+
         @nbVoisins = 0
-        
+
         @nbPontBas = 0
         @nbPontHaut = 0
         @nbPontGauche = 0
         @nbPontDroite = 0
-        
+
         if( (x == 0 || x == (grille.getRows - 1)) && ( y==0 || y == (grille.getCols - 1)))
             @estCoin = true
         elsif (x == 0 || x == (grille.getRows - 1 ) || y==0 || y == (grille.getCols - 1))
@@ -96,10 +97,10 @@ class IsleCellInfo
 
         #Localisation ile haut
         i=1
-        while((x-i)>=0 && grille.getCell(x-i,y).getState != :isle)
+        while((x-i)>=0 && grille.getCell(x-i,y).getState != :isle && !(grille.getCell(x-i,y).getState == :bridge && grille.getCell(x-i,y).getBridgeNumber>0 && grille.getCell(x-i,y).getDirection == :horizontal))
             i+=1
         end
-        if((x-i)>=0)
+        if((x-i)>=0 && grille.getCell(x-i,y).getState == :isle)
             @ileHaut = grille.getCell(x-i,y)
             @nbVoisins += 1
             @nbPontHaut += grille.getCell(x-1,y).getBridgeNumber if (grille.getCell(x-1,y).getState == :bridge && grille.getCell(x-1,y).getDirection == :vertical)
@@ -107,10 +108,10 @@ class IsleCellInfo
 
         #Localisation ile bas
         i=1
-        while((x+i)<grille.getRows && grille.getCell(x+i,y).getState != :isle)
+        while((x+i)<grille.getRows && grille.getCell(x+i,y).getState != :isle && !(grille.getCell(x+i,y).getState == :bridge && grille.getCell(x+i,y).getBridgeNumber>0 && grille.getCell(x+i,y).getDirection == :horizontal))
             i+=1
         end
-        if((x+i)<grille.getRows)
+        if((x+i)<grille.getRows && grille.getCell(x+i,y).getState == :isle)
             @ileBas = grille.getCell(x+i,y)
             @nbVoisins += 1
             @nbPontBas += grille.getCell(x+1,y).getBridgeNumber if (grille.getCell(x+1,y).getState == :bridge && grille.getCell(x+1,y).getDirection == :vertical)
@@ -118,10 +119,10 @@ class IsleCellInfo
 
         #Localisation ile gauche
         i=1
-        while((y-i)>=0 && grille.getCell(x,y-i).getState != :isle)
+        while((y-i)>=0 && grille.getCell(x,y-i).getState != :isle && !(grille.getCell(x,y-i).getState == :bridge && grille.getCell(x,y-i).getBridgeNumber>0 && grille.getCell(x,y-i).getDirection == :vertical))
             i+=1
         end
-        if((y-i)>=0)
+        if((y-i)>=0  && grille.getCell(x,y-i).getState == :isle)
             @ileGauche = grille.getCell(x,y-i)
             @nbVoisins += 1
             @nbPontGauche += grille.getCell(x,y-1).getBridgeNumber if (grille.getCell(x,y-1).getState == :bridge && grille.getCell(x,y-1).getDirection == :horizontal)
@@ -129,10 +130,10 @@ class IsleCellInfo
 
         #Localisation ile droite
         i=1
-        while((y+i)<grille.getCols && grille.getCell(x,y+i).getState != :isle)
+        while((y+i)<grille.getCols && grille.getCell(x,y+i).getState != :isle && !(grille.getCell(x,y+i).getState == :bridge && grille.getCell(x,y+i).getBridgeNumber>0 && grille.getCell(x,y+i).getDirection == :vertical))
             i+=1
         end
-        if((y+i)<grille.getCols)
+        if((y+i)<grille.getCols && grille.getCell(x,y+i).getState == :isle)
             @ileDroite = grille.getCell(x,y+i)
             @nbVoisins += 1
             @nbPontDroite += grille.getCell(x,y+1).getBridgeNumber if (grille.getCell(x,y+1).getState == :bridge && grille.getCell(x,y+1).getDirection == :horizontal)
@@ -153,10 +154,10 @@ class IsleCellInfo
         infos = "Ile de coordonées [" + @x.to_s + "," + @y.to_s + "] avec pour valeur : " + @ile.getBridgeNumber().to_s + "\n"
         infos += "C'est un coin\n" if @estCoin
         infos += "C'est un bord\n" if @estBord
-        infos += "Elle à une ile au dessus de valeur : " + @ileHaut.getBridgeNumber().to_s + " et "+ @nbPontHaut.to_s + " ponts\n" if @ileHaut != nil 
-        infos += "Elle à une ile au dessous de valeur : " + @ileBas.getBridgeNumber().to_s + " et "+ @nbPontBas.to_s + " ponts\n" if @ileBas != nil 
-        infos += "Elle à une ile à gauche de valeur : " + @ileGauche.getBridgeNumber().to_s + " et "+ @nbPontGauche.to_s + " ponts\n" if @ileGauche != nil 
-        infos += "Elle à une ile à droite de valeur : " + @ileDroite.getBridgeNumber().to_s + " et "+ @nbPontDroite.to_s + " ponts\n" if @ileDroite != nil 
+        infos += "Elle à une ile au dessus de valeur : " + @ileHaut.getBridgeNumber().to_s + " et "+ @nbPontHaut.to_s + " ponts\n" if @ileHaut != nil
+        infos += "Elle à une ile au dessous de valeur : " + @ileBas.getBridgeNumber().to_s + " et "+ @nbPontBas.to_s + " ponts\n" if @ileBas != nil
+        infos += "Elle à une ile à gauche de valeur : " + @ileGauche.getBridgeNumber().to_s + " et "+ @nbPontGauche.to_s + " ponts\n" if @ileGauche != nil
+        infos += "Elle à une ile à droite de valeur : " + @ileDroite.getBridgeNumber().to_s + " et "+ @nbPontDroite.to_s + " ponts\n" if @ileDroite != nil
         return infos;
     end
 
