@@ -31,7 +31,7 @@ class Titre < Text
       }
       table=Gtk::Table.new(1,1)
 
-      table.attach(@eventBox, 0, 1, 0, 1)
+      table.attach(@textBox, 0, 1, 0, 1)
       table.attach(underText.gtkObject, 0, 1, 0, 1 )
       @gtkObject.add(table)
     end

@@ -18,19 +18,19 @@ class MenuScreen < Screen
         @gtkObject = Gtk::Table.new(4,4)
         screen=Gdk::Screen.default
 
-        menuTitle=Titre.new(label:title, width:screen.width*0.2, height:screen.height*0.05)
+        menuTitle=Titre.new(label:title)
 
-        b1=Button.new(label:button1, width: screen.width*0.1,height: screen.height*0.08)
+        b1=Button.new(label:button1)
         b1.onClick(){
           buttonAction1.call if buttonAction1 != nil
         }
 
-        b2=Button.new(label:button2, width: screen.width*0.1,height: screen.height*0.08)
+        b2=Button.new(label:button2)
         b2.onClick(){
           buttonAction2.call if buttonAction2 != nil
         }
 
-        b3=Button.new(label:button3, width: screen.width*0.1,height: screen.height*0.08)
+        b3=Button.new(label:button3)
         b3.onClick(){
           buttonAction3.call if buttonAction3 != nil
         }
