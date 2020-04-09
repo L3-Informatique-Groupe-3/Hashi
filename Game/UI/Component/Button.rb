@@ -5,7 +5,7 @@
 # @Last modified by:   clément
 # @Last modified time: 6-Mar-2020
 
-require File.dirname(__FILE__) + "/../Component/Text"
+require File.dirname(__FILE__) + "/Text"
 require_relative "../Click"
 
 
@@ -28,17 +28,61 @@ class Button < Text
   # * +image+ -
   #-------------------------------------------------
   def initialize(label: "",size: Constants::BUTTON_SIZE,padding: 10, image: nil, imageFocus: nil, width: nil, height: nil)
-    super(label: label,size: size,padding: padding,width: width, height: height)
+    super(label:label,size:size,padding:padding)
+    @gtkObject.each { |child|
+      @gtkObject.remove(child)
+    }
+    @eventBox = Gtk::EventBox.new
+    @gtkTable = Gtk::Table.new(1,1)
+    @gtkObject.add(@eventBox)
+    @eventBox.add(@gtkTable)
+
+    @imageBox = Gtk::Alignment.new(0.5, 0.5, 0, 0)
+    @imageAlignment = Gtk::Box.new(:vertical).add(@imageBox)
+
+    center = Gtk::Alignment.new(0.5, 0.5, 0, 0).add(@textBox)
+    @gtkTable.attach(center,0,1,0,1)
+    @gtkTable.attach(@imageAlignment,0,1,0,1)
+
     if image != nil
       @image = Asset.new(image)
-      @image.resize(40,40)
-      @image.applyOn(@eventBox)
+      @image.applyOn(@imageBox)
     end
+
     if imageFocus != nil
       @imageFocus = Asset.new(image)
-      @imageFocus.resize(40,40)
+      @imageFocus.applyOn(@imageBox)
     end
+
+
+    if width != nil && height != nil
+      setBackgroundSize(width,height)
+    end
+
+
     setBackground(1,1,1,1)
+    apply
+
+    @eventBox.signal_connect("enter_notify_event") { |widget, event|
+      @gtkObject.window.set_cursor(Click::CURSORIN) unless @gtkObject.window == nil
+      if @label != ""
+        @color="orange"
+      end
+      if @imageFocus != nil
+        @imageFocus.applyOn(@imageBox)
+      end
+      apply
+    }
+    @eventBox.signal_connect("leave_notify_event") { |widget, event|
+      @gtkObject.window.set_cursor(Click::CURSOROUT) unless @gtkObject.window == nil
+      if @label != ""
+        @color="black"
+      end
+      if @image != nil
+        @image.applyOn(@imageBox)
+      end
+      apply
+    }
   end
 
 
@@ -50,30 +94,12 @@ class Button < Text
   #-------------------------------------------------
   def onClick(block=nil)
     temp=@color
-    @eventBox.signal_connect("enter_notify_event") { |widget, event|
-      @eventBox.window.set_cursor(Click::CURSORIN) unless @eventBox.window == nil
-      if @label != ""
-        @color="orange"
-      elsif @imageFocus != nil
-        @imageFocus.applyOn(@eventBox)
-      end
-      apply
-    }
-    @eventBox.signal_connect("leave_notify_event") { |widget, event|
-      @eventBox.window.set_cursor(Click::CURSOROUT) unless @eventBox.window == nil
-      if @label != ""
-        @color=temp
-      elsif @image != nil
-        @image.applyOn(@eventBox)
-      end
-      apply
-    }
-    @eventBox.signal_connect("button_release_event") { |_, event|
+    @gtkObject.signal_connect("button_release_event") { |_, event|
       if event.button==Click::LEFT
         Thread.new{
           sleep(0.5)
-          if  !@eventBox.mapped?
-            @eventBox.window.set_cursor(Click::CURSOROUT) unless @eventBox.window == nil
+          if  !@gtkObject.mapped?
+            @gtkObject.window.set_cursor(Click::CURSOROUT) unless @gtkObject.window == nil
             @color=temp
             apply
           end
@@ -84,10 +110,35 @@ class Button < Text
     self
   end
 
-  def setPicture(image2)
-    @image = Asset.new(image2)
-    @image.resize(40,40)
-    @image.applyOn(@eventBox)
-end
+  def setBackgroundSize(width,height)
+    super(width,height)
+    @imageBox.set_size_request(width,height)
+    self
+  end
+
+  def setBackground(r,g,b,a)
+    super(r,g,b,a) if @image == nil
+    @imageAlignment.override_background_color(:normal,Gdk::RGBA.new(r,g,b,a))
+    self
+  end
+
+  def resizeImage(width,height)
+    if @image != nil
+      @image.resize(width,height)
+      @image.applyOn(@imageBox)
+    end
+  end
+
+  def resizeImageFocus(width,height)
+    if @imageFocus != nil
+      @imageFocus.resize(width,height)
+      @imageFocus.applyOn(@imageBox)
+    end
+  end
+
+  def setPicture(image)
+    @image = Asset.new(image)
+    @image.applyOn(@gtkObject)
+  end
 
 end
