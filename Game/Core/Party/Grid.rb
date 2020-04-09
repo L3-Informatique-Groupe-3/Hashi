@@ -86,7 +86,7 @@ class Grid
                     if(@current[i][j].type != @answer[i][j].type)
                         return false
                     end
-                    if(@current[i][j].direction != @answer[i][j].direction)
+                    if(@answer[i][j].type != :empty && @current[i][j].direction != @answer[i][j].direction)
                         return false
                     end
                 end
