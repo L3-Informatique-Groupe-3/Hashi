@@ -51,7 +51,6 @@ class VictoryScreen < Screen
             game.restart
             gameScreen = GameScreen.new(win,game,uiManager)
             gameScreen.applyOn(win)
-            gameScreen.run
         }
 
         #creation du bouton suivant
