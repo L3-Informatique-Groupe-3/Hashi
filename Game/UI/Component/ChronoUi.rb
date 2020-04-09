@@ -33,7 +33,9 @@ class ChronoUi < Text
     @color="black"
     @weight="normal"
     @style="normal"
-		setBackground(1, 1, 1, 1)
+		screen=Gdk::Screen.default
+		setBackground(1,1,1,1)
+		setBackgroundSize(screen.width*0.2,screen.height*0.08)
 		apply
 	end
 
