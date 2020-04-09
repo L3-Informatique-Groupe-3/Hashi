@@ -36,6 +36,8 @@ class GameScreen < Screen
   @helpResponseUi
   @chronoUi
 
+  attr_reader :gridUi
+
   ##
 	# The class' constructor.
 	#
@@ -63,10 +65,11 @@ class GameScreen < Screen
     buttonWidth = screen.width*0.3
     pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 
-    guess=Text.new(label:"Guess",width:screen.width*0.2, height:screen.height*0.05)
+    guess=Text.new(label:"Guess",width:screen.width*0.2, height:screen.height*0.08)
     guess.setBackground(1,1,1,1)
 
     newGuess=Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
+    newGuess.resizeImage(40,40)
     newGuess.onClick(){
       # Create new game guess
       @game.newHypothesis
@@ -74,6 +77,7 @@ class GameScreen < Screen
     }
 
     validateGuess=Button.new(image:pathAssets + "Button/validate.png", width: screen.width*0.1,height: screen.height*0.08)
+    validateGuess.resizeImage(40,40)
     validateGuess.onClick(){
       # Validate game guess
       @game.validateHypothesis
@@ -81,6 +85,7 @@ class GameScreen < Screen
     }
 
     removeGuess=Button.new(image:pathAssets + "Button/cancel.png", width: screen.width*0.1,height: screen.height*0.08)
+    removeGuess.resizeImage(40,40)
     removeGuess.onClick(){
       # Remove game guess
       @game.refuteHypothesis
@@ -92,6 +97,7 @@ class GameScreen < Screen
     #  ======== Pause
     pause=Button.new(image:pathAssets + "Button/pause.png", width: screen.width*0.1,height: screen.height*0.07)
     pause.setMarginBottom(10)
+    pause.resizeImage(40,40)
     pause.onClick(){
         @game.pause
         @pauseScreen.applyOn(win)
@@ -99,12 +105,14 @@ class GameScreen < Screen
 
     undoButton=Button.new(image:pathAssets + "Button/undo.png", width: screen.width*0.1,height: screen.height*0.07)
     undoButton.setMarginBottom(10)
+    undoButton.resizeImage(40,40)
     undoButton.onClick(){
       @game.undo
       @gridUi.refresh
     }
 
     redoButton=Button.new(image:pathAssets + "Button/redo.png", width: screen.width*0.1,height: screen.height*0.07)
+    redoButton.resizeImage(40,40)
     redoButton.setMarginBottom(10)
     redoButton.onClick(){
       @game.redo
@@ -158,14 +166,10 @@ class GameScreen < Screen
     guessBox.pack_start(removeGuess.gtkObject, expand: true, fill: false, padding: 10)
     guessBox.pack_start(validateGuess.gtkObject, expand: true, fill: false, padding: 10)
 
-
-    helpBox=Gtk::Box.new(:horizontal)
-    helpBox.pack_start(help.gtkObject, expand: true, fill: false, padding: 0)
-    helpBox.pack_start(helpMore.gtkObject, expand: true, fill: false, padding: 0)
-
     helpCheckBox=Gtk::Box.new(:horizontal)
-    helpCheckBox.pack_start(check.gtkObject, expand: false, fill: false, padding: 20)
-    helpCheckBox.pack_start(helpBox, expand: false, fill: false, padding: 0)
+    helpCheckBox.pack_start(check.gtkObject, expand: false, fill: false, padding: 10)
+    helpCheckBox.pack_start(help.gtkObject, expand: true, fill: false, padding: 10)
+    helpCheckBox.pack_start(helpMore.gtkObject, expand: true, fill: false, padding: 10)
 
 
     globalBox = Gtk::Box.new(:vertical)
@@ -192,7 +196,6 @@ class GameScreen < Screen
     @gtkObject.attach(helpCRAli,2,4,2,3)
     @gtkObject.attach(leftBoxA, 0, 1, 0, 3)
     @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
-
     run
   end
 
