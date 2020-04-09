@@ -34,8 +34,7 @@ class Test
   		@win.title = "Hashi"
 
   		@win.signal_connect('destroy') {
-  			Gtk.main_quitopp
-				exit
+  			Gtk.main_quit
   		}
   		@win.override_background_color(:normal,Gdk::RGBA.new(0.1, 0.6, 1, 1))
   		@win.show_all
