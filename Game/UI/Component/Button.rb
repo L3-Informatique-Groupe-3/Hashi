@@ -44,16 +44,11 @@ class Button < Text
     @gtkTable.attach(center,0,1,0,1)
     @gtkTable.attach(@imageAlignment,0,1,0,1)
 
-    if image != nil
+    if image != nil && imageFocus != nil
       @image = Asset.new(image)
+      @imageFocus = Asset.new(imageFocus)
       @image.applyOn(@imageBox)
     end
-
-    if imageFocus != nil
-      @imageFocus = Asset.new(imageFocus)
-      @imageFocus.applyOn(@imageBox)
-    end
-
 
     if width != nil && height != nil
       setBackgroundSize(width,height)
@@ -64,7 +59,7 @@ class Button < Text
     apply
 
     @eventBox.signal_connect("enter_notify_event") { |widget, event|
-      @gtkObject.window.set_cursor(Click::CURSORIN) unless @gtkObject.window == nil
+      @eventBox.window.set_cursor(Click::CURSORIN) unless @eventBox.window == nil
       if @label != ""
         @color="orange"
       end
@@ -74,7 +69,7 @@ class Button < Text
       apply
     }
     @eventBox.signal_connect("leave_notify_event") { |widget, event|
-      @gtkObject.window.set_cursor(Click::CURSOROUT) unless @gtkObject.window == nil
+      @eventBox.window.set_cursor(Click::CURSOROUT) unless @eventBox.window == nil
       if @label != ""
         @color="black"
       end
@@ -132,7 +127,6 @@ class Button < Text
   def resizeImageFocus(width,height)
     if @imageFocus != nil
       @imageFocus.resize(width,height)
-      @imageFocus.applyOn(@imageBox)
     end
   end
 
