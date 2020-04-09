@@ -7,7 +7,7 @@
 
 
 class UiManager
-  attr_reader :cellAssets, :aventureScreen, :rankScreen, :libreScreen, :mainmenu
+  attr_reader :cellAssets, :adventureScreen, :rankScreen, :libreScreen, :mainmenu
 
   def initialize(win)
 
@@ -15,7 +15,7 @@ class UiManager
 
     # Generation des ecrans de jeu
 
-    @aventureScreen=AdventureScreen.new(@win,self)
+    @adventureScreen=AdventureScreen.new(@win,self)
     @rankScreen=RankScreen.new(@win,self)
     @libreScreen=MenuScreen.new(
         window: @win,
@@ -28,9 +28,8 @@ class UiManager
               getScreenFreeMode(:easy).applyOn(@win)
             else
               game = Party.new("7x7:-3a3aa31d2c-2dcddc-d3c2d3a3c3a3c--cc--c1a22aa3a1-")
-              gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:easy, game)})
+              gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:easy, game)}, victoryAction: lambda{FreeMode.delete(:easy)} )
               gameScreen.applyOn(@win)
-              gameScreen.run
             end
         },
         buttonAction2: lambda {
@@ -38,9 +37,8 @@ class UiManager
             getScreenFreeMode(:medium).applyOn(@win)
           else
             game = Party.new("9x9:-1a3aa3a22a3c-1c-cc-d1-c1-c4b6bb4aa4c1aa2aa3d3aa2aa2d3c-2aa1c3cc-c1aa2c12a3a2aa2-")
-            gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:medium, game)})
+            gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:medium, game)}, victoryAction: lambda{FreeMode.delete(:medium)} )
             gameScreen.applyOn(@win)
-            gameScreen.run
           end
          },
         buttonAction3: lambda {
@@ -48,9 +46,8 @@ class UiManager
             getScreenFreeMode(:difficult).applyOn(@win)
           else
             game = Party.new("13x13:2aa2a2a2aa1--c2aa2a2aa4bb42c-3a2aa1c--dc2-d1aa2a4aa4cc-4a3bb2c--c2c-c3bb5b7b2ccc-cc--c-d--cc2a4c1a4a7bb4c--d2a2c-d--c2aa6a1cc-5b4c---d--c2-c-dc1aa4aa2c-c-d1-1aa2aa2-2a3-")
-            gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:difficult, game)})
+            gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:difficult, game)}, victoryAction: lambda{FreeMode.delete(:difficult)} )
             gameScreen.applyOn(@win)
-            gameScreen.run
           end
         },
         uiManager: self,
@@ -63,7 +60,7 @@ class UiManager
       button1: "Aventure",
       button2: "Libre",
       button3: "Classé",
-      buttonAction1: lambda { @aventureScreen.applyOn(@win) },
+      buttonAction1: lambda { AdventureSaveScreen.new(@win,self).applyOn(@win) },
       buttonAction2: lambda {	@libreScreen.applyOn(@win) },
       buttonAction3: lambda { @rankScreen.applyOn(@win) },
       uiManager: self,
@@ -79,8 +76,7 @@ class UiManager
       buttonAction1: lambda { @gamemode.applyOn(@win) },
       buttonAction2: lambda {	puts "Didacticiel" },
       buttonAction3: lambda {
-        Gtk.main_quitopp
-        exit
+        @win.destroy
       },
     )
 
@@ -95,19 +91,17 @@ class UiManager
     return LoadSaveScreen.new(
       window: @win,
       uiManager: self,
-      loadButtonAction: lambda { 
+      loadButtonAction: lambda {
         game = FreeMode.loadSave(mode)
-        gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(mode, game)})
+        gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(mode, game)}, victoryAction: lambda{FreeMode.delete(mode)} )
         game.resume
         gameScreen.applyOn(@win)
-        gameScreen.run
       },
-      restartButtonAction: lambda { 
+      restartButtonAction: lambda {
         game = FreeMode.loadSave(mode)
         game.restart
-        gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(mode, game)})
+        gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(mode, game)}, victoryAction: lambda{FreeMode.delete(mode)} )
         gameScreen.applyOn(@win)
-        gameScreen.run
       },
       backButtonAction: lambda { @libreScreen.applyOn(@win) }
     )

@@ -45,11 +45,12 @@ class GameScreen < Screen
   # * +cellAssets+ -
   # * +victoryScreen+ -
   # -----------------------------------
-  def initialize(win,game,uiManager,saveAction:nil)
+  def initialize(win,game,uiManager,saveAction:nil,victoryAction:nil)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
     @win = win
     @game = game
+    @victoryAction = victoryAction
     @uiManager = uiManager
     cellAssets=CellAssets.new(@game.getRows, @game.getCols)
     @gridUi=GridUi.new(cellAssets,@game, self)
@@ -192,6 +193,7 @@ class GameScreen < Screen
     @gtkObject.attach(leftBoxA, 0, 1, 0, 3)
     @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
 
+    run
   end
 
   ##
@@ -207,6 +209,7 @@ class GameScreen < Screen
   end
 
   def showVictoryScreen
+    @victoryAction.call if @victoryAction != nil
     @victoryScreen = VictoryScreen.new(@win, @game, @uiManager)
     @victoryScreen.applyOn(@win)
   end
