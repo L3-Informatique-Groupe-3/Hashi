@@ -4,8 +4,8 @@
 # File Created: Friday, 27th march 2020 11:00:27 am                         #
 # Author: Lemaitre Pierre                                                   #
 # -----                                                                        #
-# Last Modified: Friday, 27th march 2020 11:00:27 am                          #
-# Modified By: Lemaitre Pierre                                              #
+# Last Modified: Thursday, 9th April 2020 6:36:21 pm                           #
+# Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
 ##
@@ -25,7 +25,7 @@ class Help61
     # ---
     def Help61.aide(lIlesAide)
         for ile in lIlesAide
-            if (ile.valIle == 6 && ile.nbVoisins == 4 && ile.nbPontCumul < 6 && conditionVerif(ile))
+            if (ile.valIle == 6 && ile.nbVoisins == 4 && ile.nbPontCumul < 6 && Help61.conditionVerif(ile))
                 return [[ile.x,ile.y],"Vous pouvez relier les cellules qui ne sont pas le 1"]
             end
         end
@@ -38,7 +38,7 @@ class Help61
     # ===== Return
     # return true if it's verifie, else return false
     # ---
-    def conditionVerif(ile)
+    def Help61.conditionVerif(ile)
         if(   (ile.ileHaut.bridgeNumber == 1 && ile.nbPontBas < 1 && ile.nbPontGauche < 1 && ile.nbPontDroite < 1)\
             ||(ile.ileBas.bridgeNumber == 1 && ile.nbPontHaut < 1 && ile.nbPontGauche < 1 && ile.nbPontDroite < 1)\
             ||(ile.ileGauche.bridgeNumber == 1 && ile.nbPontBas < 1 && ile.nbPontHaut < 1 && ile.nbPontDroite < 1)\
