@@ -47,10 +47,7 @@ class Button < Text
     if image != nil && imageFocus != nil
       @image = Asset.new(image)
       @imageFocus = Asset.new(imageFocus)
-<<<<<<< HEAD
       @image.applyOn(@imageBox)
-=======
->>>>>>> 0f44145a4fb0ba2c605f82e1f957f97018b89d9f
     end
 
     if width != nil && height != nil
