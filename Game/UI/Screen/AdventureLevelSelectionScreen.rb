@@ -22,6 +22,7 @@ require_relative "./Screen"
 require_relative "../Component/Titre"
 require_relative "../Component/Button"
 require_relative "../AssetsClass/Asset"
+require_relative "../../Core/FreeMode"
 
 ##
 # ===== Presentation
@@ -39,7 +40,7 @@ class AdventureLevelSelectionScreen < Screen
 	# ===== Attributes
     # * +win+ -
     # -----------------------------------
-    def initialize(window:win, uiManager:nil)
+    def initialize(window:win, uiManager:nil,save: nil, countryNumber: 0)
         super(window,"/../../../Assets/Backgrounds/fond-naturel.png")
 
         screen=Gdk::Screen.default
@@ -50,19 +51,33 @@ class AdventureLevelSelectionScreen < Screen
 
         # Levels
         list = Gtk::Box.new(:vertical)
-        (1..30).each { |levelNumber|
+        (1..5).each { |levelNumber|
+						info = save.loadGame(countryNumber * 100 + levelNumber)
+
             levelBox = Gtk::Box.new(:horizontal)
             levelButton = Button.new(label:"Niveau " + levelNumber.to_s, width:screen.width*0.7, height:screen.height*0.05)
             levelButton.onClick(){
-                #TODO
-                #uiManager.game.applyOn(window)
+								game = Party.new(info[0])
+								gameScreen = GameScreen.new(window,game,uiManager,victoryAction:
+									lambda{
+										save.loadGame(countryNumber * 100 + levelNumber)
+									 	save.completeMap
+									})
+								gameScreen.applyOn(window)
             }
 
             levelCheckBox = Gtk::Box.new(:horizontal)
-            levelCheck = Asset.new(pathAssets + "Button/validate.png")
-            levelCheck.resize(screen.height * 0.05, screen.height * 0.05)
-            levelCheck.applyOn(levelCheckBox)
+						assetsButton = "Button/cancel.png"
 
+						if !save.isLocked(countryNumber * 100 + levelNumber)
+								assetsButton = "Button/validate.png"
+						elsif save.isLocked(countryNumber * 100 + levelNumber)
+								assetsButton = "Button/cancel.png"
+						end
+
+						levelCheck = Asset.new(pathAssets + assetsButton)
+						levelCheck.resize(screen.height * 0.05, screen.height * 0.05)
+						levelCheck.applyOn(levelCheckBox)
 
             levelBox.pack_start(levelButton.gtkObject, expand: false, fill: false, padding: 10)
             levelBox.pack_start(levelCheckBox, expand: false, fill: false, padding: 10)
@@ -84,7 +99,7 @@ class AdventureLevelSelectionScreen < Screen
         #Button to go back to main menu
         backToButton = Button.new(label:"Retour à la carte", width: screen.width*0.1,height: screen.height*0.08, size: 20)
         backToButton.onClick(){
-            uiManager.aventureScreen.applyOn(window)
+            uiManager.adventureScreen.applyOn(window)
         }
 
         # Layout
