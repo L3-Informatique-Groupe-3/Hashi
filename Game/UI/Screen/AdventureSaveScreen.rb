@@ -19,9 +19,20 @@ class AdventureSaveScreen < Screen
     screen=Gdk::Screen.default
     @gtkObject = Gtk::Table.new(1,1)
 
-    save1 = Button.new(label: "Sauvegarde 1",image: pathAssets + "ShapeButton/save.png", imageFocus: pathAssets + "ShapeButton/saveGlow.png", width: screen.width*0.3, height: screen.height*0.3)
-    save2 = Button.new(label: "Sauvegarde 2",image: pathAssets + "ShapeButton/save.png", imageFocus: pathAssets + "ShapeButton/saveGlow.png", width: screen.width*0.3, height: screen.height*0.3)
-    save3 = Button.new(label: "Sauvegarde 3",image: pathAssets + "ShapeButton/save.png", imageFocus: pathAssets + "ShapeButton/saveGlow.png", width: screen.width*0.3, height: screen.height*0.3)
+    width = screen.width*0.4
+    height = screen.height*0.3
+
+    save1 = Button.new(label: "Sauvegarde 1",image: pathAssets + "ShapeButton/save.png", imageFocus: pathAssets + "ShapeButton/saveGlow.png", width: width, height: height)
+    save2 = Button.new(label: "Sauvegarde 2",image: pathAssets + "ShapeButton/save.png", imageFocus: pathAssets + "ShapeButton/saveGlow.png", width: width, height: height)
+    save3 = Button.new(label: "Sauvegarde 3",image: pathAssets + "ShapeButton/save.png", imageFocus: pathAssets + "ShapeButton/saveGlow.png", width: width, height: height)
+
+    save1.resizeImage(width,height)
+    save2.resizeImage(width,height)
+    save3.resizeImage(width,height)
+
+    save1.resizeImageFocus(width,height)
+    save2.resizeImageFocus(width,height)
+    save3.resizeImageFocus(width,height)
 
     save1.onClick{
       uiManager.adventureScreen.setSave(Save.access(1))
