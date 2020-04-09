@@ -33,7 +33,6 @@ require File.dirname(__FILE__) + "/../Constants"
 class Text
   @label
   @gtkObject
-  @eventBox
   @size
   @font
   @color
@@ -56,9 +55,7 @@ class Text
   #-------------------------------------------------
   def initialize(label: "",size: Constants::TEXT_SIZE ,padding: 10, width: nil, height: nil)
     @label=label
-    @gtkObject=Gtk::Alignment.new(0.5, 0.2, 0, 0)
-    @eventBox = Gtk::EventBox.new
-    @eventBox.border_width=0
+    @gtkObject=Gtk::Alignment.new(0.5, 0.5, 0, 0)
     @size=size
     @font="Arial"
     @color="black"
@@ -67,12 +64,15 @@ class Text
     @textBox = Gtk::Label.new(@label)
     @padding=padding
     @textBox.use_markup = true
-    @textBox.set_margin(@padding)
-    apply
-    @gtkObject.add(@eventBox.add(@textBox))
+    @textBox.set_margin_bottom(@padding)
+    @textBox.set_margin_top(@padding)
+    @textBox.set_margin_right(@padding)
+    @textBox.set_margin_left(@padding)
+    @gtkObject.add(@textBox)
     if width != nil && height != nil
-      @eventBox.set_size_request(width,height)
+      setBackgroundSize(width,height)
     end
+    apply
   end
 
   ##
@@ -94,8 +94,8 @@ class Text
   # * +a+ - Value between 0-1 for opacity
   #-------------------------------------------------
   def setBackground(r,g,b,a)
-    @eventBox.override_background_color(:normal,Gdk::RGBA.new(r,g,b,a))
-    @eventBox.show_all
+    @textBox.override_background_color(:normal,Gdk::RGBA.new(r,g,b,a))
+    self
   end
 
   ##
@@ -116,7 +116,7 @@ class Text
   # * +height+ - height in pixel
   #-------------------------------------------------
   def setBackgroundSize(width,height)
-    @eventBox.set_size_request(width,height)
+    @textBox.set_size_request(width,height)
     self
   end
 
@@ -125,7 +125,7 @@ class Text
   # * +size+ - size of the margin
   #-------------------------------------------------
   def setMarginBottom(size)
-    @eventBox.set_margin_bottom(size)
+    @textBox.set_margin_bottom(size)
     self
   end
 
