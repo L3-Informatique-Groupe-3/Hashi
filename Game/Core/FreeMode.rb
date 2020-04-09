@@ -13,7 +13,7 @@ require 'fileutils'
 
 ##
 # ===== Presentation
-# 
+#
 # ===== Variables
 # * +variableName+ - description
 # ===== Methods
@@ -41,7 +41,7 @@ class FreeMode
     def FreeMode.loadSave(mode)
         if(FreeMode.hasSave(mode))
             file_data = File.read(@@filePath[mode])
-            
+
             return YAML.load(file_data)
         end
 
@@ -50,9 +50,14 @@ class FreeMode
 
     def FreeMode.save(mode, party)
         if(@@filePath.has_key?(mode) && party != nil)
-            File.open(@@filePath[mode], "w") { |f| f.write YAML.dump(party) }
+            f = File.open(@@filePath[mode], "w") { |f| f.write YAML.dump(party) }
+            f.close unless f.nil? or f.closed?
             return true
         end
         return false
+    end
+
+    def FreeMode.delete(mode)
+      File.delete(@@filePath[mode]) if File.exists?  @@filePath[mode]
     end
 end
