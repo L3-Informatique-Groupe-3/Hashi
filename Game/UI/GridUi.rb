@@ -130,15 +130,11 @@ class GridUi
 	# Activate or desactivate tracer
 	# @return tracer value (boolean)
 	# -----------------------------------
-	def toogleTracer
-		case @tracer
-		when true
-			@tracer = false
-		when false
-			@tracer = true
-		end
-		@tracer
+	def setTracer(bool)
+		@tracer = bool
 	end
+
+
 
 	##
 	# Return true if tracer is activate else false
@@ -284,6 +280,9 @@ class GridUi
 		elsif clickdefined?
 			@game.createBridge(@first.x,@first.y, @last.x, @last.y)
 		end
+
+		@game.grid.affGrid(0)
+		@game.grid.affGrid(1)
 
 		if @game.finished? == true
 			@gameScreen.showVictoryScreen
