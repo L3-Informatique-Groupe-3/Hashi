@@ -51,7 +51,6 @@ class Button < Text
 
     if imageFocus != nil
       @imageFocus = Asset.new(imageFocus)
-      @imageFocus.applyOn(@imageBox)
     end
 
 
