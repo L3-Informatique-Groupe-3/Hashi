@@ -11,6 +11,7 @@ require 'gtk3'
 require File.dirname(__FILE__) + "/Screen"
 require File.dirname(__FILE__) + "/../GridUi"
 require File.dirname(__FILE__) + "/../AssetsClass/Asset"
+require File.dirname(__FILE__) + "/../Constants"
 
 ##
 # ===== Presentation
@@ -43,7 +44,7 @@ class PauseScreen < Screen
     pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 
     #Unpause button to find
-    unpauseButton = Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
+    unpauseButton = Button.new(label: "Reprendre", width: screen.width*0.1,height: screen.height*0.08)
     unpauseButton.onClick(){
 
       gameScreen.resume()
@@ -51,7 +52,7 @@ class PauseScreen < Screen
     }
 
     #Restart button (level)
-    restartButton = Button.new(label:"Restart", width: screen.width*0.1,height: screen.height*0.08)
+    restartButton = Button.new(label:"Recommencer", width: screen.width*0.1,height: screen.height*0.08)
     restartButton.onClick(){
 
       gameScreen.restart()
@@ -59,56 +60,56 @@ class PauseScreen < Screen
     }
 
     #Button to go back to main menu
-    backToMenuButton = Button.new(label:"Main menu", width: screen.width*0.1,height: screen.height*0.08)
-    backToMenuButton.onClick(){
+    backButton = Button.new(label:"Menu Principal", width: screen.width*0.1,height: screen.height*0.08, size: 20)
+    backButton.onClick(){
       saveAction.call if saveAction != nil
       uiManager.mainmenu.applyOn(win)
     }
 
-    validate=0
-    #Button to able/disable the tracing help
-    tracingHelp = Button.new(image:pathAssets + "Button/validate.png", width: screen.width*0.1,height: screen.height*0.1)
-    tracingHelp.onClick(){
-      if validate == 0
-        tracingHelp.setPicture(pathAssets + "Button/cancel.png")
-        validate = 1
-      elsif validate == 1
-        tracingHelp.setPicture(pathAssets + "Button/validate.png")
-        validate = 0
-      end
-    }
 
     #Box horizontal for the text
     #Tracing help enable/disable
-    textTrace = Text.new(label:"Aide au tracé activé/désactivé",width:screen.width*0.2, height:screen.height*0.05)
+    textTrace = Text.new(label:"Aide au tracé",width:screen.width*0.2, height:screen.height*0.1)
     textTrace.setBackground(1,1,1,1)
 
     boxTrace = Gtk::Box.new(:horizontal)
 
-    boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
+    #Button to able/disable the tracing help
+    tracingEnable = Button.new(label: "Activé", width: screen.width*0.1,height:screen.height*0.08, size: Constants::TEXT_SIZE)
+    tracingEnable.resizeImage(40,40)
+    tracingEnable.onClick(){
+      gameScreen.gridUi.setTracer(true)
+    }
 
+    tracingDisable = Button.new(label: "Désactivé", width: screen.width*0.1,height:screen.height*0.08, size: Constants::TEXT_SIZE)
+    tracingDisable.resizeImage(40,40)
+    tracingDisable.onClick(){
+      gameScreen.gridUi.setTracer(false)
+    }
+
+
+    boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
+    boxTrace.pack_start(tracingEnable.gtkObject,expand: true, fill: false, padding: 10)
+    boxTrace.pack_start(tracingDisable.gtkObject,expand: true, fill: false, padding: 10)
     #Title of the window
-    pause=Text.new(label:"Game paused",width:screen.width*0.5, height:screen.height*0.05)
-    pause.setBackground(1,1,1,1)
+    pause=Titre.new(label:"Game paused")
 
     #Box concerning label and pause/unpause buttons
     globalBox = Gtk::Box.new(:vertical)
     globalBox.pack_start(pause.gtkObject,expand: true, fill: false, padding: 10)
     globalBox.pack_start(unpauseButton.gtkObject,expand: false, fill: false, padding: 10)
     globalBox.pack_start(restartButton.gtkObject,expand: false, fill: false, padding: 10)
-    globalBox.pack_start(tracingHelp.gtkObject,expand: false, fill: false, padding: 10)
     globalBox.add(boxTrace)
 
     globalBoxH = Gtk::Box.new(:horizontal).add(globalBox)
     globalAli  = Gtk::Alignment.new(0.5, 0, 0, 0).add(globalBoxH)
 
     #Box concerning the main menu
-    menuBox = Gtk::Box.new(:vertical)
-    menuBox.add(backToMenuButton.gtkObject)
-    menuBoxH = Gtk::Box.new(:horizontal).add(menuBox)
+    menuBoxH = Gtk::Box.new(:horizontal)
     menuBoxH.add(boxTrace)
     menuAli  = Gtk::Alignment.new(0.05, 0.95, 0, 0).add(menuBoxH)
 
+    @gtkObject.attach( Gtk::Alignment.new(0.05, 0.95, 0, 0).add(backButton.gtkObject),0,4,0,4)
     @gtkObject.attach(menuAli,0,1,0,4)
     @gtkObject.attach(globalAli,0,4,0,4)
     @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
