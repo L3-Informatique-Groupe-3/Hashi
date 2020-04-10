@@ -48,9 +48,9 @@ class TutorialScreen < Screen
         image3 = "Tutorial/pic4.png"
 
         pageManager = PageManager.new()
-        pageManager.addComponent(TutorialComponent.new(label:text1))
-        pageManager.addComponent(TutorialComponent.new(label:text2))
-        pageManager.addComponent(TutorialComponent.new(label:text3))
+        pageManager.addComponent(TutorialComponent.new(label:text1,image1: image0,image2: image1))
+        pageManager.addComponent(TutorialComponent.new(label:text2,image1: image1,image2: image2))
+        pageManager.addComponent(TutorialComponent.new(label:text3,image1: image2,image2: image3))
         pageManager.showFirst()
 
         #Button to go back to main menu
@@ -59,12 +59,8 @@ class TutorialScreen < Screen
         #Do smth
           uiManager.mainmenu.applyOn(win)
         }
-
-        globalBox = Gtk::Box.new(:vertical)
-        globalBox.pack_start(pageManager.gtkObject,expand: true, fill: false, padding: 10)
-
         @gtkObject.attach(Gtk::Alignment.new(0.05, 0.95, 0, 0).add(backToMenuButton.gtkObject),0,4,0,4)
-        @gtkObject.attach(globalBox,0,4,0,4)
+        @gtkObject.attach(pageManager.gtkObject,0,4,0,4)
         @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
     end
 end
