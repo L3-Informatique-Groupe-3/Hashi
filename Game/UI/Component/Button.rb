@@ -44,10 +44,14 @@ class Button < Text
     @gtkTable.attach(center,0,1,0,1)
     @gtkTable.attach(@imageAlignment,0,1,0,1)
 
-    if image != nil && imageFocus != nil
+    if image != nil
       @image = Asset.new(image)
-      @imageFocus = Asset.new(imageFocus)
+
       @image.applyOn(@imageBox)
+    end
+
+    if imageFocus != nil
+      @imageFocus = Asset.new(imageFocus)
     end
 
     if width != nil && height != nil
