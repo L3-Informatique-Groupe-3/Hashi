@@ -92,7 +92,7 @@ class PauseScreen < Screen
     boxTrace.pack_start(tracingEnable.gtkObject,expand: true, fill: false, padding: 10)
     boxTrace.pack_start(tracingDisable.gtkObject,expand: true, fill: false, padding: 10)
     #Title of the window
-    pause=Titre.new(label:"Game paused")
+    pause=Titre.new(label:"Pause")
 
     #Box concerning label and pause/unpause buttons
     globalBox = Gtk::Box.new(:vertical)
