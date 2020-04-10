@@ -3,17 +3,20 @@
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: UiManager.rb
 # @Last modified by:   checkam
-# @Last modified time: 03-Apr-2020
+# @Last modified time: 10-Apr-2020
 
 
 class UiManager
-  attr_reader :cellAssets, :adventureScreen, :rankScreen, :libreScreen, :mainmenu
+  attr_reader :cellAssets, :adventureScreen, :rankScreen, :libreScreen, :mainmenu, :tutoScreen, :collecScreen
 
   def initialize(win)
 
     @win = win
 
     # Generation des ecrans de jeu
+
+    @tutoScreen = TutorialScreen.new(@win, self)
+    @collecScreen = TechnicCollection.new(@win, self)
 
     @adventureScreen=AdventureScreen.new(@win,self)
     @rankScreen=RankScreen.new(@win,self)
@@ -54,6 +57,18 @@ class UiManager
         haveBackButton: true,
       )
 
+    @tutorialmenu = MenuScreen.new(
+      window: @win,
+      title: "Didacticiel",
+      button1: "Liste de technique",
+      button2: "Apprendre a jouer",
+      buttonAction1: lambda { @collecScreen.applyOn(@win) },
+      buttonAction2: lambda {	@tutoScreen.applyOn(@win) },
+      uiManager: self,
+      haveBackButton: true,
+    )
+
+
     @gamemode = MenuScreen.new(
       window: @win,
       title: "Modes de Jeu",
@@ -74,7 +89,7 @@ class UiManager
       button2: "Didacticiel",
       button3: "Quitter",
       buttonAction1: lambda { @gamemode.applyOn(@win) },
-      buttonAction2: lambda {	puts "Didacticiel" },
+      buttonAction2: lambda {	@tutorialmenu.applyOn(@win)},
       buttonAction3: lambda {
         @win.destroy
       },
