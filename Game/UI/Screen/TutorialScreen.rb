@@ -13,10 +13,10 @@ require_relative File.dirname(__FILE__) + "/../AssetsClass/Asset"
 
 ##
 # ===== Presentation
-#   TutorialScreen is a class that displays the interface of the tutorial 
+#   TutorialScreen is a class that displays the interface of the tutorial
 #
 # ===== Variables
-#    
+#
 #   @gtkObject
 #
 # ===== Methods
@@ -33,120 +33,38 @@ class TutorialScreen < Screen
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 
         screen=Gdk::Screen.default
-
-        mainMenuScreen = MenuScreen.new(win)
-
         @gtkObject = Gtk::Table.new(4,4)
 
-        compteur = 0
+        text1 = "Pour tracer un lien entre 2 îles il faut faire un \nDrag'n drop en partant d'une île et en lachant quand \non arrive sur l'autre."
+        text2 = "Pour tracer un second lien entre 2 îles il suffit de cliquer sur le lien déjà existant."
+        text3 = "Pour supprimer une liaison entre 2 îles il faut cliquer sur un double lien."
 
-        textTuto = Text.new(label: "Pour tracer un lien entre 2 îles il faut faire un \n Drag'n drop en partant d'une île et en lachant quand \n on arrive sur l'autre.", width:screen.width*0.2, height:screen.height*0.05)
-        image0 = Asset.new(pathAssets + "Tutorial/pic1.png")
+        image0 = "Tutorial/pic1.png"
         #image0.resize(500,500)
-        image1 = Asset.new(pathAssets + "Tutorial/pic2.png")
+        image1 = "Tutorial/pic2.png"
         #image1.resize(500,500)
-        image2 = Asset.new(pathAssets + "Tutorial/pic3.png")
+        image2 = "Tutorial/pic3.png"
         #image2.resize(500,500)
-        image3 = Asset.new(pathAssets + "Tutorial/pic4.png")
-        boxPicture = Gtk::Box.new(:horizontal)
-        boxPicture2 = Gtk::Box.new(:horizontal)
-        boxPictureGlobal= Gtk::Box.new(:horizontal)
+        image3 = "Tutorial/pic4.png"
 
-        image0.applyOn(boxPicture)
-        image1.applyOn(boxPicture2)
-        boxPictureGlobal.add(boxPicture)
-        boxPictureGlobal.add(boxPicture2)
-
-        #Button to go back to previous window
-        previousButton=Button.new(image:pathAssets + "Button/undo.png", width: screen.width*0.1,height: screen.height*0.08)
-        previousButton.onClick(){
-            # Create screen's changement
-            # TO DO
-
-            compteur -= 1
-
-            if compteur < 0
-                compteur += 1 
-            end
-            
-            case compteur
-            when 0
-                #Display screen with pic 0
-                textTuto.updateLabel("Pour tracer un lien entre 2 îles il faut faire un \nDrag'n drop en partant d'une île et en lachant quand \non arrive sur l'autre.")
-                image0.applyOn(boxPicture)
-                image1.applyOn(boxPicture2)
-                boxPictureGlobal.add(boxPicture)
-                boxPictureGlobal.add(boxPicture2)
-                
-            when 1 
-                #Display screen with pic 1
-                textTuto.updateLabel("Pour tracer un second lien entre 2 îles il suffit de cliquer sur le lien déjà existant.")
-                image1.applyOn(boxPicture)
-                image2.applyOn(boxPicture2)
-                boxPictureGlobal.add(boxPicture)
-                boxPictureGlobal.add(boxPicture2)
-            end
-
-        }
-
-        #Button to go to the next window
-        nextButton=Button.new(image:pathAssets + "Button/redo.png", width: screen.width*0.1,height: screen.height*0.08)
-        nextButton.onClick(){
-            # Create screen's changement
-            # TO DO
-
-            compteur += 1
-            
-            if compteur > 2
-                compteur -= 1
-            end
-            
-            case compteur
-            when 1 
-                #Display screen with pic 1
-                textTuto.updateLabel("Pour tracer un second lien entre 2 îles il suffit de cliquer sur le lien déjà existant.")
-                image1.applyOn(boxPicture)
-                image2.applyOn(boxPicture2)
-                boxPictureGlobal.add(boxPicture)
-                boxPictureGlobal.add(boxPicture2)           
-            when 2
-                #Display screen with picture 2
-                textTuto.updateLabel("Pour supprimer une liaison entre 2 îles il faut cliquer sur un double lien.")
-                image2.applyOn(boxPicture)
-                image3.applyOn(boxPicture2)
-                boxPictureGlobal.add(boxPicture)
-                boxPictureGlobal.add(boxPicture2)
-            
-            end
-            
-        }
+        pageManager = PageManager.new()
+        pageManager.addComponent(TutorialComponent.new(label:text1))
+        pageManager.addComponent(TutorialComponent.new(label:text2))
+        pageManager.addComponent(TutorialComponent.new(label:text3))
+        pageManager.showFirst()
 
         #Button to go back to main menu
-        backToMenuButton = Button.new(label:"Main menu", width: screen.width*0.1,height: screen.height*0.08)
+        backToMenuButton = Button.new(label:"Menu Principal", width: screen.width*0.1,height: screen.height*0.08, size: 20)
         backToMenuButton.onClick(){
-        #Do smth 
-            #A DECOMMENTER !!!!!!!!!!!! uiManager.mainMenuScreen.applyOn(win)
+        #Do smth
+          uiManager.mainmenu.applyOn(win)
         }
 
-        alignBoxPicture = Gtk::Alignment.new(0.5,0.3,0,0).add(boxPictureGlobal)
-
         globalBox = Gtk::Box.new(:vertical)
-        globalBox.pack_start(textTuto.gtkObject,expand: true, fill: false, padding: 10)
-        globalBox.pack_start(alignBoxPicture,expand: true, fill: false, padding: 10)
+        globalBox.pack_start(pageManager.gtkObject,expand: true, fill: false, padding: 10)
 
-        mainMenu = Gtk::Box.new(:vertical)
-        mainMenu.add(backToMenuButton.gtkObject)
-
-        boxLeft = Gtk::Alignment.new(0,0.5,0,0).add(previousButton.gtkObject)
-        boxRight = Gtk::Alignment.new(1,0.5,0,0).add(nextButton.gtkObject)
-
-        menuAli  = Gtk::Alignment.new(0.5, 0.3, 0, 0).add(globalBox)
-        menuAli2  = Gtk::Alignment.new(0.05, 0.95, 0, 0).add(mainMenu)
-
-        @gtkObject.attach(menuAli,0,1,0,4)
-        @gtkObject.attach(menuAli2,0,1,0,4)
-        @gtkObject.attach(boxLeft,0,1,0,4)
-        @gtkObject.attach(boxRight,0,1,0,4)
+        @gtkObject.attach(Gtk::Alignment.new(0.05, 0.95, 0, 0).add(backToMenuButton.gtkObject),0,4,0,4)
+        @gtkObject.attach(globalBox,0,4,0,4)
         @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
     end
 end
