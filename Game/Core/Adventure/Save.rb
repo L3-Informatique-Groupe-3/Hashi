@@ -22,6 +22,7 @@ class Save
 	attr_reader :currentMap
 	attr_reader :progressArea
 	attr_reader :map
+	attr_reader :idSave
 
 	#== Builder
 

@@ -13,7 +13,7 @@
 # File Created: Friday, 3rd April 2020 4:15:35 pm                              #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Saturday, 4th April 2020 3:44:01 pm                           #
+# Last Modified: Friday, 10th April 2020 4:05:54 pm                            #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -22,7 +22,7 @@ require_relative "./Screen"
 require_relative "../Component/Titre"
 require_relative "../Component/Button"
 require_relative "../AssetsClass/Asset"
-require_relative "../../Core/FreeMode"
+require_relative "../../Core/Adventure/AdventureSave"
 
 ##
 # ===== Presentation
@@ -33,7 +33,7 @@ require_relative "../../Core/FreeMode"
 # * +myMethod+ - description
 ##
 class AdventureLevelSelectionScreen < Screen
-
+  
     ##
 	# The class' constructor.
 	#
@@ -42,28 +42,63 @@ class AdventureLevelSelectionScreen < Screen
     # -----------------------------------
     def initialize(window:win, uiManager:nil,save: nil, countryNumber: 0)
         super(window,"/../../../Assets/Backgrounds/fond-naturel.png")
-
+    
         screen=Gdk::Screen.default
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
         @gtkObject = Gtk::Table.new(4,4)
 
         selectionTitle=Titre.new(label: "Sélection du niveau", width:screen.width*0.2, height:screen.height*0.05)
-
+    
         # Levels
         list = Gtk::Box.new(:vertical)
         (1..5).each { |levelNumber|
 						info = save.loadGame(countryNumber * 100 + levelNumber)
+            filePath = AdventureSave.getFilePath(save.idSave, countryNumber, levelNumber)
 
             levelBox = Gtk::Box.new(:horizontal)
             levelButton = Button.new(label:"Niveau " + levelNumber.to_s, width:screen.width*0.7, height:screen.height*0.05)
             levelButton.onClick(){
-								game = Party.new(info[0])
-								gameScreen = GameScreen.new(window,game,uiManager,victoryAction:
-									lambda{
-										save.loadGame(countryNumber * 100 + levelNumber)
-									 	save.completeMap
-									})
-								gameScreen.applyOn(window)
+                if(AdventureSave.hasSave(filePath))
+                  LoadSaveScreen.new(
+                    window: window,
+                    uiManager: uiManager,
+                    loadButtonAction: lambda {
+                      game = AdventureSave.loadSave(filePath)
+                      gameScreen = GameScreen.new(window,game,uiManager,
+                        saveAction: lambda{AdventureSave.save(filePath, game)},
+                        victoryAction: lambda{
+                          save.loadGame(countryNumber * 100 + levelNumber)
+                          save.completeMap
+                          AdventureSave.delete(filePath) 
+                        })
+                      game.resume
+                      gameScreen.applyOn(window)
+                    },
+                    restartButtonAction: lambda {
+                      game = AdventureSave.loadSave(filePath)
+                      game.restart
+                      gameScreen = GameScreen.new(window,game,uiManager,
+                        saveAction: lambda{AdventureSave.save(filePath, game)},
+                        victoryAction: lambda{
+                          save.loadGame(countryNumber * 100 + levelNumber)
+                          save.completeMap
+                          AdventureSave.delete(filePath) 
+                        })
+                      gameScreen.applyOn(window)
+                    },
+                    backButtonAction: lambda { self.applyOn(window) }
+                  ).applyOn(window)
+                else
+                  game = Party.new(info[0])
+                  gameScreen = GameScreen.new(window,game,uiManager,
+                    saveAction: lambda{AdventureSave.save(filePath, game)},
+                    victoryAction: lambda{
+                      save.loadGame(countryNumber * 100 + levelNumber)
+                      save.completeMap
+                      AdventureSave.delete(filePath) 
+                    })
+                  gameScreen.applyOn(window)
+                end
             }
 
             levelCheckBox = Gtk::Box.new(:horizontal)
