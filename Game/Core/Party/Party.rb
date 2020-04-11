@@ -70,6 +70,20 @@ class Party
     end
 
     ##
+    # Return if the isle cell has the correct bridge connected number.
+    #
+    # ===== Attributes
+    # * +x+ - X cell coordonate 
+    # * +y+ - Y cell coordonate 
+    #
+    # ===== Return
+    # Return if the isle cell has the correct bridge connected number.
+    # ---
+    def isleCellCompleted?(x, y)
+        return @grid.isleCellCompleted?(x, y)
+    end
+
+    ##
     # Get a help
     #
     # ===== Return

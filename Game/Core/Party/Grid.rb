@@ -13,13 +13,14 @@
 # File Created: Monday, 24th February 2020 11:00:27 am                         #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Wednesday, 18th March 2020 4:23:37 pm                         #
+# Last Modified: Saturday, 11th April 2020 6:22:04 pm                          #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
 require_relative "./ObstacleCell"
 require_relative "./IsleCell"
 require_relative "./BridgeCell"
+require_relative "aides/IsleCellInfo"
 require "yaml"
 
 ##
@@ -45,6 +46,7 @@ require "yaml"
 # * +getCols+ - Return the number of cols
 # * +finished?+ - Return true if the grid is finished
 # * +check+ - Return the number of error
+# * +isleCellCompleted?+ - Return if the isle cell has the correct bridge connected number
 ##
 class Grid
     @current
@@ -119,6 +121,33 @@ class Grid
         end
 
         return nbError
+    end
+
+    ##
+    # Return if the isle cell has the correct bridge connected number.
+    #
+    # ===== Attributes
+    # * +x+ - X cell coordonate 
+    # * +y+ - Y cell coordonate 
+    #
+    # ===== Return
+    # Return if the isle cell has the correct bridge connected number.
+    # ---
+    def isleCellCompleted?(x, y)
+        # Check if the coord are valid
+        if(x >= @current.size || x < 0 || y >= @current[0].size || y < 0)
+            return false
+        end
+
+        # Check if the cell is an isle
+        if(@current[x][y].state != :isle)
+            return false
+        end
+
+        infosCell = IsleCellInfo.new(x, y, self)
+        nbConnectedBridge = infosCell.nbPontBas + infosCell.nbPontHaut + infosCell.nbPontGauche + infosCell.nbPontDroite
+
+        return (@current[x][y].bridgeNumber == nbConnectedBridge)
     end
 
     ##
