@@ -30,7 +30,7 @@ class UiManager
             if(FreeMode.hasSave(:easy))
               getScreenFreeMode(:easy).applyOn(@win)
             else
-              game = Party.new("7x7:-3a3aa31d2c-2dcddc-d3c2d3a3c3a3c--cc--c1a22aa3a1-")
+              game = Party.new(FreeMode.getNewGrid(:easy))
               gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:easy, game)}, victoryAction: lambda{FreeMode.delete(:easy)} )
               gameScreen.applyOn(@win)
             end
@@ -39,7 +39,7 @@ class UiManager
           if(FreeMode.hasSave(:medium))
             getScreenFreeMode(:medium).applyOn(@win)
           else
-            game = Party.new("9x9:-1a3aa3a22a3c-1c-cc-d1-c1-c4b6bb4aa4c1aa2aa3d3aa2aa2d3c-2aa1c3cc-c1aa2c12a3a2aa2-")
+            game = Party.new(FreeMode.getNewGrid(:medium))
             gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:medium, game)}, victoryAction: lambda{FreeMode.delete(:medium)} )
             gameScreen.applyOn(@win)
           end
@@ -48,7 +48,7 @@ class UiManager
           if(FreeMode.hasSave(:difficult))
             getScreenFreeMode(:difficult).applyOn(@win)
           else
-            game = Party.new("13x13:2aa2a2a2aa1--c2aa2a2aa4bb42c-3a2aa1c--dc2-d1aa2a4aa4cc-4a3bb2c--c2c-c3bb5b7b2ccc-cc--c-d--cc2a4c1a4a7bb4c--d2a2c-d--c2aa6a1cc-5b4c---d--c2-c-dc1aa4aa2c-c-d1-1aa2aa2-2a3-")
+            game = Party.new(FreeMode.getNewGrid(:difficult))
             gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:difficult, game)}, victoryAction: lambda{FreeMode.delete(:difficult)} )
             gameScreen.applyOn(@win)
           end

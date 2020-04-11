@@ -4,7 +4,7 @@
 # File Created: Monday, 6th April 2020 2:16:35 pm                              #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Thursday, 9th April 2020 6:25:41 pm                           #
+# Last Modified: Saturday, 11th April 2020 5:39:51 pm                          #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -26,6 +26,14 @@ class FreeMode
         @@mode[1] => "freeMode/medium",
         @@mode[2] => "freeMode/difficult"
     }
+
+    @@gridPath = {
+        @@mode[0] => File.expand_path('../../Assets/Files/Grid/Easy', File.dirname(__FILE__)),
+        @@mode[1] => File.expand_path('../../Assets/Files/Grid/Medium', File.dirname(__FILE__)),
+        @@mode[2] => File.expand_path('../../Assets/Files/Grid/Difficult', File.dirname(__FILE__))
+    }
+
+    @@grids = Hash.new
 
     def FreeMode.hasSave(mode)
         if(@@filePath.has_key?(mode))
@@ -53,5 +61,23 @@ class FreeMode
         if(@@filePath.has_key?(mode))
             SaveObject.delete(@@filePath[mode])
         end
+    end
+
+    def FreeMode.getNewGrid(mode)
+        if(! @@grids.has_key?(mode))
+            @@grids[mode] = FreeMode.getGrids(mode)
+        end
+
+        randLine = Random::DEFAULT.rand(@@grids[mode].size)
+
+        return @@grids[mode][randLine]
+    end
+
+    def FreeMode.getGrids(mode)
+        file = File.open(@@gridPath[mode])
+        grids = file.readlines.map(&:chomp)
+        file.close
+
+        return grids
     end
 end
