@@ -7,7 +7,7 @@
 
 
 class UiManager
-  attr_reader :cellAssets, :adventureScreen, :rankScreen, :libreScreen, :mainmenu, :tutoScreen, :collecScreen
+  attr_reader :cellAssets, :adventureScreen, :rankScreen, :libreScreen, :mainmenu, :tutoScreen, :collecScreen, :gamemode
 
   def initialize(win)
 
