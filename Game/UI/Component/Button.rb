@@ -39,6 +39,7 @@ class Button < Text
 
     @imageBox = Gtk::Alignment.new(0.5, 0.5, 0, 0)
     @imageAlignment = Gtk::Box.new(:vertical).add(@imageBox)
+    @focusActive = true
 
     center = Gtk::Alignment.new(0.5, 0.5, 0, 0).add(@textBox)
     @gtkTable.attach(center,0,1,0,1)
@@ -64,21 +65,25 @@ class Button < Text
 
     @eventBox.signal_connect("enter_notify_event") { |widget, event|
       @eventBox.window.set_cursor(Click::CURSORIN) unless @eventBox.window == nil
-      if @label != ""
-        @color="orange"
-      end
-      if @imageFocus != nil
-        @imageFocus.applyOn(@imageBox)
+      if @focusActive == true
+        if @label != ""
+          @color="orange"
+        end
+        if @imageFocus != nil
+          @imageFocus.applyOn(@imageBox)
+        end
       end
       apply
     }
     @eventBox.signal_connect("leave_notify_event") { |widget, event|
       @eventBox.window.set_cursor(Click::CURSOROUT) unless @eventBox.window == nil
-      if @label != ""
-        @color="black"
-      end
-      if @image != nil
-        @image.applyOn(@imageBox)
+      if @focusActive == true
+        if @label != ""
+          @color="black"
+        end
+        if @image != nil
+          @image.applyOn(@imageBox)
+        end
       end
       apply
     }
@@ -137,6 +142,10 @@ class Button < Text
   def setPicture(image)
     @image = Asset.new(image)
     @image.applyOn(@gtkObject)
+  end
+
+  def setFocusActive(bool)
+    @focusActive = bool
   end
 
 end

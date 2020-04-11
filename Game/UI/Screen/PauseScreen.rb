@@ -77,16 +77,33 @@ class PauseScreen < Screen
     #Button to able/disable the tracing help
     tracingEnable = Button.new(label: "Activé", width: screen.width*0.1,height:screen.height*0.08, size: Constants::TEXT_SIZE)
     tracingEnable.resizeImage(40,40)
-    tracingEnable.onClick(){
-      gameScreen.gridUi.setTracer(true)
-    }
+    tracingEnable.setFocusActive(false)
+    if gameScreen.gridUi.tracerActive?
+      tracingEnable.colorChange("green")
+    else
+      tracingEnable.colorChange("red")
+    end
+
 
     tracingDisable = Button.new(label: "Désactivé", width: screen.width*0.1,height:screen.height*0.08, size: Constants::TEXT_SIZE)
     tracingDisable.resizeImage(40,40)
+    tracingDisable.setFocusActive(false)
+    if gameScreen.gridUi.tracerActive?
+      tracingDisable.colorChange("red")
+    else
+      tracingDisable.colorChange("green")
+    end
+
     tracingDisable.onClick(){
       gameScreen.gridUi.setTracer(false)
+      tracingEnable.colorChange("red")
+      tracingDisable.colorChange("green")
     }
-
+    tracingEnable.onClick(){
+      gameScreen.gridUi.setTracer(true)
+      tracingEnable.colorChange("green")
+      tracingDisable.colorChange("red")
+    }
 
     boxTrace.pack_start(textTrace.gtkObject,expand: true, fill: false, padding: 10)
     boxTrace.pack_start(tracingEnable.gtkObject,expand: true, fill: false, padding: 10)
