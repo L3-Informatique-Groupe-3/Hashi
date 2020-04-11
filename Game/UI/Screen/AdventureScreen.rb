@@ -27,8 +27,7 @@ class AdventureScreen < Screen
     @gtkObject.attach( Gtk::Alignment.new(0.05, 0.95, 0, 0).add(backToMenuButton.gtkObject),0,4,0,4)
 
     @countryButton = Hash.new
-    # @countryButton["groenland"] = ButtonShape.new(shape: pathAssets + "ShapeButton/groenland.png", width: screen.width, height: screen.height)
-    # @countryButton["afrique"] = ButtonShape.new(shape: pathAssets + "ShapeButton/afrique.png", width: screen.width, height: screen.height)
+    @countryButton["afrique"] = ButtonShape.new(shape: pathAssets + "ShapeButton/afrique.png", width: screen.width, height: screen.height)
     @countryButton["amerique_sud"] = ButtonShape.new(shape: pathAssets + "ShapeButton/amerique_sud.png", width: screen.width, height: screen.height)
     @countryButton["asie"] = ButtonShape.new(shape: pathAssets + "ShapeButton/asie.png", width: screen.width, height: screen.height)
     @countryButton["europe"] = ButtonShape.new(shape: pathAssets + "ShapeButton/europe.png", width: screen.width, height: screen.height)

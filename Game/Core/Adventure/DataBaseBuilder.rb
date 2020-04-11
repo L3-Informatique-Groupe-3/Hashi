@@ -33,7 +33,7 @@ if !File.exist?(dbAventure)
 		);
 	SQL
 	for k in 1..3
-		for i in 1..5
+		for i in 1..6
 			for j in 1..5
 				currentIdMap = i*100+j
 				#Récupération de la composition de la grille
