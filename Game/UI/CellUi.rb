@@ -70,6 +70,8 @@ class CellUi
 		@gtkObject = Gtk::EventBox.new
 		@gtkTable = Gtk::Table.new(1,1)
 		@gtkObject.add(@gtkTable)
+		@imageFinish = Gtk::Box.new(:vertical)
+		@gtkTable.attach(@imageFinish,0,1,0,1)
 		if getCoreCell.state == :isle
 			applyText(getCoreCell.bridgeNumber.to_s)
 		end
@@ -162,6 +164,11 @@ class CellUi
 					end
 			when :isle
 				normalAsset = @cellAssets.cellAssetSelected(:isle)
+				if @gridUI.game.isleCellCompleted?(@x,@y) == true
+					@cellAssets.cellAssetSelected(:isleFull).applyOn(@imageFinish)
+				else
+					@cellAssets.cellAssetSelected(:transparent).applyOn(@imageFinish)
+				end
 			when :obstacle
 				normalAsset = @cellAssets.cellAssetSelected(:empty)
 		end
@@ -209,6 +216,11 @@ class CellUi
 							end
 					when :isle
 							normalAsset = @cellAssets.cellAsset(:isle)
+							if @gridUI.game.isleCellCompleted?(@x,@y) == true
+								@cellAssets.cellAsset(:isleFull).applyOn(@imageFinish)
+							else
+								@cellAssets.cellAsset(:transparent).applyOn(@imageFinish)
+							end
 					when :obstacle
 							normalAsset = @cellAssets.cellAsset(:empty)
 				end

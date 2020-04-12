@@ -53,6 +53,8 @@ class CellAssets
 				},
 			},
 			isle: CellAsset.new(pathToAssets+"ring.png",nRows,nCols),
+			isleFull: CellAsset.new(pathToAssets+"ringFull.png",nRows,nCols),
+			transparent: CellAsset.new(pathToAssets+"transparent.png",nRows,nCols),
 		}
 
 		@cellAssetsSelected = {
@@ -72,6 +74,8 @@ class CellAssets
 				},
 			},
 			isle: CellAsset.new(pathToAssets+"ringSelected.png",nRows,nCols),
+			isleFull: CellAsset.new(pathToAssets+"ringFull.png",nRows,nCols),
+			transparent: CellAsset.new(pathToAssets+"transparent.png",nRows,nCols),
 		}
 	end
 
