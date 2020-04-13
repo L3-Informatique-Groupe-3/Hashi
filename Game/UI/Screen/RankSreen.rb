@@ -155,7 +155,8 @@ class RankScreen < Screen
                 listScore.attach(timeText.gtkObject, 2, i, 1, 1)
             }
         else
-            nothingText = Text.new(label: "Pas de classement pour le niveau " + level.to_s, width:screen.width*0.24, height:screen.height*0.54,padding: 0)
+            nothingText = Text.new(label: "Pas de classement pour le niveau " + level.to_s, width:screen.width*0.23, height:screen.height*0.54,padding: 0)
+            nothingText.setWrap(true)
             listScore.attach(nothingText.gtkObject, 0, 0, 3, 1)
             listScore.override_background_color(:normal,Gdk::RGBA.new(1,1,1,1))
         end
@@ -182,7 +183,7 @@ class RankScreen < Screen
                     uiManager: @uiManager,
                     loadButtonAction: lambda {
                         game = RankedSave.loadSave(file)
-                        gameScreen = GameScreen.new(@win,game,@uiManager, saveAction: lambda{
+                        gameScreen = GameScreen.new(@win,game,@uiManager, lambda { @uiManager.rankScreen.applyOn(@win) },saveAction: lambda{
                             RankedSave.save(file, game)
                             @uiManager.victoryScreenType = :normal
                         }, victoryAction: lambda{RankedSave.delete(file)} )
@@ -192,7 +193,7 @@ class RankScreen < Screen
                     restartButtonAction: lambda {
                         game = RankedSave.loadSave(file)
                         game.restart
-                        gameScreen = GameScreen.new(@win,game,@uiManager, saveAction: lambda{
+                        gameScreen = GameScreen.new(@win,game,@uiManager, lambda { @uiManager.rankScreen.applyOn(@win) },saveAction: lambda{
                             RankedSave.save(file, game)
                             @uiManager.victoryScreenType = :normal
                         }, victoryAction: lambda{RankedSave.delete(file)} )
@@ -203,7 +204,7 @@ class RankScreen < Screen
             else
                 map = rank.loadGame(levelNumber)[0]
                 game = Party.new(map)
-                gameScreen = GameScreen.new(@win,game,@uiManager, saveAction: lambda{
+                gameScreen = GameScreen.new(@win,game,@uiManager, lambda { @uiManager.rankScreen.applyOn(@win) },saveAction: lambda{
                     RankedSave.save(file, game)
                     @uiManager.victoryScreenType = :normal
                 }, victoryAction: lambda{RankedSave.delete(file)} )
