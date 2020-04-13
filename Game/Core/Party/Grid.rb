@@ -13,14 +13,14 @@
 # File Created: Monday, 24th February 2020 11:00:27 am                         #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Saturday, 11th April 2020 6:22:04 pm                          #
+# Last Modified: Monday, 13th April 2020 10:01:23 pm                           #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
 require_relative "./ObstacleCell"
 require_relative "./IsleCell"
 require_relative "./BridgeCell"
-require_relative "aides/IsleCellInfo"
+require_relative "./IsleCellInfoGrille"
 require "yaml"
 
 ##
@@ -106,21 +106,35 @@ class Grid
     def check
         nbError = 0
 
+        lIlesInfoCurrent = []
+        lIlesInfoAnswer = []
+
         for i in 0..@current.size-1 do
             for j in 0..@current[0].size-1 do
-                if(@current[i][j].state == :bridge)
-                    if(@answer[i][j].type == :empty)
-                        if  @current[i][j].type != @answer[i][j].type
-                          nbError += 1
-                        end
-                    elsif @current[i][j].direction != @answer[i][j].direction
-                        nbError += 1
-                    end
+                if(@current[i][j].state == :isle)
+                    lIlesInfoCurrent.push(IsleCellInfoGrille.new(i,j,self,@current))
+                    lIlesInfoAnswer.push(IsleCellInfoGrille.new(i,j,self,@answer))
                 end
             end
         end
 
-        return nbError
+        lIlesInfoAnswer.each_index { |i|
+            
+            if(lIlesInfoCurrent[i].nbPontBas != 0 && lIlesInfoAnswer[i].nbPontBas == 0)
+                nbError += 1
+            end
+            if(lIlesInfoCurrent[i].nbPontHaut != 0 && lIlesInfoAnswer[i].nbPontHaut == 0)
+                nbError += 1
+            end
+            if(lIlesInfoCurrent[i].nbPontDroite != 0 && lIlesInfoAnswer[i].nbPontDroite == 0)
+                nbError += 1
+            end
+            if(lIlesInfoCurrent[i].nbPontGauche != 0 && lIlesInfoAnswer[i].nbPontGauche == 0)
+                nbError += 1
+            end
+        }
+        #puts("Nb Erreur : " + nbError.to_s)
+        return (nbError/2.0).to_i
     end
 
     ##
@@ -144,7 +158,7 @@ class Grid
             return false
         end
 
-        infosCell = IsleCellInfo.new(x, y, self)
+        infosCell = IsleCellInfoGrille.new(x, y, self, @current)
         nbConnectedBridge = infosCell.nbPontBas + infosCell.nbPontHaut + infosCell.nbPontGauche + infosCell.nbPontDroite
 
         return (@current[x][y].bridgeNumber == nbConnectedBridge)
