@@ -13,7 +13,7 @@
 # File Created: Friday, 3rd April 2020 4:15:35 pm                              #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Friday, 10th April 2020 4:05:54 pm                            #
+# Last Modified: Monday, 13th April 2020 9:59:22 pm                            #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -45,11 +45,14 @@ class AdventureLevelSelectionScreen < Screen
 
         screen=Gdk::Screen.default
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
+        @pathAssets = pathAssets
+       
         @gtkObject = Gtk::Table.new(4,4)
 
         selectionTitle=Titre.new(label: "Sélection du niveau", width:screen.width*0.2, height:screen.height*0.05)
 
         # Levels
+        @levelCheckBoxs = Hash.new
         list = Gtk::Box.new(:vertical)
         (1..5).each { |levelNumber|
 						info = save.loadGame(countryNumber * 100 + levelNumber)
@@ -70,6 +73,7 @@ class AdventureLevelSelectionScreen < Screen
                         victoryAction: lambda{
                           save.loadGame(countryNumber * 100 + levelNumber)
                           save.completeMap
+                          self.update(save, countryNumber * 100 + levelNumber)
                           AdventureSave.delete(filePath)
                         })
                       game.resume
@@ -83,6 +87,7 @@ class AdventureLevelSelectionScreen < Screen
                         victoryAction: lambda{
                           save.loadGame(countryNumber * 100 + levelNumber)
                           save.completeMap
+                          self.update(save, countryNumber * 100 + levelNumber)
                           AdventureSave.delete(filePath)
                         })
                       gameScreen.applyOn(window)
@@ -96,13 +101,16 @@ class AdventureLevelSelectionScreen < Screen
                     victoryAction: lambda{
                       save.loadGame(countryNumber * 100 + levelNumber)
                       save.completeMap
+                      self.update(save, countryNumber * 100 + levelNumber)
                       AdventureSave.delete(filePath)
                     })
                   gameScreen.applyOn(window)
                 end
             }
-
+            
             levelCheckBox = Gtk::Box.new(:horizontal)
+            @levelCheckBoxs[countryNumber * 100 + levelNumber] = levelCheckBox
+
 						assetsButton = "Button/cancel.png"
 
 						if !save.isLocked(countryNumber * 100 + levelNumber)
@@ -122,7 +130,7 @@ class AdventureLevelSelectionScreen < Screen
 
             list.pack_start(levelAli, expand: false, fill: false, padding: 10)
         }
-
+        p @levelCheckBoxs
         # Scroll Bar Levels
         scroll = Gtk::ScrolledWindow.new
         vp = Gtk::Viewport.new #Implement scrollable
@@ -146,6 +154,23 @@ class AdventureLevelSelectionScreen < Screen
         @gtkObject.attach( Gtk::Alignment.new(0.05, 0.95, 0, 0).add(backToButton.gtkObject),0,4,0,4)
         @gtkObject.attach(globalBox,0,4,0,4)
 				@gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
+    end
+
+    def update(save, idLevel)
+      screen=Gdk::Screen.default
+
+      assetsButton = "Button/cancel.png"
+  
+      if !save.isLocked(idLevel)
+          assetsButton = "Button/validate.png"
+      elsif save.isLocked(idLevel)
+          assetsButton = "Button/cancel.png"
+      end
+
+      levelCheck = Asset.new(@pathAssets + assetsButton)
+      levelCheck.resize(screen.height * 0.05, screen.height * 0.05)
+      levelCheck.applyOn(@levelCheckBoxs[idLevel])
+      
     end
 end
 
