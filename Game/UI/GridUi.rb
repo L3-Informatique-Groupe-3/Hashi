@@ -156,7 +156,7 @@ class GridUi
 				i+=1
 			#	p tempTab
 		end
-		if ((x-i)>=0) && @game.getState(x-i,y) == :isle
+		if ((x-i)>=0) && @game.getState(x-i,y) == :isle && @game.isleCellCompleted?(x-i,y) == false
 				tempTab << @cellsUi[x-i][y]
 				selectTab += tempTab
 		end
@@ -169,7 +169,7 @@ class GridUi
 				i+=1
 			#	p tempTab
 		end
-		if((x+i)<@game.getRows) && @game.getState(x+i,y) == :isle
+		if((x+i)<@game.getRows) && @game.getState(x+i,y) == :isle  && @game.isleCellCompleted?(x+i,y) == false
 				tempTab << @cellsUi[x+i][y]
 				selectTab += tempTab
 		end
@@ -182,7 +182,7 @@ class GridUi
 				i+=1
 			#	p tempTab
 		end
-		if((y-i)>=0) && @game.getState(x,y-i) == :isle
+		if((y-i)>=0) && @game.getState(x,y-i) == :isle && @game.isleCellCompleted?(x,y-i) == false
 				tempTab << @cellsUi[x][y-i]
 				selectTab += tempTab
 		end
@@ -195,7 +195,7 @@ class GridUi
 				i+=1
 			#	p tempTab
 		end
-		if((y+i)<@game.getCols) && @game.getState(x,y+i) == :isle
+		if((y+i)<@game.getCols) && @game.getState(x,y+i) == :isle && @game.isleCellCompleted?(x,y+i) == false
 				tempTab << @cellsUi[x][y+i]
 				selectTab += tempTab
 		end
