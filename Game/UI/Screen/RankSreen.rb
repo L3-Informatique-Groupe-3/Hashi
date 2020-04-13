@@ -36,14 +36,14 @@ class RankScreen < Screen
                 lvlText = Text.new(label: "Niveau " + levelNumber.to_s, width: screen.width*0.1,height: screen.height*0.15, padding: 0)
                 lvlText.setBackground(0.9,0.9,0.9,1)
 
-                lvlStartButton = Button.new(image: pathAssets + "Button/play.png", imageFocus: pathAssets + "Button/playFocus.png", width: @buttonSize,height: @buttonSize)
+                lvlStartButton = Button.new(image: pathAssets + "Button/play.png", imageFocus: pathAssets + "Button/playFocus.png", width: @buttonSize,height: @buttonSize, padding: 0)
                 lvlStartButton.resizeImage(@buttonSize * 0.7,@buttonSize * 0.7)
                 lvlStartButton.resizeImageFocus(@buttonSize * 0.7,@buttonSize * 0.7)
                 lvlStartButton.onClick(){
                     getNextScreen(levelNumber).call
                 }
 
-                lvlShowRankButton = Button.new(image: pathAssets + "Button/cup.png", imageFocus: pathAssets + "Button/cupFocus.png", width: @buttonSize,height: @buttonSize)
+                lvlShowRankButton = Button.new(image: pathAssets + "Button/cup.png", imageFocus: pathAssets + "Button/cupFocus.png", width: @buttonSize,height: @buttonSize, padding: 0)
                 lvlShowRankButton.resizeImage(@buttonSize,@buttonSize)
                 lvlShowRankButton.resizeImageFocus(@buttonSize,@buttonSize)
                 lvlShowRankButton.onClick(){
@@ -62,7 +62,7 @@ class RankScreen < Screen
                 lvlInsideBox.attach(lvlShowRankButton.gtkObject, 1, 1, 1, 1)
                 lvlInsideBox.set_column_spacing(3)
                 lvlInsideBox.override_background_color(:normal,Gdk::RGBA.new(0.9,0.9,0.9,1))
-                
+
                 lvlBox.attach(lvlInsideBox, col - 1, row - 1, 1, 1)
             }
         }
@@ -85,7 +85,7 @@ class RankScreen < Screen
         scoreBox.attach(nicknameTextH.gtkObject, 1, 0, 1, 1)
         scoreBox.attach(timeTextH.gtkObject, 2, 0, 1, 1)
 
-        
+
         # Scroll Bar score + List creation
         scroll = Gtk::ScrolledWindow.new
         @vp = Gtk::Viewport.new #Implement scrollable
@@ -166,7 +166,7 @@ class RankScreen < Screen
             @prevSelection = showRankButton
         end
         @prevSelection.setImage(pathAssets + "Button/cupFocus.png", width: @buttonSize, height: @buttonSize)
-        
+
         return listScore
     end
 
