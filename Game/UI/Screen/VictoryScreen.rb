@@ -22,7 +22,7 @@ class VictoryScreen < Screen
     @gtkObject
     @chronoUi
 
-    def initialize(win, game, uiManager)
+    def initialize(win, game, uiManager, backAction)
         super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
         screen=Gdk::Screen.default
@@ -38,11 +38,10 @@ class VictoryScreen < Screen
         # chronoZone=Text.new(width:screen.width*0.2, height:screen.height*0.05)
 
         #creation du bouton menuPrincipal
-        menuButton=Button.new(image:pathAssets + "Button/menu.png", width: screen.width*0.1,height: screen.height*0.08)
-        menuButton.resizeImage(40,40)
+        menuButton=Button.new(label: "Retour à la selection", width: screen.width*0.1,height: screen.height*0.08, size: 20)
         menuButton.onClick(){
             #aller au menu principal
-            uiManager.mainmenu.applyOn(win)
+            backAction.call
         }
 
         #creation du bouton recommencer
@@ -51,61 +50,10 @@ class VictoryScreen < Screen
         replayButton.onClick(){
             #recharger le niveau sur lequel on etait
             game.restart
-            gameScreen = GameScreen.new(win,game,uiManager)
+            gameScreen = GameScreen.new(win,game,uiManager, backAction)
             gameScreen.applyOn(win)
         }
 
-        # save = uiManager.adventureScreen.save
-        # if save != nil
-        #   info = save.loadGame(save.getNextMap())
-        #   #filePath = AdventureSave.getFilePath(save.idSave, countryNumber, levelNumber)
-        # end
-        #creation du bouton suivant
-        # nextButton=Button.new(image:pathAssets + "Button/next.png", width: screen.width*0.1,height: screen.height*0.08)
-        # nextButton.resizeImage(40,40)
-        # nextButton.onClick(){
-          # if(save != nil && AdventureSave.hasSave(filePath))
-          #   LoadSaveScreen.new(
-          #     window: window,
-          #     uiManager: uiManager,
-          #     loadButtonAction: lambda {
-          #       game = AdventureSave.loadSave(filePath)
-          #       gameScreen = GameScreen.new(window,game,uiManager,
-          #         saveAction: lambda{AdventureSave.save(filePath, game)},
-          #         victoryAction: lambda{
-          #           save.loadGame(countryNumber * 100 + levelNumber)
-          #           save.completeMap
-          #           AdventureSave.delete(filePath)
-          #         })
-          #       game.resume
-          #       gameScreen.applyOn(window)
-          #     },
-          #     restartButtonAction: lambda {
-          #       game = AdventureSave.loadSave(filePath)
-          #       game.restart
-          #       gameScreen = GameScreen.new(window,game,uiManager,
-          #         saveAction: lambda{AdventureSave.save(filePath, game)},
-          #         victoryAction: lambda{
-          #           save.loadGame(countryNumber * 100 + levelNumber)
-          #           save.completeMap
-          #           AdventureSave.delete(filePath)
-          #         })
-          #       gameScreen.applyOn(window)
-          #     },
-          #     backButtonAction: lambda { self.applyOn(window) }
-          #   ).applyOn(window)
-          # else
-          #   game = Party.new(info[0])
-          #   gameScreen = GameScreen.new(window,game,uiManager,
-          #     saveAction: lambda{AdventureSave.save(filePath, game)},
-          #     victoryAction: lambda{
-          #       save.loadGame(countryNumber * 100 + levelNumber)
-          #       save.completeMap
-          #       AdventureSave.delete(filePath)
-          #     })
-          #   gameScreen.applyOn(window)
-          # end
-        # }
 
         chronoBox = Gtk::Box.new(:horizontal)
         chronoBox.pack_start(chronoText.gtkObject, expand: true, fill: false, padding: 20)

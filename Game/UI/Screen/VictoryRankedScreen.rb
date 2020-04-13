@@ -32,7 +32,7 @@ class VictoryRankedScreen < Screen
         @entry = Gtk::Entry.new
         @entry.set_placeholder_text("Saisir votre pseudo")
         @entry.set_max_length(7)
-        
+
         # Nickname validation
         nicknameValidateBtn = Button.new(image: pathAssets + "Button/validate.png", width: screen.height * 0.1, height: screen.height * 0.1, padding: 0)
         nicknameValidateBtn.resizeImage(screen.height * 0.1, screen.height * 0.1)
@@ -66,7 +66,7 @@ class VictoryRankedScreen < Screen
             if(@nicknameInput)
                 #recharger le niveau sur lequel on etait
                 game.restart
-                gameScreen = GameScreen.new(win,game,uiManager)
+                gameScreen = GameScreen.new(win,game,uiManager, lambda { uiManager.rankScreen.applyOn(win) },)
                 gameScreen.applyOn(win)
             end
         }

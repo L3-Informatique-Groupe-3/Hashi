@@ -7,7 +7,7 @@
 
 
 class UiManager
-  attr_reader :cellAssets, :adventureScreen, :rankScreen, :libreScreen, :mainmenu, :tutoScreen, :collecScreen, :gamemode
+  attr_reader :cellAssets, :adventureScreen, :rankScreen, :libreScreen, :mainmenu, :tutorialmenu ,:tutoScreen, :collecScreen, :gamemode
   attr_accessor :victoryScreenType, :rankedLevel
 
   def initialize(win)
@@ -17,7 +17,6 @@ class UiManager
     # Generation des ecrans de jeu
     @victoryScreenType = :normal
     @rankedLevel = 0
-
     @tutoScreen = TutorialScreen.new(@win, self)
     @collecScreen = TechnicCollection.new(@win, self)
 
@@ -34,7 +33,7 @@ class UiManager
               getScreenFreeMode(:easy).applyOn(@win)
             else
               game = Party.new(FreeMode.getNewGrid(:easy))
-              gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:easy, game)}, victoryAction: lambda{FreeMode.delete(:easy)} )
+              gameScreen = GameScreen.new(@win,game,self, lambda { @libreScreen.applyOn(@win) } ,saveAction: lambda{FreeMode.save(:easy, game)}, victoryAction: lambda{FreeMode.delete(:easy)} )
               gameScreen.applyOn(@win)
             end
         },
@@ -43,7 +42,7 @@ class UiManager
             getScreenFreeMode(:medium).applyOn(@win)
           else
             game = Party.new(FreeMode.getNewGrid(:medium))
-            gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:medium, game)}, victoryAction: lambda{FreeMode.delete(:medium)} )
+            gameScreen = GameScreen.new(@win,game,self, lambda { @libreScreen.applyOn(@win) } ,saveAction: lambda{FreeMode.save(:medium, game)}, victoryAction: lambda{FreeMode.delete(:medium)} )
             gameScreen.applyOn(@win)
           end
          },
@@ -52,7 +51,7 @@ class UiManager
             getScreenFreeMode(:difficult).applyOn(@win)
           else
             game = Party.new(FreeMode.getNewGrid(:difficult))
-            gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(:difficult, game)}, victoryAction: lambda{FreeMode.delete(:difficult)} )
+            gameScreen = GameScreen.new(@win,game,self, lambda { @libreScreen.applyOn(@win) } ,saveAction: lambda{FreeMode.save(:difficult, game)}, victoryAction: lambda{FreeMode.delete(:difficult)} )
             gameScreen.applyOn(@win)
           end
         },
@@ -111,14 +110,14 @@ class UiManager
       uiManager: self,
       loadButtonAction: lambda {
         game = FreeMode.loadSave(mode)
-        gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(mode, game)}, victoryAction: lambda{FreeMode.delete(mode)} )
+        gameScreen = GameScreen.new(@win,game,self, lambda { @libreScreen.applyOn(@win) } ,saveAction: lambda{FreeMode.save(mode, game)}, victoryAction: lambda{FreeMode.delete(mode)} )
         game.resume
         gameScreen.applyOn(@win)
       },
       restartButtonAction: lambda {
         game = FreeMode.loadSave(mode)
         game.restart
-        gameScreen = GameScreen.new(@win,game,self, saveAction: lambda{FreeMode.save(mode, game)}, victoryAction: lambda{FreeMode.delete(mode)} )
+        gameScreen = GameScreen.new(@win,game,self, lambda { @libreScreen.applyOn(@win) } ,saveAction: lambda{FreeMode.save(mode, game)}, victoryAction: lambda{FreeMode.delete(mode)} )
         gameScreen.applyOn(@win)
       },
       backButtonAction: lambda { @libreScreen.applyOn(@win) }

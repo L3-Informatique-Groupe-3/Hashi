@@ -33,7 +33,7 @@ require_relative "../../Core/Adventure/AdventureSave"
 # * +myMethod+ - description
 ##
 class AdventureLevelSelectionScreen < Screen
-  
+
     ##
 	# The class' constructor.
 	#
@@ -42,13 +42,13 @@ class AdventureLevelSelectionScreen < Screen
     # -----------------------------------
     def initialize(window:win, uiManager:nil,save: nil, countryNumber: 0)
         super(window,"/../../../Assets/Backgrounds/fond-naturel.png")
-    
+
         screen=Gdk::Screen.default
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
         @gtkObject = Gtk::Table.new(4,4)
 
         selectionTitle=Titre.new(label: "Sélection du niveau", width:screen.width*0.2, height:screen.height*0.05)
-    
+
         # Levels
         list = Gtk::Box.new(:vertical)
         (1..5).each { |levelNumber|
@@ -65,11 +65,12 @@ class AdventureLevelSelectionScreen < Screen
                     loadButtonAction: lambda {
                       game = AdventureSave.loadSave(filePath)
                       gameScreen = GameScreen.new(window,game,uiManager,
+                      lambda { self.applyOn(window) },
                         saveAction: lambda{AdventureSave.save(filePath, game)},
                         victoryAction: lambda{
                           save.loadGame(countryNumber * 100 + levelNumber)
                           save.completeMap
-                          AdventureSave.delete(filePath) 
+                          AdventureSave.delete(filePath)
                         })
                       game.resume
                       gameScreen.applyOn(window)
@@ -77,12 +78,12 @@ class AdventureLevelSelectionScreen < Screen
                     restartButtonAction: lambda {
                       game = AdventureSave.loadSave(filePath)
                       game.restart
-                      gameScreen = GameScreen.new(window,game,uiManager,
+                      gameScreen = GameScreen.new(window,game,uiManager, lambda { self.applyOn(window) },
                         saveAction: lambda{AdventureSave.save(filePath, game)},
                         victoryAction: lambda{
                           save.loadGame(countryNumber * 100 + levelNumber)
                           save.completeMap
-                          AdventureSave.delete(filePath) 
+                          AdventureSave.delete(filePath)
                         })
                       gameScreen.applyOn(window)
                     },
@@ -90,12 +91,12 @@ class AdventureLevelSelectionScreen < Screen
                   ).applyOn(window)
                 else
                   game = Party.new(info[0])
-                  gameScreen = GameScreen.new(window,game,uiManager,
+                  gameScreen = GameScreen.new(window,game,uiManager, lambda { self.applyOn(window) },
                     saveAction: lambda{AdventureSave.save(filePath, game)},
                     victoryAction: lambda{
                       save.loadGame(countryNumber * 100 + levelNumber)
                       save.completeMap
-                      AdventureSave.delete(filePath) 
+                      AdventureSave.delete(filePath)
                     })
                   gameScreen.applyOn(window)
                 end

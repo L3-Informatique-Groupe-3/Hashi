@@ -47,7 +47,7 @@ class GameScreen < Screen
   # * +cellAssets+ -
   # * +victoryScreen+ -
   # -----------------------------------
-  def initialize(win,game,uiManager,saveAction:nil,victoryAction:nil)
+  def initialize(win,game,uiManager, backAction,saveAction:nil,victoryAction:nil)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
     @win = win
@@ -57,7 +57,7 @@ class GameScreen < Screen
     cellAssets=CellAssets.new(@game.getRows, @game.getCols)
     @gridUi=GridUi.new(cellAssets,@game, self)
     @gtkObject = Gtk::Table.new(4,4)
-
+    @backAction = backAction
 
 
     screen=Gdk::Screen.default
@@ -93,7 +93,7 @@ class GameScreen < Screen
     }
 
     @chronoUi=ChronoUi.new(@game.getTimer)
-    @pauseScreen = PauseScreen.new(win, self, uiManager, saveAction: saveAction)
+    @pauseScreen = PauseScreen.new(win, self, uiManager, @backAction, saveAction: saveAction)
     #  ======== Pause
     pause=Button.new(image:pathAssets + "Button/pause.png", width: screen.width*0.1,height: screen.height*0.07)
     pause.setMarginBottom(10)
@@ -214,7 +214,7 @@ class GameScreen < Screen
   def showVictoryScreen
     @victoryAction.call if @victoryAction != nil
     if(@uiManager.victoryScreenType == :normal)
-      @victoryScreen = VictoryScreen.new(@win, @game, @uiManager)
+      @victoryScreen = VictoryScreen.new(@win, @game, @uiManager, @backAction)
     else
       @victoryScreen = VictoryRankedScreen.new(@win, @game, @uiManager)
     end
