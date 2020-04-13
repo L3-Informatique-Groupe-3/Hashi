@@ -54,10 +54,10 @@ class TutorialScreen < Screen
         pageManager.showFirst()
 
         #Button to go back to main menu
-        backToMenuButton = Button.new(label:"Menu Principal", width: screen.width*0.1,height: screen.height*0.08, size: 20)
+        backToMenuButton = Button.new(label:"Didacticiel", width: screen.width*0.1,height: screen.height*0.08, size: 20)
         backToMenuButton.onClick(){
         #Do smth
-          uiManager.mainmenu.applyOn(win)
+          uiManager.tutorialmenu.applyOn(win)
         }
         @gtkObject.attach(Gtk::Alignment.new(0.05, 0.95, 0, 0).add(backToMenuButton.gtkObject),0,4,0,4)
         @gtkObject.attach(pageManager.gtkObject,0,4,0,4)
