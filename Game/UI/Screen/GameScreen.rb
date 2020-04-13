@@ -65,7 +65,7 @@ class GameScreen < Screen
     buttonWidth = screen.width*0.3
     pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 
-    guess=Text.new(label:"Guess",width:screen.width*0.2, height:screen.height*0.08)
+    guess=Text.new(label:"Hypothèse",width:screen.width*0.2, height:screen.height*0.08)
     guess.setBackground(1,1,1,1)
 
     newGuess=Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
@@ -131,7 +131,7 @@ class GameScreen < Screen
     @helpResponseUi.setBackground(1,1,1,1)
     @helpResponseUi.setBackgroundSize(screen.width*0.3,screen.height*0.4)
 
-    help=Button.new(label:"help", width: screen.width*0.1,height: screen.height*0.08)
+    help=Button.new(label:"Aide", width: screen.width*0.1,height: screen.height*0.08, size: 20)
     help.onClick(){
       # Display the help message
       coordHelp = @game.getHelp
@@ -142,14 +142,15 @@ class GameScreen < Screen
       end
     }
 
-    helpMore=Button.new(image:pathAssets + "Button/add.png", width: screen.width*0.1,height: screen.height*0.08)
+    helpMore=Button.new(label: "Aide +", width: screen.width*0.1,height: screen.height*0.08, size: 20)
     helpMore.onClick(){
       @helpResponseUi.updateLabel(@game.getHelpPlus)
     }
 
 
 
-    check=Button.new(label:"check", width: screen.width*0.1,height: screen.height*0.08)
+    check=Button.new(label:"Vérifier erreur", width: screen.width*0.1,height: screen.height*0.08, size: 20)
+    check.setWrap(true)
     check.onClick(){
       # Display the help message
       @helpResponseUi.updateLabel("Il y a "  + @game.check.to_s + " erreur(s).")
