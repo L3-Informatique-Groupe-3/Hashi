@@ -139,9 +139,10 @@ class Button < Text
     end
   end
 
-  def setPicture(image)
+  def setImage(image, width: nil, height: nil)
     @image = Asset.new(image)
-    @image.applyOn(@gtkObject)
+    @image.resize(width, height) if (width != nil && height != nil)
+    @image.applyOn(@imageBox)
   end
 
   def setFocusActive(bool)

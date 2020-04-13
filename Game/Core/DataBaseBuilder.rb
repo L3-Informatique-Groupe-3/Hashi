@@ -80,7 +80,7 @@ if !File.exist?(dbRanked) || !File.exist?(dbRankedTime) then
 		);
 	SQL
 	
-	for i in 1..5
+	for i in 1..10
 		currentIdMap = i
 		#Récupération de la composition de la grille
 		readFile = File.open(File.expand_path("../../Data/Grille.txt", File.dirname(__FILE__))).to_a

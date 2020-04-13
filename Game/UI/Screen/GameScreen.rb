@@ -213,7 +213,11 @@ class GameScreen < Screen
 
   def showVictoryScreen
     @victoryAction.call if @victoryAction != nil
-    @victoryScreen = VictoryScreen.new(@win, @game, @uiManager)
+    if(@uiManager.victoryScreenType == :normal)
+      @victoryScreen = VictoryScreen.new(@win, @game, @uiManager)
+    else
+      @victoryScreen = VictoryRankedScreen.new(@win, @game, @uiManager)
+    end
     @victoryScreen.applyOn(@win)
   end
 

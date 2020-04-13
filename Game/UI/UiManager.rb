@@ -8,12 +8,15 @@
 
 class UiManager
   attr_reader :cellAssets, :adventureScreen, :rankScreen, :libreScreen, :mainmenu, :tutoScreen, :collecScreen, :gamemode
+  attr_accessor :victoryScreenType, :rankedLevel
 
   def initialize(win)
 
     @win = win
 
     # Generation des ecrans de jeu
+    @victoryScreenType = :normal
+    @rankedLevel = 0
 
     @tutoScreen = TutorialScreen.new(@win, self)
     @collecScreen = TechnicCollection.new(@win, self)

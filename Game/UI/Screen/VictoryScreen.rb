@@ -114,7 +114,7 @@ class VictoryScreen < Screen
         buttonBox = Gtk::Box.new(:horizontal)
         buttonBox.pack_start(menuButton.gtkObject, expand: true, fill: false, padding: 0)
         buttonBox.pack_start(replayButton.gtkObject, expand: true, fill: false, padding: 0)
-        buttonBox.pack_start(nextButton.gtkObject, expand: true, fill: false, padding: 0)
+        #buttonBox.pack_start(nextButton.gtkObject, expand: true, fill: false, padding: 0)
 
         globalBox = Gtk::Box.new(:vertical)
         globalBox.pack_start(menuTitle.gtkObject, expand: true, fill: false, padding: 10)
