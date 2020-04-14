@@ -7,9 +7,31 @@
 
 require_relative "./Text"
 
+##
+# ===== Presentation
+#   Class to create a Title to display
+#
+# ===== Variables
+# @see Text Variables
+# ===== Methods
+#
+#   +new+ - initialization method
+#   +updateLabel+ - Change the label of this Text
+#   +setWrap+ - Setter of the wrap value of this Text
+#   +setBackground+ -  Setter of the background color of this Text
+#   +setMarginBottom+ - Set size of the margin bottom of this Text
+#   +apply+ - Apply the style,font on the text
+#   +colorChange+ - Change the color of the text
 class Titre < Text
+    @weight
+    @font
+    @color
+    @size
+    @gtkObject
+
     ##
     # The class' constructor.
+    # @see Text#new
     #-------------------------------------------------
     def initialize(label: "",size: Constants::TITTLE_SIZE ,padding: 10, width: nil, height: nil)
       super(label:label, size:size, padding: padding, width:width, height: height)

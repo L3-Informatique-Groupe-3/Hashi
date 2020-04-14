@@ -2,8 +2,8 @@
 # @Date:   03-Apr-2020
 # @Email:  clement_dubois.etu@univ-lemans.fr
 # @Filename: MenuTutorial.rb
-# @Last modified by:   Clemdbs
-# @Last modified time: 03-Apr
+# @Last modified by:   checkam
+# @Last modified time: 14-Apr-2020
 
 
 require 'gtk3'
@@ -24,7 +24,6 @@ require_relative File.dirname(__FILE__) + "/../AssetsClass/Asset"
 #   new initialization method
 #
 class TechnicCollection < Screen
-
     @gtkObject
 
     def initialize(win, uiManager)
@@ -33,8 +32,6 @@ class TechnicCollection < Screen
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 
         screen=Gdk::Screen.default
-
-        # mainMenuScreen = MenuScreen.new(win, uiManager)
 
         @gtkObject = Gtk::Table.new(4,4)
 

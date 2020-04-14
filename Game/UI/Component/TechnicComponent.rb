@@ -1,3 +1,22 @@
+# @Author: Despres Maxence <checkam>
+# @Date:   12-Apr-2020
+# @Email:  maxence.despres.etu@univ-lemans.fr
+# @Filename: TechnicComponent.rb
+# @Last modified by:   checkam
+# @Last modified time: 14-Apr-2020
+
+
+##
+# ===== Presentation
+#   Composant to display a Technic
+#
+# ===== Variables
+#
+#  * +gtkObject+ - Object to display
+#
+# ===== Methods
+#
+#   +new+ - initialization method
 
 class TechnicComponent
 
@@ -5,6 +24,15 @@ class TechnicComponent
 
   attr_reader :gtkObject
 
+  ##
+  # The class' constructor.
+  #
+  # ===== Attributes
+  # * +label+ - text for describe image
+  # * +image1+ - path of first image
+  # * +image2+ - path of second image
+  # * +image3+ - path of third image
+  #-------------------------------------------------
   def initialize(label: "", image1: "", image2: "", image3: "")
       pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 

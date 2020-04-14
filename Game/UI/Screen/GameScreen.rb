@@ -27,8 +27,9 @@ require File.dirname(__FILE__) + "/../AssetsClass/Asset"
 # ===== Methods
 #
 #   new initialization method
-#   update update the display screen
-#
+#   run start to show chronoUi
+#   resume resume the game and chrono
+#   restart retart the game
 class GameScreen < Screen
   @game
   @gridUi
@@ -46,6 +47,7 @@ class GameScreen < Screen
 	# * +game+ -
   # * +cellAssets+ -
   # * +victoryScreen+ -
+  # * +showVictoryScreen+ -
   # -----------------------------------
   def initialize(win,game,uiManager, backAction,saveAction:nil,victoryAction:nil)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
@@ -142,7 +144,7 @@ class GameScreen < Screen
         # Display the help message
         @gridUi.getCellUi(coordHelp[0],coordHelp[1]).select
       end
-      
+
     }
 
     helpMore=Button.new(label: "Aide +", width: screen.width*0.1,height: screen.height*0.08, size: 20)
