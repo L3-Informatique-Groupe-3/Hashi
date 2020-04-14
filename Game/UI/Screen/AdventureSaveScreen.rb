@@ -2,8 +2,8 @@
 # @Date:   06-Apr-2020
 # @Email:  maxence.despres.etu@univ-lemans.fr
 # @Filename: AdventureSaveScreen.rb
-# @Last modified by:   checkam
-# @Last modified time: 06-Apr-2020
+# @Last modified by:   jashbin
+# @Last modified time: 14-Apr-2020
 
 
 
@@ -20,7 +20,7 @@ class AdventureSaveScreen < Screen
     @gtkObject = Gtk::Table.new(1,1)
 
     width = screen.width*0.4
-    height = screen.height*0.3
+    height = screen.height*0.26
 
     save1 = Button.new(label: "Sauvegarde 1",image: pathAssets + "ShapeButton/save.png", imageFocus: pathAssets + "ShapeButton/saveGlow.png", width: width, height: height)
     save2 = Button.new(label: "Sauvegarde 2",image: pathAssets + "ShapeButton/save.png", imageFocus: pathAssets + "ShapeButton/saveGlow.png", width: width, height: height)
@@ -53,10 +53,21 @@ class AdventureSaveScreen < Screen
     save2.setBackground(0,0,0,0)
     save3.setBackground(0,0,0,0)
 
+    saveBox = Gtk::Box.new(:vertical)
+    saveBox.add(save1.gtkObject)
+    saveBox.add(save2.gtkObject)
+    saveBox.add(save3.gtkObject)
+
+    #Button to go back to main menu
+    backToButton = Button.new(label:"Retour à la sélection", width: screen.width*0.1,height: screen.height*0.08, size: 20)
+    backToButton.onClick(){
+        uiManager.gamemode.applyOn(win)
+    }
+    backBtnAli = Gtk::Alignment.new(0.05, 0.95, 0, 0).add(backToButton.gtkObject)
+
     globalBox = Gtk::Box.new(:vertical)
-    globalBox.add(save1.gtkObject)
-    globalBox.add(save2.gtkObject)
-    globalBox.add(save3.gtkObject)
+    globalBox.pack_start(saveBox, expand: false, fill: false, padding: 8)
+    globalBox.pack_start(backBtnAli, expand: false, fill: false, padding: 3)
 
     @gtkObject.attach(globalBox,0,1,0,1)
     @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,1,0,1)
