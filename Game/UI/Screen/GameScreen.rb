@@ -133,13 +133,16 @@ class GameScreen < Screen
 
     help=Button.new(label:"Aide", width: screen.width*0.1,height: screen.height*0.08, size: 20)
     help.onClick(){
-      # Display the help message
       coordHelp = @game.getHelp
-      if coordHelp.empty? == false
-        @gridUi.getCellUi(coordHelp[0],coordHelp[1]).select
-      else
+
+      if(coordHelp.empty?)
         @helpResponseUi.updateLabel(@game.getHelpPlus)
+      else
+        @helpResponseUi.updateLabel("")
+        # Display the help message
+        @gridUi.getCellUi(coordHelp[0],coordHelp[1]).select
       end
+      
     }
 
     helpMore=Button.new(label: "Aide +", width: screen.width*0.1,height: screen.height*0.08, size: 20)

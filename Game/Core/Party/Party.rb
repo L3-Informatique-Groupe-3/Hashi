@@ -67,6 +67,8 @@ class Party
         @chrono = Chrono.new()
         @chrono.start()
         @currentHelp = nil
+        @prevHelp = []
+        @helpPlus = false
     end
 
     ##
@@ -91,8 +93,10 @@ class Party
     # ---
     def getHelp
         @currentHelp = ManagerHelp.askHelp(@grid)
-        if(! (@currentHelp[0].empty?))
+        if((! (@currentHelp[0].empty?)) && (@prevHelp.empty? || (@prevHelp[0][0] != @currentHelp[0][0] && @prevHelp[0][1] != @currentHelp[0][1] && @prevHelp[1] != @currentHelp[1])))
             @chrono.addTime(25)
+            @prevHelp = @currentHelp
+            @helpPlus = true
         end
         return @currentHelp[0]
     end
@@ -105,8 +109,9 @@ class Party
     # ---
     def getHelpPlus
         if(@currentHelp != nil)
-            if(! (@currentHelp[0].empty?))
+            if((! (@currentHelp[0].empty?)) && @helpPlus)
                 @chrono.addTime(45)
+                @helpPlus = false
             end
             return @currentHelp[1]
         else
