@@ -4,7 +4,7 @@
 # File Created: Monday, 6th April 2020 2:16:35 pm                              #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Saturday, 11th April 2020 5:39:51 pm                          #
+# Last Modified: Tuesday, 14th April 2020 3:47:06 pm                           #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -28,9 +28,9 @@ class FreeMode
     }
 
     @@gridPath = {
-        @@mode[0] => File.expand_path('../../Assets/Files/Grid/Easy', File.dirname(__FILE__)),
-        @@mode[1] => File.expand_path('../../Assets/Files/Grid/Medium', File.dirname(__FILE__)),
-        @@mode[2] => File.expand_path('../../Assets/Files/Grid/Difficult', File.dirname(__FILE__))
+        @@mode[0] => File.expand_path('../../Assets/Files/Grid/FreeMode/Easy', File.dirname(__FILE__)),
+        @@mode[1] => File.expand_path('../../Assets/Files/Grid/FreeMode/Medium', File.dirname(__FILE__)),
+        @@mode[2] => File.expand_path('../../Assets/Files/Grid/FreeMode/Difficult', File.dirname(__FILE__))
     }
 
     @@grids = Hash.new

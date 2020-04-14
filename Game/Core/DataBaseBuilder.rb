@@ -8,6 +8,10 @@
 
 require 'sqlite3'
 require 'digest'
+require 'fileutils'
+
+# Directory creation
+FileUtils.mkdir_p(File.expand_path('../../', File.dirname(__FILE__)) + "/Data/")
 
 dbAventure 	= File.expand_path("../../Data/aventure.db", File.dirname(__FILE__))
 dbRanked	= File.expand_path("../../Data/ranked.db", File.dirname(__FILE__))
@@ -34,12 +38,13 @@ if !File.exist?(dbAventure)
 
 		);
 	SQL
+
+	#Récupération de la composition de la grille
+	readFile = File.open(File.expand_path("../../Assets/Files/Grid/Adventure/AdventureGrid", File.dirname(__FILE__))).to_a
 	for k in 1..3
 		for i in 1..6
 			for j in 1..5
 				currentIdMap = i*100+j
-				#Récupération de la composition de la grille
-				readFile = File.open(File.expand_path("../../Data/Grille.txt", File.dirname(__FILE__))).to_a
 				map = readFile.at((i-1)*5+j-1)
 				dbAventure.execute("INSERT INTO aventure (idMap, map, idSave, state, assets) VALUES (#{currentIdMap}, '#{map}', #{k}, 'BLOCK', '')")
 			end
@@ -80,11 +85,11 @@ if !File.exist?(dbRanked) || !File.exist?(dbRankedTime) then
 		);
 	SQL
 	
+	#Récupération de la composition de la grille
+	readFile = File.open(File.expand_path("../../Assets/Files/Grid/Ranked/RankedGrid", File.dirname(__FILE__))).to_a
 	for i in 1..10
 		currentIdMap = i
-		#Récupération de la composition de la grille
-		readFile = File.open(File.expand_path("../../Data/Grille.txt", File.dirname(__FILE__))).to_a
-		map = readFile.at(i)
+		map = readFile.at(i-1)
 		dbRanked.execute("INSERT INTO ranked (idMap, map, assets) VALUES (#{currentIdMap}, '#{map}', '')")
 	end
 end
