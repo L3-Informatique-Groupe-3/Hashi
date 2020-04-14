@@ -23,6 +23,7 @@ require File.dirname(__FILE__) + "/../AssetsClass/Asset"
 #   @gtkObject gtk object to displays on the window
 #   @helpResponseUi text to displays help
 #   @chronoUi instance of a chronoUi
+#   @saveAction - action for save the game
 #
 # ===== Methods
 #
@@ -36,8 +37,9 @@ class GameScreen < Screen
   @gtkObject
   @helpResponseUi
   @chronoUi
+  @saveAction
 
-  attr_reader :gridUi
+  attr_reader :gridUi, :saveAction
 
   ##
 	# The class' constructor.
@@ -60,7 +62,7 @@ class GameScreen < Screen
     @gridUi=GridUi.new(cellAssets,@game, self)
     @gtkObject = Gtk::Table.new(4,4)
     @backAction = backAction
-
+    @saveAction = saveAction
 
     screen=Gdk::Screen.default
     buttonHeight = screen.height*0.04

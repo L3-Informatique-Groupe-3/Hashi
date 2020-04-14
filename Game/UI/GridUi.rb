@@ -250,7 +250,7 @@ class GridUi
 		if @game.finished? == true
 			@gameScreen.showVictoryScreen
 		end
-
+		@gameScreen.saveAction.call if @gameScreen.saveAction != nil
 		@first = @last = nil
 		@currentSelection.update([])
 		@currentSelection.show()
