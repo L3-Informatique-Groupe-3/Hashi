@@ -4,7 +4,7 @@
 # File Created: Tuesday, 20th February 2020 11:00:27 am                        #
 # Author: <Adrali>Lemaitre P                                                   #
 # -----                                                                        #
-# Last Modified: Sunday, 5th April 2020 3:52:48 pm                             #
+# Last Modified: Tuesday, 14th April 2020 7:26:54 pm                           #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -52,7 +52,7 @@ class History
         @index += 1
         @hypotheses.push(Hypothesis.new(@grid.getCurrentGrid(), :created))
         @grid.freeze
-        puts("New Nouvel Index : " + @index.to_s)
+        #puts("New Nouvel Index : " + @index.to_s)
     end
 
     ##
@@ -60,12 +60,12 @@ class History
     #
     # ---
     def validateHypothesis
-        puts("Validate Ancien Index : " + @index.to_s)
+        #puts("Validate Ancien Index : " + @index.to_s)
         @hypotheses -= @hypotheses.drop(@index + 1)
         @index += 1
         @hypotheses.push(Hypothesis.new(@grid.getCurrentGrid(), :validated))
         @grid.unfreeze
-        puts("Validate Nouvel Index : " + @index.to_s)
+        #puts("Validate Nouvel Index : " + @index.to_s)
     end
 
 
@@ -78,7 +78,7 @@ class History
         if(@hypotheses[@index].type != :validated)
             @grid.loadCurrentGrid(@hypotheses[@index].saveGrid)
             @index -= 1 if @index > 0
-            puts("Refute Nouvel Index : " + @index.to_s)
+            #puts("Refute Nouvel Index : " + @index.to_s)
         end
     end
 
@@ -99,7 +99,7 @@ class History
     # ---
     def undo
         if(@index >= 0)
-            puts("Undo Index : " + @index.to_s)
+            #puts("Undo Index : " + @index.to_s)
             if !(@hypotheses[@index].isAtBeginning)
                 @hypotheses[@index].undo
             else
@@ -107,7 +107,7 @@ class History
                 if(@index>0)
                     @index -= 1
                     @hypotheses[@index].setAtEnd
-                    puts("Undo Nouvel Index : " + @index.to_s)
+                    #puts("Undo Nouvel Index : " + @index.to_s)
                 end
             end
         end
@@ -119,7 +119,7 @@ class History
     # ---
     def redo
         if(@index < @hypotheses.size)
-            puts("Redo Index : " + @index.to_s)
+            #puts("Redo Index : " + @index.to_s)
             if !(@hypotheses[@index].isAtEnd)
                 @hypotheses[@index].redo
             elsif(@index < (@hypotheses.size-1))
@@ -131,7 +131,7 @@ class History
                     @grid.unfreeze
                 end
                 @hypotheses[@index].redoHypothesis
-                puts("Redo Nouvel Index : " + @index.to_s)
+                #puts("Redo Nouvel Index : " + @index.to_s)
             end
         end
     end
