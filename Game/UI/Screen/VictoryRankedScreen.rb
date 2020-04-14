@@ -4,7 +4,7 @@
 # File Created: Sunday, 12th April 2020 6:34:35 pm                             #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Monday, 13th April 2020 3:59:29 pm                            #
+# Last Modified: Tuesday, 14th April 2020 6:40:44 pm                           #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -12,11 +12,35 @@ require 'gtk3'
 require_relative "./Screen"
 require_relative "../Popup.rb"
 
+##
+# ===== Presentation
+# This class is a Screen. It represents the victory rank screen
+#
+# ===== Variables
+# * +chronoUi+ - The chrono ui which displays the time
+# * +nicknameInput+ - Contains true if the time has been saved
+# * +game - The game which is finished
+# * +entry+ - The entry where the user enters his nickname
+#
+# ===== Methods
+# * +saveNickname+ - Save the time in the database
+# * +createPopup+ - Create an info popup
+##
 class VictoryRankedScreen < Screen
     @gtkObject
     @chronoUi
     @nicknameInput
+    @game
+    @entry
 
+    ##
+    # The class' constructor.
+    #
+    # ===== Attributes
+    # * +win+ - The window to applicate the screen
+    # * +game+ - The game which is finished
+    # * +uiManager+ - THe UI manager
+    # -----------------------------------
     def initialize(win, game, uiManager)
         super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
@@ -99,6 +123,12 @@ class VictoryRankedScreen < Screen
 
     private
 
+    ##
+    # Save the time in the database
+    #
+    # ===== Attributes
+    # * +levelNumber+ - the level number
+    # ---
     def saveNickname(levelNumber)
         if(@nicknameInput == false && @entry.text_length > 0)
             rank = Ranked.access()
@@ -116,6 +146,12 @@ class VictoryRankedScreen < Screen
         end
     end
 
+    ##
+    # Create an info popup
+    #
+    # ===== Attributes
+    # * +message+ - the message to display
+    # ---
     def createPopup(message)
         popup = Popup.new(titre: "INFO")
         popup.creerTitre(titre: message)

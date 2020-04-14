@@ -4,7 +4,7 @@
 # File Created: Monday, 6th April 2020 3:50:41 pm                              #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Monday, 6th April 2020 5:15:19 pm                             #
+# Last Modified: Tuesday, 14th April 2020 6:32:11 pm                           #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -13,13 +13,22 @@ require_relative "./Screen"
 
 ##
 # ===== Presentation
-# 
-# ===== Variables
-# * +variableName+ - description
-# ===== Methods
-# * +myMethod+ - description
+# This class is a Screen. It represents the load save screen
+#
 ##
 class LoadSaveScreen < Screen
+
+    ##
+    # The class' constructor.
+    #
+    # ===== Attributes
+    # * +window+ - The window to applicate the screen
+    # * +uiManager+ - THe UI manager
+    # * +loadButtonAction+ - The action to do after we click on the load button
+    # * +restartButtonAction+ -The action to do after we click on the restart button
+    # * +nextButtonAction+ - The action to do after we click on the next button
+    # * +backButtonAction+ - The action to do after we click on the back button
+    # -----------------------------------
     def initialize(window:win,uiManager:nil,loadButtonAction:nil,restartButtonAction:nil,nextButtonAction:nil,backButtonAction:nil)
         super(window,"/../../../Assets/Backgrounds/fond-naturel.png")
         @gtkObject = Gtk::Table.new(4,4)

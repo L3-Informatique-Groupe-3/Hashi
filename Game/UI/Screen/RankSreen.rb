@@ -9,10 +9,37 @@ require_relative "./Screen"
 require_relative "../../Core/Ranked/Ranked"
 require_relative "../../Core/Ranked/RankedSave"
 
+
+##
+# ===== Presentation
+# This class is a Screen. It represents the rank screen
+#
+# ===== Variables
+# * +win+ - The window to applicate the screen
+# * +uiManager+ - The UI manager
+# * +prevSelection - The current clicked button to display the score list
+# * +buttonSize+ - THe size of the button
+# * +vp+ - The box which contains the score list 
+#
+# ===== Methods
+# * +createRankList+ - Return the new rank list to display
+# * +getNextScreen+ - Return the new screen to display after the user starting a game
+##
 class RankScreen < Screen
     @gtkObject
     @prevSelection
+    @win
+    @uiManager
+    @buttonSize
+    @vp
 
+    ##
+    # The class' constructor.
+    #
+    # ===== Attributes
+    # * +win+ - The window to applicate the screen
+    # * +uiManager+ - THe UI manager
+    # -----------------------------------
     def initialize(win,uiManager)
         super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
@@ -124,6 +151,16 @@ class RankScreen < Screen
 
     private
 
+    ##
+    # Return the new rank list to display
+    #
+    # ===== Attributes
+    # * +level+ - the level to display
+    # * +showRankButton+ - The button to update
+    #
+    # ===== Return
+    # Return the new rank list to display
+    # ---
     def createRankList(level, showRankButton)
         rank = Ranked.access()
         infos = rank.loadGame(level)[2]
@@ -139,7 +176,7 @@ class RankScreen < Screen
 
                 rankText = Text.new(label: (i+1).to_s, width:screen.width*0.08, height:screen.height*0.1,padding: 0)
                 nicknameText = Text.new(label: infos[i][1], width:screen.width*0.08, height:screen.height*0.1,padding: 0)
-                timeText = Text.new(label: timeToShow.min.to_s + ":" + timeToShow.sec.to_s, width:screen.width*0.08, height:screen.height*0.1,padding: 0)
+                timeText = Text.new(label: "%02d:%02d" % [timeToShow.min, timeToShow.sec], width:screen.width*0.08, height:screen.height*0.1,padding: 0)
 
                 # Change color
                 color = 0.7
@@ -171,6 +208,15 @@ class RankScreen < Screen
         return listScore
     end
 
+    ##
+    # Return the new screen to display after the user starting a game
+    #
+    # ===== Attributes
+    # * +levelNumber+ - the level number
+    #
+    # ===== Return
+    # Return the new screen to display
+    # ---
     def getNextScreen(levelNumber)
         file = RankedSave.getFilePath(levelNumber)
         return lambda {
