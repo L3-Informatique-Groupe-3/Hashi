@@ -6,7 +6,7 @@ require_relative "./Grid"
 # File Created: Friday, 27th march 2020 11:00:27 am                             #
 # Author: Lemaitre Pierre                                                       #
 # -----                                                                         #
-# Last Modified: Monday, 13th April 2020 6:35:38 pm                            #
+# Last Modified: Tuesday, 14th April 2020 4:30:36 pm                           #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -67,6 +67,7 @@ class IsleCellInfoGrille
     # * +x+ - The x coordonate of the island
     # * +y+ - The y coordonate of the island
     # * +grille+ - The Grid
+    # * +arrayGrid+ - The array which contains the grid
     # ---
     def initialize(x,y,grille,arrayGrid)
         @x = x

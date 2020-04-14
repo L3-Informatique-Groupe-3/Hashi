@@ -20,6 +20,8 @@ require_relative "aides/ManagerHelp"
 # * +history+ - It contains the history of the actual party
 # * +chrono+ - It contains the chronometer of the actual party
 # * +currentHelp+ - The current help
+# * +prevHelp+ - The last help asked
+# * +helpPlus+ - True if getHelpPlus must take time out
 #
 # ===== Methods
 # * +getTimer+ - Return the elapsed time since the begining of the game
@@ -46,6 +48,7 @@ require_relative "aides/ManagerHelp"
 # * +restart+ - Restart the party
 # * +getHelp+ - Get a help
 # * +getHelpPlus+ - Get details about the current help
+# * +isleCellCompleted?+ - Return if the isle cell has the correct bridge connected number
 ##
 class Party
     @grid

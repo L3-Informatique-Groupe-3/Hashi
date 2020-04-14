@@ -13,7 +13,7 @@
 # File Created: Monday, 24th February 2020 11:00:27 am                         #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Monday, 13th April 2020 10:01:23 pm                           #
+# Last Modified: Tuesday, 14th April 2020 5:27:21 pm                           #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -270,8 +270,8 @@ class Grid
             end
             coordsY = Array.new(coordsX.size, y1)
         end
-        puts("X : " + coordsX.to_s)
-        puts("Y : " + coordsY.to_s)
+        #puts("X : " + coordsX.to_s)
+        #puts("Y : " + coordsY.to_s)
 
         # Check if there is an isle or an obstacle or a bridge between them
         for i in 0..coordsX.size-1 do

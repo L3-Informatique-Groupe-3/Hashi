@@ -7,6 +7,27 @@
 require 'sqlite3'
 require 'digest'
 
+##
+# ===== Presentation
+# This class manipulates the ranked database
+#
+# ===== Variables
+# * +rankedDB+ - Contain the database of the ranked mod
+# * +rankedTimeDB+ - Contain the database of the time from ranked mod
+# * +idMap+ - Contain the id of the next map the player will play
+# * +infoMap+ - Contain the information from the map to play
+#
+# ===== Methods
+# * +Ranked.access+ - Builder
+# * +openDBRanked+ - Return database of rank
+# * +loadGame+ - Load the game
+# * +loadMap+ - Load the map to complete
+# * +loadHistoric+ - Load the historic of the map
+# * +loadTime+ - Load the time of the map
+# * +savePlayer+ - Save the informations of the player
+# * +deletePlayer+ - Delete the informations of the player
+# * +saveTime?+ - Check if the time to complete the map will be saved
+##
 class Ranked
 	#=Variables d'instance
 	@rankedDB		#Contain the database of the ranked mod

@@ -13,7 +13,7 @@
 # File Created: Friday, 3rd April 2020 4:15:35 pm                              #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Monday, 13th April 2020 9:59:22 pm                            #
+# Last Modified: Tuesday, 14th April 2020 5:41:19 pm                           #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -26,21 +26,29 @@ require_relative "../../Core/Adventure/AdventureSave"
 
 ##
 # ===== Presentation
+# This class is a Screen. It represents the selection of the aventure level of a country
 #
 # ===== Variables
-# * +variableName+ - description
+# * +pathAssets+ - The path to the assets
+# * +levelCheckBoxs+ - All the image of the levels
+#
 # ===== Methods
-# * +myMethod+ - description
+# * +update+ - Update the image of a specified level
 ##
 class AdventureLevelSelectionScreen < Screen
+  @pathAssets
+  @levelCheckBoxs
 
     ##
-	# The class' constructor.
-	#
-	# ===== Attributes
-    # * +win+ -
+    # The class' constructor.
+    #
+    # ===== Attributes
+    # * +window+ - The window to applicate the screen
+    # * +uiManager+ - THe UI manager
+    # * +save+ - The current save
+    # * +countryNumber+ - The country number
     # -----------------------------------
-    def initialize(window:win, uiManager:nil,save: nil, countryNumber: 0)
+    def initialize(window:nil, uiManager:nil,save: nil, countryNumber: 0)
         super(window,"/../../../Assets/Backgrounds/fond-naturel.png")
 
         screen=Gdk::Screen.default
@@ -130,7 +138,7 @@ class AdventureLevelSelectionScreen < Screen
 
             list.pack_start(levelAli, expand: false, fill: false, padding: 10)
         }
-        p @levelCheckBoxs
+        
         # Scroll Bar Levels
         scroll = Gtk::ScrolledWindow.new
         vp = Gtk::Viewport.new #Implement scrollable
@@ -156,6 +164,13 @@ class AdventureLevelSelectionScreen < Screen
 				@gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
     end
 
+    ##
+    # Update the image of a specified level
+    #
+    # ===== Attributes
+    # * +save+ - the save instance
+    # * +idLevel+ - the level id
+    # ---
     def update(save, idLevel)
       screen=Gdk::Screen.default
 

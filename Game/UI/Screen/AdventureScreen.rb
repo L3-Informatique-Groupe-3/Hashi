@@ -8,8 +8,32 @@
 require 'gtk3'
 require_relative File.dirname(__FILE__) + "/Screen"
 
+##
+# ===== Presentation
+# This class is a Screen. It represents the selection of the country
+#
+# ===== Variables
+# * +win+ - The window to applicate the screen
+# * +uiManager+ - The UI manager
+# * +save+ - The current save
+# * +countryButton+ - All the button to access to the country level selection
+#
+# ===== Methods
+# * +setSave+ - Set the save and create all the selection screen
+##
 class AdventureScreen < Screen
+  @win
+  @uiManager
+  @save
+  @countryButton
 
+  ##
+  # The class' constructor.
+  #
+  # ===== Attributes
+  # * +win+ - The window to applicate the screen
+  # * +uiManager+ - THe UI manager
+  # -----------------------------------
   def initialize(win,uiManager)
     super(win,"/../../../Assets/Backgrounds/worldmap.png")
     @gtkObject =  Gtk::Table.new(4,4)
@@ -46,6 +70,12 @@ class AdventureScreen < Screen
     @gtkObject.attach(Gtk::Image.new(pixbuf: @buffer),0,4,0,4)
   end
 
+  ##
+  # Set the save and create all the selection screen
+  #
+  # ===== Attributes
+  # * +save+ - the save instance
+  # ---
   def setSave(save)
     @save = save
     keys = @countryButton.keys

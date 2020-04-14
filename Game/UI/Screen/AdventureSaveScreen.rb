@@ -11,8 +11,20 @@ require 'gtk3'
 require_relative "../../Core/Adventure/Save"
 require_relative File.dirname(__FILE__) + "/Screen"
 
+##
+# ===== Presentation
+# This class is a Screen. It represents the selection of the adventure save
+#
+##
 class AdventureSaveScreen < Screen
 
+  ##
+  # The class' constructor.
+  #
+  # ===== Attributes
+  # * +win+ - The window to applicate the screen
+  # * +uiManager+ - THe UI manager
+  # -----------------------------------
   def initialize(win,uiManager)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
     pathAssets=File.dirname(__FILE__) + "/../../../Assets/"

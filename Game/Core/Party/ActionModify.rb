@@ -4,8 +4,8 @@
 # File Created: Tuesday, 20th February 2020 11:00:27 am                        #
 # Author: <Adrali>Lemaitre P                                                   #
 # -----                                                                        #
-# Last Modified: Tuesday, 20th February 2020 11:00:27 am                       #
-# Modified By: <Adrali>Lemaitre P                                               #
+# Last Modified: Tuesday, 14th April 2020 5:27:47 pm                           #
+# Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
 require_relative "./Action"
@@ -53,7 +53,7 @@ class ActionModify < Action
     # ---
     def applyAction
         @bridge = @grid.nextBridge(@x,@y)
-        puts("Modifier pont " + @x.to_s + @y.to_s)
+        #puts("Modifier pont " + @x.to_s + @y.to_s)
         return !(@bridge.empty?())
     end
 
@@ -65,7 +65,7 @@ class ActionModify < Action
     # ---
     def applyOpposite
         if(@bridge != nil)
-            puts("Opposite modifier pont " + @x.to_s + @y.to_s)
+            #puts("Opposite modifier pont " + @x.to_s + @y.to_s)
             return @grid.previousBridge(@bridge[0][0], @bridge[0][1], @bridge[1][0], @bridge[1][1])
         end
         return false

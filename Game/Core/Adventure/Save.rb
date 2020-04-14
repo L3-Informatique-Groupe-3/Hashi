@@ -8,7 +8,30 @@ require 'sqlite3'
 require 'digest'
 require 'yaml'
 
-
+##
+# ===== Presentation
+# This class manipulates the adventure database
+#
+# ===== Variables
+# * +idSave+ - Contain the number of the save used
+# * +aventureDB+ - Contain the database of the aventure mod
+# * +currentMap+ - Contain the id of the next map the player will play
+# * +map+ - Contain the map to play
+#
+# ===== Methods
+# * +Save.access+ - Builder
+# * +openDBAventure+ - Return database of aventure
+# * +resetDB+ - Delete all informations of the save
+# * +loadMap+ - Load the next map to complete
+# * +loadAssets+ - Load the assets of the next map
+# * +loadHistoric+ - Load the historic of the next map
+# * +loadGame+ - Give all informations about a map the player wants to play
+# * +createSave+ - Create a new save of the adventure mod if the slot is open
+# * +getNextMap+ - Return the id of the next map from the current one
+# * +completeMap+ - Change the state of a map to DONE
+# * +isLocked+ - Check if the map has the state BLOCK
+# * +isLastArea+ - Check if the parameter is the id of the last area and return a boolean
+##
 class Save
 
 	#=Variables d'instance

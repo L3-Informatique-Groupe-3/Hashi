@@ -4,8 +4,8 @@
 # File Created: Tuesday, 20th February 2020 11:00:27 am                        #
 # Author: <Adrali>Lemaitre P                                                   #
 # -----                                                                        #
-# Last Modified: Tuesday, 20th February 2020 11:00:27 am                       #
-# Modified By: <Adrali>Lemaitre P                                               #
+# Last Modified: Tuesday, 14th April 2020 5:27:38 pm                           #
+# Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
 require_relative "./Action"
@@ -57,7 +57,7 @@ class ActionCreate < Action
     # return true if the action have been made, else false
     # ---
     def applyAction
-        puts("Creer pont " + @x1.to_s + @y1.to_s + " " + @x2.to_s + @y2.to_s)
+        #puts("Creer pont " + @x1.to_s + @y1.to_s + " " + @x2.to_s + @y2.to_s)
         return @grid.createBridge(@x1,@y1, @x2, @y2)
     end
 
@@ -68,7 +68,7 @@ class ActionCreate < Action
     # return true if the action have been made, else false
     # ---
     def applyOpposite
-        puts("Opposite creer pont " + @x1.to_s + @y1.to_s + " " + @x2.to_s + @y2.to_s)
+        #puts("Opposite creer pont " + @x1.to_s + @y1.to_s + " " + @x2.to_s + @y2.to_s)
         return @grid.removeBridge(@x1, @y1, @x2, @y2)
     end
 end
