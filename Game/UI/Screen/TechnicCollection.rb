@@ -57,38 +57,41 @@ class TechnicCollection < Screen
           image1: "Technic/image1.gif",
           image2: "Technic/image1bis.gif"))
         pageManager.addComponent(TechnicComponent.new(
+          label:"-Il faut essayer de repérer les îles qui n'auraient qu'un seul voisin.",
+          image1: "Technic/image2.gif",
+          image2: "Technic/image2bis.gif"))
+        pageManager.addComponent(TechnicComponent.new(
           label:"-Si il y a un 3 dans un coin alors il aura un voisin relié avec un pont et un autre avec deux.",
+          image1: "Technic/image3.gif",
+          image2: "Technic/image3bis.gif"))
+        pageManager.addComponent(TechnicComponent.new(
+          label:"-Si c'est un 5 sur un bord de la grille il est relié par un pont à tout ses voisins au minimum (deux ponts à deux voisins).",
+          image1: "Technic/image3.gif",
+          image2: "Technic/image3bis.gif"))
+        pageManager.addComponent(TechnicComponent.new(
+          label:"-Si il y a un 7 au milieu de la grille il doit être relié au moins par un pont à tout ses voisins (deux ponts à 3 de ses voisins).",
+          image1: "Technic/image3.gif",
+          image2: "Technic/image3bis.gif"))
+        pageManager.addComponent(TechnicComponent.new(
+          label:"-Si un 3, un 5 ou un 7, toujours dans les mêmes conditions que juste avant, ont pour voisin un 1, alors tout leurs autres voisins seront reliés par deux ponts.",
           image1: "Technic/image4.gif",
           image2: "Technic/image4bis.gif"))
         pageManager.addComponent(TechnicComponent.new(
-          label:"-Si c'est un 5 sur un bord de la grille il est relié par un pont à tout ses voisins au minimum (deux ponts à deux voisins).",
+          label:"-Si un 4 a trois voisins dont deux qui sont des 1, le dernier sera relié par deux ponts.",
           image1: "Technic/image5.gif",
           image2: "Technic/image5bis.gif"))
         pageManager.addComponent(TechnicComponent.new(
-          label:"-Si il y a un 7 au milieu de la grille il doit être relié au moins par un pont à tout ses voisins (deux ponts à 3 de ses voisins).",
-          image1: "Technic/image6.gif",
-          image2: "Technic/image6bis.gif"))
-        pageManager.addComponent(TechnicComponent.new(
-          label:"-Si un 3, un 5 ou un 7, toujours dans les mêmes conditions que juste avant, ont pour voisin un 1, alors tout leurs autres voisins seront reliés par deux ponts.",
+          label:"-Si deux 1 ou deux 2 sont voisins entre eux, il ne faut pas les relier avec le maximum de pont. Cela créerais une isolation.",
           image1: "Technic/image7.gif",
           image2: "Technic/image7bis.gif"))
         pageManager.addComponent(TechnicComponent.new(
-          label:"-Si un 4 a trois voisins dont deux qui sont des 1, le dernier sera relié par deux ponts.",
+          label:"-Si une île a deux voisins, il ne faut pas saturer le nombre de pont de chaque île pour éviter que l'île et ses voisins forment un circuit fermé.",
           image1: "Technic/image8.gif",
           image2: "Technic/image8bis.gif"))
         pageManager.addComponent(TechnicComponent.new(
-          label:"-Si deux 1 ou deux 2 sont voisins entre eux, il ne faut pas les relier avec le maximum de pont. Cela créerais une isolation.",
+          label:"-Si toutes les îles dans la grille sont saturés sauf une, faites en sorte de ne pas créer un isolement sans avoir fini totalement la grille.",
           image1: "Technic/image9.gif",
           image2: "Technic/image9bis.gif"))
-        pageManager.addComponent(TechnicComponent.new(
-          label:"-Si une île a deux voisins, il ne faut pas saturer le nombre de pont de chaque île pour éviter que l'île et ses voisins forment un circuit fermé.",
-          image1: "Technic/image10.gif",
-          image2: "Technic/image10bis.gif"))
-        pageManager.addComponent(TechnicComponent.new(
-          label:"-Si toutes les îles dans la grille sont saturés sauf une, faites en sorte de ne pas créer un isolement sans avoir fini totalement la grille.",
-          image1: "Technic/image11.gif",
-          image2: "Technic/image11bis.gif",
-          image3: "Technic/image11bisbis.gif"))
         pageManager.addComponent(TechnicComponent.new(
           label:"-Il faut faire attention quand vous ajoutez un pont aux enchaînements de 2 et de 3 pour ne pas créer un isolement.",
           image1: "Technic/image12.gif",
