@@ -62,8 +62,8 @@ class UiManager
     @tutorialmenu = MenuScreen.new(
       window: @win,
       title: "Didacticiel",
-      button1: "Liste de technique",
-      button2: "Apprendre a jouer",
+      button1: "Liste des techniques",
+      button2: "Apprendre à jouer",
       buttonAction1: lambda { @collecScreen.applyOn(@win) },
       buttonAction2: lambda {	@tutoScreen.applyOn(@win) },
       uiManager: self,
