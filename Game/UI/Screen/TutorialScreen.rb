@@ -17,7 +17,7 @@ require_relative File.dirname(__FILE__) + "/../AssetsClass/Asset"
 #
 # ===== Variables
 #
-#   @gtkObject
+#  * +gtkObject+ - Object to display
 #
 # ===== Methods
 #
@@ -27,6 +27,10 @@ class TutorialScreen < Screen
 
     @gtkObject
 
+    ##
+    # The class' constructor.
+    #
+    #-------------------------------------------------
     def initialize(win, uiManager)
 
         super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
@@ -40,11 +44,8 @@ class TutorialScreen < Screen
         text3 = "Pour supprimer une liaison entre 2 îles il faut cliquer sur un double lien."
 
         image0 = "Tutorial/pic1.png"
-        #image0.resize(500,500)
         image1 = "Tutorial/pic2.png"
-        #image1.resize(500,500)
         image2 = "Tutorial/pic3.png"
-        #image2.resize(500,500)
         image3 = "Tutorial/pic4.png"
 
         pageManager = PageManager.new()

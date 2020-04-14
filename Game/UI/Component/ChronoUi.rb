@@ -12,11 +12,9 @@ require File.dirname(__FILE__) + "/Text"
 ##
 # ===== Presentation
 #  	ChronoUi is a herite class of Text to display a chrono
-# 	* +@see Text+
+# 	* +@see Text variable+
 # ===== Methods
 # 	updateLabel - Change the display text of this ChronoUi
-# 	parce - Transform a time in second in an array with hours, minutes, seconds
-# -------------------
 class ChronoUi < Text
 	attr_reader :time
 

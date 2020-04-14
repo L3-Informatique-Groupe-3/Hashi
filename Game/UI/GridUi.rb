@@ -38,9 +38,6 @@ require File.dirname(__FILE__) + "/Click"
 #   hover										help to drag
 #   coreCellAt							get game cell at row, col
 #   leftClicked							called when a left click occur on the grid
-#   leftClickedDraged				called when a draged left click occur on the grid
-#   undo
-# 	redo
 # 	beginDrag               start of the selection of drag the cells
 # 	endDrag                 reset all drag variables
 # 	cellsUiFromFirstToEnd   return a tab of all cellUi Drag
@@ -94,11 +91,6 @@ class GridUi
 		# creation of the grid itself
 		initGtkGrid()
 		@gtkObject.signal_connect("button_release_event") { |_, event|
-			if (@click == event.button)
-				if event.button == Click::LEFT
-					leftClickedDraged()
-				end
-			end
 			endDrag()
 		}
 		@gtkObject.signal_connect("leave_notify_event") { |widget, event|
@@ -154,7 +146,6 @@ class GridUi
 		while((x-i)>=0 && @game.getState(x-i,y) != :isle) && (@game.getState(x-i,y) == :bridge && @game.getType(x-i,y) == :empty)
 				tempTab << @cellsUi[x-i][y]
 				i+=1
-			#	p tempTab
 		end
 		if ((x-i)>=0) && @game.getState(x-i,y) == :isle && @game.isleCellCompleted?(x-i,y) == false
 				tempTab << @cellsUi[x-i][y]
@@ -167,7 +158,6 @@ class GridUi
 		while((x+i)<@game.getRows && @game.getState(x+i,y) != :isle) && (@game.getState(x+i,y) == :bridge && @game.getType(x+i,y) == :empty)
 				tempTab << @cellsUi[x+i][y]
 				i+=1
-			#	p tempTab
 		end
 		if((x+i)<@game.getRows) && @game.getState(x+i,y) == :isle  && @game.isleCellCompleted?(x+i,y) == false
 				tempTab << @cellsUi[x+i][y]
@@ -180,7 +170,6 @@ class GridUi
 		while((y-i)>=0 && @game.getState(x,y-i) != :isle) && (@game.getState(x,y-i) == :bridge && @game.getType(x,y-i) == :empty)
 				tempTab <<  @cellsUi[x][y-i]
 				i+=1
-			#	p tempTab
 		end
 		if((y-i)>=0) && @game.getState(x,y-i) == :isle && @game.isleCellCompleted?(x,y-i) == false
 				tempTab << @cellsUi[x][y-i]
@@ -193,7 +182,6 @@ class GridUi
 		while((y+i)<@game.getCols && @game.getState(x,y+i) != :isle) && (@game.getState(x,y+i) == :bridge && @game.getType(x,y+i) == :empty)
 				tempTab << @cellsUi[x][y+i]
 				i+=1
-			#	p tempTab
 		end
 		if((y+i)<@game.getCols) && @game.getState(x,y+i) == :isle && @game.isleCellCompleted?(x,y+i) == false
 				tempTab << @cellsUi[x][y+i]
@@ -240,28 +228,6 @@ class GridUi
 	end
 
 	##
-	# called when a draged left click occur on the grid
-	# -----------------------------------
-	def leftClickedDraged
-		return unless clickdefined?
-		return leftClicked unless draged?
-		sameStateCoords = []
-		sameState = cellsUiFromFirstToEnd.select { |cell|
-			cell.sameState?(@first)
-		}
-		case sameState.length
-			when 1
-				@first.leftClicked
-				cell=@first
-			else
-				sameState.each { |cell|
-					cell.dragLeftClicked
-					sameStateCoords << cell.coords
-				}
-		end
-	end
-
-	##
 	# start of the selection of drag the cells
 	# -----------------------------------
 	def beginDrag(cell, click)
@@ -281,13 +247,10 @@ class GridUi
 			@game.createBridge(@first.x,@first.y, @last.x, @last.y)
 		end
 
-		@game.grid.affGrid(0)
-		@game.grid.affGrid(1)
-
 		if @game.finished? == true
 			@gameScreen.showVictoryScreen
 		end
-
+		@gameScreen.saveAction.call if @gameScreen.saveAction != nil
 		@first = @last = nil
 		@currentSelection.update([])
 		@currentSelection.show()

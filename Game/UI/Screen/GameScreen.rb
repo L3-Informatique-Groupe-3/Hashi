@@ -23,20 +23,23 @@ require File.dirname(__FILE__) + "/../AssetsClass/Asset"
 #   @gtkObject gtk object to displays on the window
 #   @helpResponseUi text to displays help
 #   @chronoUi instance of a chronoUi
+#   @saveAction - action for save the game
 #
 # ===== Methods
 #
 #   new initialization method
-#   update update the display screen
-#
+#   run start to show chronoUi
+#   resume resume the game and chrono
+#   restart retart the game
 class GameScreen < Screen
   @game
   @gridUi
   @gtkObject
   @helpResponseUi
   @chronoUi
+  @saveAction
 
-  attr_reader :gridUi
+  attr_reader :gridUi, :saveAction
 
   ##
 	# The class' constructor.
@@ -46,6 +49,7 @@ class GameScreen < Screen
 	# * +game+ -
   # * +cellAssets+ -
   # * +victoryScreen+ -
+  # * +showVictoryScreen+ -
   # -----------------------------------
   def initialize(win,game,uiManager, backAction,saveAction:nil,victoryAction:nil)
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
@@ -58,7 +62,7 @@ class GameScreen < Screen
     @gridUi=GridUi.new(cellAssets,@game, self)
     @gtkObject = Gtk::Table.new(4,4)
     @backAction = backAction
-
+    @saveAction = saveAction
 
     screen=Gdk::Screen.default
     buttonHeight = screen.height*0.04
@@ -142,7 +146,7 @@ class GameScreen < Screen
         # Display the help message
         @gridUi.getCellUi(coordHelp[0],coordHelp[1]).select
       end
-      
+
     }
 
     helpMore=Button.new(label: "Aide +", width: screen.width*0.1,height: screen.height*0.08, size: 20)

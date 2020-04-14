@@ -19,7 +19,7 @@ require File.dirname(__FILE__) + "/../Constants"
 #
 # ===== Variables
 #
-#
+#  * +gtkObject+ - Object to display
 #
 # ===== Methods
 #
@@ -33,7 +33,6 @@ class PauseScreen < Screen
 
 
   def initialize(win,gameScreen,uiManager, backAction, saveAction: nil)
-    # TO DO
     super(win,"/../../../Assets/Backgrounds/fond-naturel.png")
 
     @gtkObject = Gtk::Table.new(4,4)
@@ -43,7 +42,6 @@ class PauseScreen < Screen
     buttonWidth = screen.width*0.3
     pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 
-    #Unpause button to find
     unpauseButton = Button.new(label: "Reprendre", width: screen.width*0.1,height: screen.height*0.08)
     unpauseButton.onClick(){
 
@@ -51,7 +49,6 @@ class PauseScreen < Screen
       gameScreen.applyOn(win)
     }
 
-    #Restart button (level)
     restartButton = Button.new(label:"Recommencer", width: screen.width*0.1,height: screen.height*0.08)
     restartButton.onClick(){
 

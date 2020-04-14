@@ -16,20 +16,24 @@ require File.dirname(__FILE__) + "/../Constants"
 #
 # ===== Variables
 #
-#   @label
-#   @gtkObject
-#   @eventBox
-#   @size
-#   @font
-#   @color
-#   @weight
-#   @style
-#   @textBox
-#   @padding
+#   +label+ text of a Text Component
+#  * +gtkObject+ - Object to display
+#   +size+ size of the font
+#   +font+ font
+#   +color+ color in string ("black", "red" ...)
+#   +weight+ weight
+#   +style+ style
+#   +textBox+ Gtk Label
+#   +padding+ a padding of the Text Component
 # ===== Methods
 #
-#   new initialization method
-#   update update the display screen
+#   +new+ - initialization method
+#   +updateLabel+ - Change the label of this Text
+#   +setWrap+ - Setter of the wrap value of this Text
+#   +setBackground+ -  Setter of the background color of this Text
+#   +setMarginBottom+ - Set size of the margin bottom of this Text
+#   +apply+ - Apply the style,font on the text
+#   +colorChange+ - Change the color of the text
 class Text
   @label
   @gtkObject
@@ -48,10 +52,11 @@ class Text
   # The class' constructor.
   #
   # ===== Attributes
-  # * +label+ -
-  # * +size+ - default value Constants::TEXT_SIZE
+  # * +label+ - text of this Text Component
+  # * +size+ - size of font default value Constants::TEXT_SIZE
   # * +padding+ - default value 10 px
-  # * +
+  # * +width+   - the width of the Text
+  # * +height+  - the height of the Text
   #-------------------------------------------------
   def initialize(label: "",size: Constants::TEXT_SIZE ,padding: 10, width: nil, height: nil)
     @label=label
@@ -121,6 +126,7 @@ class Text
   end
 
   ##
+  # Set size of the margin bottom of this Text
   # ===== Attributes
   # * +size+ - size of the margin
   #-------------------------------------------------

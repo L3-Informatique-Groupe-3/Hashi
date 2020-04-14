@@ -4,15 +4,15 @@ require_relative File.dirname(__FILE__) + "/../AssetsClass/Asset"
 
 ##
 # ===== Presentation
-#   TutorialScreen is a class that displays the interface of the tutorial
+#   TutorialComponent is a Component that displays a tutorial
 #
 # ===== Variables
 #
-#   @gtkObject
+#   +gtkObject+ - Object to display
 #
 # ===== Methods
 #
-#   new initialization method
+#   +new+ - initialization method
 #
 class TutorialComponent
 
@@ -20,6 +20,14 @@ class TutorialComponent
 
     attr_reader :gtkObject
 
+    ##
+    # The class' constructor.
+    #
+    # ===== Attributes
+    # * +label+ - text for describe image
+    # * +image1+ - path of first image
+    # * +image2+ - path of second image
+    #-------------------------------------------------
     def initialize(label: "", image1: "", image2: "")
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
 

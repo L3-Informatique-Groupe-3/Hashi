@@ -12,20 +12,25 @@ require_relative File.dirname(__FILE__) + "/../AssetsClass/Asset"
 
 ##
 # ===== Presentation
-#   TutorialScreen is a class that displays the interface of the tutorial
+#   PageManager is a class that displays a list of component with button to change the component display
 #
 # ===== Variables
 #
-#   @gtkObject
+#  * +gtkObject+ - Object to display
+#  * +globalBox+ - box to display
+#  * +listComponent+ - List of component to display
 #
 # ===== Methods
 #
-#   new initialization method
+#   +new+ - initialization method
+#   +addComponent+ - add a component to the listComponent
+#   +removeAll+ - remove all display component
+#   +showFirst+ - show first component
 #
 class PageManager
-
-
     @gtkObject
+    @globalBox
+    @listComponent
 
     attr_reader :gtkObject
 

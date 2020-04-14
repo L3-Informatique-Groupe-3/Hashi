@@ -27,15 +27,10 @@ require File.dirname(__FILE__) + "/Click"
 # ===== Methods
 #
 #   new 										initialization method
-#   leftClicked							called when the cell is left clicked
-#   unLeftClicked						called when the cell is un left clicked
-#   dragLeftClicked					called when drag this cell
-#   coreCell								get core cell at x, y in grid
+#   getCoreCell								get core cell at x, y in grid
 #   select									change asset to selected cell
 #   normal									set cellUi asset to empty cell
 # 	unselect								unselect is same as normal function
-#   sameState
-# 	dragable?								Test if a cell is dragable
 # 	applyAsset							apply asset select on this cellUi
 # 	show										display this cell
 # 	coords									return cell coords
@@ -100,27 +95,6 @@ class CellUi
 	  @gtkObject.signal_connect("leave_notify_event") { |widget, event|
 	    @gtkObject.window.set_cursor(Click::CURSOROUT) unless @gtkObject.window == nil
 	  }
-	end
-
-	##
-	# called when the cell is left clicked
-	# -------------------------
-	def leftClicked
-
-	end
-
-	##
-	# called when the cell is un left clicked
-	# -------------------------
-	def unLeftClicked
-		# TO DO
-	end
-
-	##
-	# called when drag this cell
-	# -------------------------
-	def dragLeftClicked
-		# TO DO
 	end
 
 	##
@@ -228,17 +202,6 @@ class CellUi
 	end
 
 	alias :unselect :normal # unselect is same as normal function
-
-	def sameState?(cell)
-		# TO DO
-	end
-	##
-	# Test if a cell is dragable
-	# -----------------------
-	def dragable?
-		# TO DO
-	end
-
 	##
 	# apply asset select on this cellUi
 	# -----------------------

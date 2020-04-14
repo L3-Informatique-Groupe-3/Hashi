@@ -10,10 +10,33 @@
 require 'gtk3'
 require File.dirname(__FILE__) + "/Screen"
 
+##
+# ===== Presentation
+#  	MenuScreen is a class to do menu with 3 button maximum
+# ===== Variables
+#  * +gtkObject+ - Object to display
+# ===== Methods
+#
+#   new - initialization method
 class MenuScreen < Screen
     @gtkObject
 
-    def initialize(window:win,title:"",button1:"",button2:"",button3:"",buttonAction1:nil,buttonAction2:nil,buttonAction3:nil,haveBackButton:false,uiManager:nil)
+    ##
+    # The class' constructor.
+    #
+    # ===== Attributes
+    #  * +window+ - window to apply screen
+    #  * +title+ - title of this menu
+    #  * +button1+ - first button component
+    #  * +button2+ - second button component
+    #  * +button3+ - third button component
+    #  * +buttonAction1+ - first button action
+    #  * +buttonAction2+ - second button action
+    #  * +buttonAction3+ - third button action
+    #  * +haveBackButton+ - boolean to now if there is a back button / back action 
+    #  * +uiManager+ - the uiManager instance
+    #-------------------------------------------------
+    def initialize(window:nil,title:"",button1:"",button2:"",button3:"",buttonAction1:nil,buttonAction2:nil,buttonAction3:nil,haveBackButton:false,uiManager:nil)
         super(window,"/../../../Assets/Backgrounds/fond-naturel.png")
         screen=Gdk::Screen.default
 

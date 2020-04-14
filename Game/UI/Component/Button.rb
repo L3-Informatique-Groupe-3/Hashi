@@ -11,21 +11,51 @@ require_relative "../Click"
 
 ##
 # ===== Presentation
-  #  	Button is a herite class of Text
-# 	* +@see Text+
+#  	Button is a herite class of Text
+# ===== Variables
+# 	* +@see Text variable+
+#  * +gtkObject+ - Object to display
+#   * +eventBox+   - Event box to catch event
+#   * +gtkTable+   - Gtk Table to display image in background of text
+#   * +imageBox+   - Gtk Box where image is apply
+#   * +imageAlignment+   - Gtk Alignement where image is apply
+#   * +focusActive+   - Boolean to know if  the button change on focus
+#   * +image+   -  Gtk Image
+#   * +imageFocus+   -  Gtk Image
 # ===== Methods
-# 	updateLabel - Change the display text of this ChronoUi
-# 	onClick - Create a button clickable
+#   * +@see Text method+
+#
+#   new - initialization method
+# 	onClick      -    Create a button clickable
+#   setBackgroundSize - Set the size of the button
+#   setBackground - Set the background color
+#   resizeImage - set the size of the image
+#   setFocusActive - Set if the button change on focus
+#   setImage -  Set a new image on button
+#   resizeImageFocus - Set the size of the image focus
 class Button < Text
+  # +see+ - see other in Text
+  @gtkObject
+  @eventBox
+  @gtkTable
+  @imageBox
+  @imageAlignment
+  @focusActive
+  @image
+  @imageFocus
 
   ##
   # The class' constructor.
   # @see Text#new
   #
   # ===== Attributes
-  # * +size+ - Default value Constants::BUTTON_SIZE
+  # * +size+ -  Default value Constants::BUTTON_SIZE
   # * +image+ - image on this button
-  # * +image+ -
+  # * +imageFocus+ -
+  # * +label+ -
+  # * +padding+ -
+  # * +width+ -
+  # * +height+ -
   #-------------------------------------------------
   def initialize(label: "",size: Constants::BUTTON_SIZE,padding: 10, image: nil, imageFocus: nil, width: nil, height: nil)
     super(label:label,size:size,padding:padding)
@@ -114,18 +144,38 @@ class Button < Text
     self
   end
 
+  ##
+  # Set the size of the button
+  # ===== Attributes
+  # * +width+ - the new width of the button
+  # * +height+ -  the new height of the button
+  #-------------------------------------------------
   def setBackgroundSize(width,height)
     super(width,height)
     @imageBox.set_size_request(width,height)
     self
   end
 
+  ##
+  # Set the background color
+  # ===== Attributes
+  # * +r+ - red (between 0 and 1)
+  # * +g+ - green (between 0 and 1)
+  # * +b+ - blue (between 0 and 1)
+  # * +a+ - opacity (between 0 and 1)
+  #-------------------------------------------------
   def setBackground(r,g,b,a)
     super(r,g,b,a) if @image == nil
     @imageAlignment.override_background_color(:normal,Gdk::RGBA.new(r,g,b,a))
     self
   end
 
+  ##
+  # set the size of the image
+  # ===== Attributes
+  # * +width+ - the new width of the button
+  # * +height+ -  the new height of the button
+  #-------------------------------------------------
   def resizeImage(width,height)
     if @image != nil
       @image.resize(width,height)
@@ -133,18 +183,37 @@ class Button < Text
     end
   end
 
+  ##
+  # Set the size of the image focus
+  # ===== Attributes
+  # * +width+ - the new width of the image on focus
+  # * +height+ -  the new height of the image on focus
+  #-------------------------------------------------
   def resizeImageFocus(width,height)
     if @imageFocus != nil
       @imageFocus.resize(width,height)
     end
   end
 
+  ##
+  # Set a new image on button
+  # ===== Attributes
+  # * +image+ - path to image
+  # * +width+ - the new width of the image
+  # * +height+ -  the new height of the image
+  #-------------------------------------------------
   def setImage(image, width: nil, height: nil)
     @image = Asset.new(image)
     @image.resize(width, height) if (width != nil && height != nil)
     @image.applyOn(@imageBox)
   end
 
+  ##
+  # Set if the button change on focus
+  # ===== Attributes
+  # * +bool+ -  a boolean true for have focus else false
+  #   default +focusActive+ was true
+  #-------------------------------------------------
   def setFocusActive(bool)
     @focusActive = bool
   end
