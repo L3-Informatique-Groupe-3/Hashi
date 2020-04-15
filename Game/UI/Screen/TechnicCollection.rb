@@ -35,7 +35,7 @@ class TechnicCollection < Screen
 
         @gtkObject = Gtk::Table.new(4,4)
 
-        backToMenuButton = Button.new(label:"Didacticiel", width: screen.width*0.1,height: screen.height*0.08, size: 20)
+        backToMenuButton = Button.new(label:"Retour à la sélection", width: screen.width*0.1,height: screen.height*0.08, size: 20)
         backToMenuButton.onClick(){
             uiManager.tutorialmenu.applyOn(win)
         }
