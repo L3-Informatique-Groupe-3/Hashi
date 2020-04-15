@@ -246,11 +246,12 @@ class GridUi
 		elsif clickdefined?
 			@game.createBridge(@first.x,@first.y, @last.x, @last.y)
 		end
-
+		
+		@gameScreen.saveAction.call if @gameScreen.saveAction != nil
 		if @game.finished? == true
 			@gameScreen.showVictoryScreen
 		end
-		@gameScreen.saveAction.call if @gameScreen.saveAction != nil
+		
 		@first = @last = nil
 		@currentSelection.update([])
 		@currentSelection.show()
