@@ -4,7 +4,7 @@
 # File Created: Sunday, 12th April 2020 6:34:35 pm                             #
 # Author: <jashbin>Galbrun J                                                   #
 # -----                                                                        #
-# Last Modified: Tuesday, 14th April 2020 6:40:44 pm                           #
+# Last Modified: Wednesday, 15th April 2020 6:26:46 pm                         #
 # Modified By: <jashbin>Galbrun J                                              #
 ################################################################################
 
@@ -21,6 +21,7 @@ require_relative "../Popup.rb"
 # * +nicknameInput+ - Contains true if the time has been saved
 # * +game - The game which is finished
 # * +entry+ - The entry where the user enters his nickname
+# * +uiManager+ - The UI manager
 #
 # ===== Methods
 # * +saveNickname+ - Save the time in the database
@@ -32,6 +33,7 @@ class VictoryRankedScreen < Screen
     @nicknameInput
     @game
     @entry
+    @uiManager
 
     ##
     # The class' constructor.
@@ -46,6 +48,7 @@ class VictoryRankedScreen < Screen
 
         @nicknameInput = false
         @game = game
+        @uiManager = uiManager
 
         screen=Gdk::Screen.default
         pathAssets=File.dirname(__FILE__) + "/../../../Assets/"
@@ -136,6 +139,8 @@ class VictoryRankedScreen < Screen
 
             finalTime = @game.getTimer
             rank.saveTime?(@entry.text, finalTime.min * 60 + finalTime.sec)
+
+            @uiManager.victoryScreenType = :normal
 
             @nicknameInput = true
             createPopup("Votre temps a été sauvegardé")
