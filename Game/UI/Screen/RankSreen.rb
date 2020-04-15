@@ -129,6 +129,7 @@ class RankScreen < Screen
         # Back Button
         backToButton = Button.new(label:"Retour", width: screen.width*0.1,height: screen.height*0.08, size: 20)
         backToButton.onClick(){
+            @uiManager.victoryScreenType = :normal
             uiManager.gamemode.applyOn(win) if uiManager != nil
         }
         backBox = Gtk::Alignment.new(0.05, 0.5, 0, 0).add(backToButton.gtkObject)
